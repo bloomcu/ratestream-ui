@@ -1,0 +1,34 @@
+{
+  "name": "build-ui",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@braks/vue-flow": "^0.4.6",
+    "@tiptap/starter-kit": "^2.0.0-beta.191",
+    "@tiptap/vue-3": "^2.0.0-beta.96",
+    "axios": "^0.27.2",
+    "codyhouse-framework": "^3.0.5",
+    "filepond": "^4.30.3",
+    "filepond-plugin-file-validate-size": "^2.2.7",
+    "filepond-plugin-file-validate-type": "^1.2.8",
+    "laravel-echo": "^1.14.2",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.34",
+    "pinia": "^2.0.14",
+    "pusher-js": "^7.5.0",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.15"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.1",
+    "sass": "^1.51.0",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.5",
+    "vue-tsc": "^0.34.7"
+  }
+}
