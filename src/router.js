@@ -2,26 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useErrorStore } from '@/app/store/base/useErrorStore'
 import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 import baseRoutes from '@/routes/base/routes.js'
-import assets from '@/views/assets/routes/index.js'
-import briefs from '@/views/briefs/routes/index.js'
-import content from '@/views/content/routes/index.js'
-import crawls from '@/views/crawls/routes/index.js'
-import dashboard from '@/views/dashboard/routes/index.js'
-import designs from '@/views/designs/routes/index.js'
-import redirects from '@/views/redirects/routes/index.js'
 
 // import Survey from '@/views/Survey.vue';
 // import Flowchart from '@/views/Flowchart.vue';
 
 const routes = [
   ...baseRoutes,
-  ...assets,
-  ...briefs,
-  ...content,
-  ...crawls,
-  ...dashboard,
-  ...designs,
-  ...redirects,
   {
     path: '/',
     redirect: 'organizations'

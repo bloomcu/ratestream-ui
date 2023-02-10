@@ -11,7 +11,7 @@
     <div class="padding-y-sm">
       <div class="grid gap-sm">
         <div v-for="(organization, index) in organizationStore.organizations" :key="index" class="col-3">
-          <RouterLink :to="{ name: 'assets', params: { organization: organization.slug }}" class="card card--is-link height-xxxl flex flex-column">
+          <RouterLink :to="{ name: 'sites', params: { organization: organization.slug }}" class="card card--is-link height-xxxl flex flex-column">
             <h3 class="text-md">{{ organization.title }}</h3>
           </RouterLink>
         </div>
