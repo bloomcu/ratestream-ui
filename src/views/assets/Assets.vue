@@ -43,17 +43,17 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue'
-import { useAuthStore } from '@/domain/auth/store/useAuthStore'
-import { useMediaStore } from '@/domain/media/store/useMediaStore'
-import useQuery from '@/app/composables/useQuery.js'
+import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
+import { useMediaStore } from '@/domain/base/media/store/useMediaStore'
+import useQuery from '@/app/composables/base/useQuery.js'
 
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
 import AssetSkeletonLoader from '@/views/assets/loaders/AssetSkeletonLoader.vue'
-import AppNestedMenu from '@/app/components/nested-menu/AppNestedMenu.vue'
-import MediaCard from '@/domain/media/components/media-card/MediaCard.vue'
-import MediaUploader from '@/domain/media/components/MediaUploader.vue'
-import MediaList from '@/domain/media/components/MediaList.vue'
-import MediaModal from '@/domain/media/modals/MediaModal.vue'
+import AppNestedMenu from '@/app/components/base/nested-menu/AppNestedMenu.vue'
+import MediaCard from '@/domain/base/media/components/media-card/MediaCard.vue'
+import MediaUploader from '@/domain/base/media/components/MediaUploader.vue'
+import MediaList from '@/domain/base/media/components/MediaList.vue'
+import MediaModal from '@/domain/base/media/modals/MediaModal.vue'
 
 const auth = useAuthStore()
 const mediaStore = useMediaStore()

@@ -36,12 +36,12 @@
 
 <script setup>
 import { usePageStore } from '@/domain/pages/store/usePageStore'
-import useQuery from '@/app/composables/useQuery.js'
+import useQuery from '@/app/composables/base/useQuery.js'
 
-import IconClose from '@/app/components/icons/IconClose.vue'
-import IconEdit from '@/app/components/icons/IconEdit.vue'
-import IconExport from '@/app/components/icons/IconExport.vue'
-import IconPlus from '@/app/components/icons/IconPlus.vue'
+import IconClose from '@/app/components/base/icons/IconClose.vue'
+import IconEdit from '@/app/components/base/icons/IconEdit.vue'
+import IconExport from '@/app/components/base/icons/IconExport.vue'
+import IconPlus from '@/app/components/base/icons/IconPlus.vue'
 
 const pageStore = usePageStore()
 const { query, set, unset } = useQuery()

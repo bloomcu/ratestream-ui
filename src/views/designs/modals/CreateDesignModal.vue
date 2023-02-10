@@ -20,8 +20,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useDesignStore } from '@/domain/designs/store/useDesignStore'
-import AppModal from '@/app/components/AppModal.vue'
-import AppInput from '@/app/components/forms/AppInput.vue'
+import AppModal from '@/app/components/base/modals/AppModal.vue'
+import AppInput from '@/app/components/base/forms/AppInput.vue'
 
 const designStore = useDesignStore()
 

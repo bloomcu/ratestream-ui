@@ -49,8 +49,8 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { usePageStore } from '@/domain/pages/store/usePageStore'
-import AppModal from '@/app/components/AppModal.vue'
-import IconExport from '@/app/components/icons/IconExport.vue'
+import AppModal from '@/app/components/base/modals/AppModal.vue'
+import IconExport from '@/app/components/base/icons/IconExport.vue'
 
 const route = useRoute()
 const pageStore = usePageStore()

@@ -30,8 +30,8 @@ import { useRoute } from 'vue-router'
 import { useRedirectStore } from '@/domain/redirects/store/useRedirectStore'
 
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
-import IconImport from '@/app/components/icons/IconImport.vue'
-import IconExport from '@/app/components/icons/IconExport.vue'
+import IconImport from '@/app/components/base/icons/IconImport.vue'
+import IconExport from '@/app/components/base/icons/IconExport.vue'
 import RedirectsSkeletonLoader from '@/views/redirects/loaders/RedirectsSkeletonLoader.vue'
 import RedirectsTable from '@/views/redirects/components/RedirectsTable.vue'
 

@@ -69,9 +69,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useRedirectStore } from '@/domain/redirects/store/useRedirectStore'
-import AppInlineEditor from '@/app/components/AppInlineEditor.vue'
-import IconArrowRight from '@/app/components/icons/IconArrowRight.vue'
-import IconTrash from '@/app/components/icons/IconTrash.vue'
+import AppInlineEditor from '@/app/components/base/forms/AppInlineEditor.vue'
+import IconArrowRight from '@/app/components/base/icons/IconArrowRight.vue'
+import IconTrash from '@/app/components/base/icons/IconTrash.vue'
 
 const redirectStore = useRedirectStore()
 

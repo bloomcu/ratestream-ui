@@ -1,4 +1,4 @@
-import { httpClient as HttpClient } from '@/app/api/httpClient'
+import { httpClient as HttpClient } from '@/app/api/base/httpClient'
 
 const pageApi = {
     /**

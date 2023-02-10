@@ -22,10 +22,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useErrorStore } from '@/app/store/useErrorStore'
+import { useErrorStore } from '@/app/store/base/useErrorStore'
 import { useCrawlStore } from '@/domain/crawls/store/useCrawlStore'
-import AppModal from '@/app/components/AppModal.vue'
-import AppInput from '@/app/components/forms/AppInput.vue'
+import AppModal from '@/app/components/base/modals/AppModal.vue'
+import AppInput from '@/app/components/base/forms/AppInput.vue'
 
 const crawlStore = useCrawlStore()
 const errorStore = useErrorStore()

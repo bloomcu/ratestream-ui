@@ -1,53 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useErrorStore } from '@/app/store/useErrorStore'
-import { useAuthStore } from '@/domain/auth/store/useAuthStore'
-
-// import Survey from '@/views/Survey.vue';
-// import Flowchart from '@/views/Flowchart.vue';
-
+import { useErrorStore } from '@/app/store/base/useErrorStore'
+import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
+import baseRoutes from '@/routes/base/routes.js'
 import assets from '@/views/assets/routes/index.js'
-import auth from '@/views/auth/routes/index.js'
 import briefs from '@/views/briefs/routes/index.js'
-import common from '@/views/common/routes/index.js'
 import content from '@/views/content/routes/index.js'
 import crawls from '@/views/crawls/routes/index.js'
 import dashboard from '@/views/dashboard/routes/index.js'
 import designs from '@/views/designs/routes/index.js'
-import invitations from '@/views/invitations/routes/index.js'
-import organizations from '@/views/organizations/routes/index.js'
 import redirects from '@/views/redirects/routes/index.js'
-import settings from '@/views/settings/routes/index.js'
-import sites from '@/views/sites/routes/index.js'
-import subscriptions from '@/views/subscriptions/routes/index.js'
-import tags from '@/views/tags/routes/index.js'
-import users from '@/views/users/routes/index.js'
+
+// import Survey from '@/views/Survey.vue';
+// import Flowchart from '@/views/Flowchart.vue';
 
 const routes = [
+  ...baseRoutes,
   ...assets,
-  ...auth,
   ...briefs,
-  ...common,
   ...content,
   ...crawls,
   ...dashboard,
   ...designs,
-  ...invitations,
-  ...organizations,
   ...redirects,
-  ...settings,
-  ...sites,
-  ...subscriptions,
-  ...tags,
-  ...users,
   {
     path: '/',
     redirect: 'organizations'
   },
-  // {
-  //   path: '/:catchAll(.*)*',
-  //   name: 'NotFound',
-  //   component: NotFound,
-  // }
   // { 
   //   path: '/survey', 
   //   component: Survey 

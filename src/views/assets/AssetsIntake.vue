@@ -3,7 +3,7 @@
     <!-- Left -->
     <div class="flex flex-column justify-between bg-primary bg-opacity-5% border-right padding-top-xs" style="flex: 1 0 25%; position: sticky; top: 0; left: 0;">
       <div class="flex contents padding-lg">
-        <AppSteps :step="steps[step].name" @changeStep="changeStep"/>
+        <AssetIntakeSteps :step="steps[step].name" @changeStep="changeStep"/>
       </div>
       
       <div class="_color-white padding-x-lg">
@@ -39,6 +39,7 @@
 
 <script>
 import { defineComponent } from 'vue'
+import AssetIntakeSteps from '@/views/assets/components/AssetIntakeSteps.vue'
 import AssetIntakeUploader from '@/views/assets/components/AssetIntakeUploader.vue'
 import AssetIntakeDoDont from '@/views/assets/components/AssetIntakeDoDont.vue'
 
@@ -52,10 +53,7 @@ export default defineComponent({
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
-import { useMediaStore } from '@/domain/media/store/useMediaStore'
-
-import AppSteps from '@/app/components/AppSteps.vue'
-import AppProgressBar from '@/app/components/AppProgressBar.vue'
+import { useMediaStore } from '@/domain/base/media/store/useMediaStore'
 
 const mediaStore = useMediaStore()
 const step = ref(0)

@@ -42,17 +42,17 @@
 import { ref, onMounted } from 'vue'
 
 // Components
-import MediaList from '@/domain/media/components/MediaList.vue'
-import MediaModal from '@/domain/media/modals/MediaModal.vue'
+import MediaList from '@/domain/base/media/components/MediaList.vue'
+import MediaModal from '@/domain/base/media/modals/MediaModal.vue'
 
 // Stores
-import { useMediaStore } from '@/domain/media/store/useMediaStore'
-import { useOrganizationCommentsStore } from '@/domain/organizations/store/useOrganizationCommentsStore'
+import { useMediaStore } from '@/domain/base/media/store/useMediaStore'
+import { useOrganizationCommentsStore } from '@/domain/base/organizations/store/useOrganizationCommentsStore'
 const mediaStore = useMediaStore()
 const organizationCommentsStore = useOrganizationCommentsStore()
 
 // Composables
-import useToggle from '@/app/composables/useToggle.js'
+import useToggle from '@/app/composables/base/useToggle.js'
 const { toggle } = useToggle()
 
 // Extract to a view store

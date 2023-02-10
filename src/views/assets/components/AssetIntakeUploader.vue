@@ -6,10 +6,10 @@
 </template>
 
 <script setup>
-import { useMediaStore } from '@/domain/media/store/useMediaStore'
+import { useMediaStore } from '@/domain/base/media/store/useMediaStore'
 
-import MediaUploader from '@/domain/media/components/MediaUploader.vue'
-import MediaList from '@/domain/media/components/MediaList.vue'
+import MediaUploader from '@/domain/base/media/components/MediaUploader.vue'
+import MediaList from '@/domain/base/media/components/MediaList.vue'
 
 const props = defineProps({
   collection: { 

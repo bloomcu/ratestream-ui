@@ -48,12 +48,12 @@
 import moment from "moment"
 import { onMounted } from 'vue'
 import { useDesignStore } from '@/domain/designs/store/useDesignStore'
-import { useAuthStore } from '@/domain/auth/store/useAuthStore'
+import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
-import IconPlus from '@/app/components/icons/IconPlus.vue'
+import IconPlus from '@/app/components/base/icons/IconPlus.vue'
 import CreateDesignModal from '@/views/designs/modals/CreateDesignModal.vue'
-import ButtonCopyToClipboard from '@/app/components/buttons/ButtonCopyToClipboard.vue'
+import ButtonCopyToClipboard from '@/app/components/base/buttons/ButtonCopyToClipboard.vue'
 
 const designStore = useDesignStore()
 const authStore = useAuthStore()

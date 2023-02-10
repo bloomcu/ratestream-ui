@@ -35,8 +35,8 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDesignStore } from '@/domain/designs/store/useDesignStore'
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
-import IconAngleLeft from '@/app/components/icons/IconAngleLeft.vue'
-import AppInput from '@/app/components/forms/AppInput.vue'
+import IconAngleLeft from '@/app/components/base/icons/IconAngleLeft.vue'
+import AppInput from '@/app/components/base/forms/AppInput.vue'
 
 const route = useRoute()
 const designStore = useDesignStore()

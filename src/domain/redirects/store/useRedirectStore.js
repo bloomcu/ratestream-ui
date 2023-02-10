@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { redirectApi as RedirectApi } from '@/domain/redirects/api/redirectApi'
 
-import { useAuthStore } from '@/domain/auth/store/useAuthStore'
+import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 
 export const useRedirectStore = defineStore('redirectStore', {
     state: () => ({

@@ -13,10 +13,10 @@
 <script setup>
 import { ref } from 'vue'
 import { usePageStore } from '@/domain/pages/store/usePageStore'
-import { useCategoryStore } from '@/domain/categories/store/useCategoryStore'
-import useQuery from '@/app/composables/useQuery.js'
-import AppModal from '@/app/components/AppModal.vue'
-import AppNestedMenu from '@/app/components/nested-menu/AppNestedMenu.vue'
+import { useCategoryStore } from '@/domain/base/categories/store/useCategoryStore'
+import useQuery from '@/app/composables/base/useQuery.js'
+import AppModal from '@/app/components/base/modals/AppModal.vue'
+import AppNestedMenu from '@/app/components/base/nested-menu/AppNestedMenu.vue'
 
 const pageStore = usePageStore()
 const categoryStore = useCategoryStore()

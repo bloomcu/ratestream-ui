@@ -51,11 +51,11 @@ import { useRouter } from 'vue-router'
 import { useCrawlStore } from '@/domain/crawls/store/useCrawlStore'
 
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
-import AppChip from '@/app/components/AppChip.vue'
-import AppCircleLoader from '@/app/components/loaders/AppCircleLoader.vue'
-import IconPlus from '@/app/components/icons/IconPlus.vue'
-import IconCancel from '@/app/components/icons/IconCancel.vue'
-import IconRestart from '@/app/components/icons/IconRestart.vue'
+import AppChip from '@/app/components/base/chips/AppChip.vue'
+import AppCircleLoader from '@/app/components/base/loaders/AppCircleLoader.vue'
+import IconPlus from '@/app/components/base/icons/IconPlus.vue'
+import IconCancel from '@/app/components/base/icons/IconCancel.vue'
+import IconRestart from '@/app/components/base/icons/IconRestart.vue'
 import CreateCrawlModal from '@/views/crawls/modals/CreateCrawlModal.vue'
 
 const crawlStore = useCrawlStore()

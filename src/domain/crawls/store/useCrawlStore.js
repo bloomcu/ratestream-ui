@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { crawlApi as CrawlApi } from '@/domain/crawls/api/crawlApi'
 
-import { useAuthStore } from '@/domain/auth/store/useAuthStore'
+import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 
 export const useCrawlStore = defineStore('crawlStore', {
     state: () => ({

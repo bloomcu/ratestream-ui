@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useAuthStore } from '@/domain/auth/store/useAuthStore'
+import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
 

@@ -28,9 +28,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import AppNestedMenu from '@/app/components/nested-menu/AppNestedMenu.vue'
+import AppNestedMenu from '@/app/components/base/nested-menu/AppNestedMenu.vue'
 
-import useToggle from '@/app/composables/useToggle.js'
+import useToggle from '@/app/composables/base/useToggle.js'
 const { toggle, toggled } = useToggle()
 
 onMounted(() => {

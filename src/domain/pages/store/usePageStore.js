@@ -1,6 +1,6 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { pageApi as PageApi } from '@/domain/pages/api/pageApi'
-import { useAuthStore } from '@/domain/auth/store/useAuthStore'
+import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 
 export const usePageStore = defineStore('pageStore', {
   state: () => ({

@@ -114,8 +114,8 @@
 <script setup>
 import { ref } from 'vue'
 import { usePageStore } from '@/domain/pages/store/usePageStore'
-import AppInlineEditor from '@/app/components/AppInlineEditor.vue'
-import IconTrash from '@/app/components/icons/IconTrash.vue'
+import AppInlineEditor from '@/app/components/base/forms/AppInlineEditor.vue'
+import IconTrash from '@/app/components/base/icons/IconTrash.vue'
 
 const pageStore = usePageStore()
 // const isHighlighting = ref(false)

@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { designApi as DesignApi } from '@/domain/designs/api/designApi'
 
-import { useAuthStore } from '@/domain/auth/store/useAuthStore'
+import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 
 export const useDesignStore = defineStore('designStore', {
     state: () => ({

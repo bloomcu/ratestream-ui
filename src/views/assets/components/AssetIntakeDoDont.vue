@@ -44,7 +44,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { useOrganizationCommentsStore } from '@/domain/organizations/store/useOrganizationCommentsStore'
+import { useOrganizationCommentsStore } from '@/domain/base/organizations/store/useOrganizationCommentsStore'
 
 const props = defineProps({
   group: { type: String }

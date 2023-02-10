@@ -1,12 +1,5 @@
-// import { createPinia } from 'pinia'
-// 
-// const store = createPinia()
-// 
-// export default store
-
-// #2
-import { markRaw } from 'vue'
 import { createPinia } from 'pinia'
+import { markRaw } from 'vue'
 import router from '@/router'
 
 const store = createPinia()

@@ -17,26 +17,7 @@ router.isReady().then(() => {
 // Setup realtime websockets
 window.Pusher = Pusher
 
-// Using Soketi
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     wsHost: import.meta.env.VITE_PUSHER_APP_HOST,
-//     wsPort: import.meta.env.VITE_PUSHER_APP_PORT,
-//     wssPort: import.meta.env.VITE_PUSHER_APP_PORT,
-//     authEndpoint: 'http://build-api.test/api/broadcasting/auth',
-//     auth: {
-//       headers: {
-//         Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('user')).access_token
-//       }
-//     },
-//     forceTLS: false,
-//     encrypted: true,
-//     disableStats: true,
-//     enabledTransports: ['ws', 'wss']
-// })
-
-// Using Pusher
+// Use Pusher
 window.Echo = new Echo({
   broadcaster: 'pusher',
   key: import.meta.env.VITE_PUSHER_APP_KEY,

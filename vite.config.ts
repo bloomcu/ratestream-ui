@@ -19,7 +19,7 @@ export default defineConfig({
                * without having to explicit import them.
                * https://vitejs.dev/config/#css-preprocessoroptions
                */
-              additionalData: `@import './src/app/styles/resources';`
+              additionalData: `@import './src/app/styles/base/resources';`
           }
       }
   }

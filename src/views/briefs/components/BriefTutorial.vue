@@ -13,6 +13,6 @@
 </template>
 
 <script setup>
-import useToggle from '@/app/composables/useToggle.js'
+import useToggle from '@/app/composables/base/useToggle.js'
 const { toggle } = useToggle()
 </script>

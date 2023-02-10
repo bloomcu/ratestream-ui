@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import AppNavigation from '@/app/components/AppNavigation.vue'
+import AppNavigation from '@/app/components/navigation/AppNavigation.vue'
 
 const props = defineProps({
     maxWidth: { 
