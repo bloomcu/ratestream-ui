@@ -66,9 +66,9 @@ httpClient.interceptors.response.use((response) => {
   * Catch not found request
   * Redirect to 404 page if 404 Not Found response is returned from api
   */
-  if ([404].includes(error.response.status)) {
-    document.location.href = '/404'
-  }
+  // if ([404].includes(error.response.status)) {
+  //   document.location.href = '/404'
+  // }
   
   // return error
   return Promise.reject(error)
