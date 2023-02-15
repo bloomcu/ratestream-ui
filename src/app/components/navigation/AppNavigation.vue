@@ -54,14 +54,24 @@
             </ul>
           </li> -->
           
-          <li class="f-header__item">
+          <!-- <li class="f-header__item">
             <router-link 
               :to="{ name: 'sites', params: { organization: auth.organization}}" 
               class="f-header__link"
             >
               Sites
             </router-link>
+          </li> -->
+          
+          <li class="f-header__item">
+            <router-link 
+              :to="{ name: 'rates', params: { organization: auth.organization}}" 
+              class="f-header__link"
+            >
+              Rates
+            </router-link>
           </li>
+          
         </ul>
         
         <!-- Search -->
@@ -98,8 +108,8 @@
 
 <script setup>
 import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
-import UserAvatar from '@/domain/base/users/components/UserAvatar.vue'
-import AppNavigationSearch from '@/app/components/navigation/AppNavigationSearch.vue'
+// import UserAvatar from '@/domain/base/users/components/UserAvatar.vue'
+// import AppNavigationSearch from '@/app/components/navigation/AppNavigationSearch.vue'
 
 const auth = useAuthStore()
 </script>
