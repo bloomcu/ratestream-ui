@@ -11,7 +11,7 @@
     <div class="padding-y-sm">
       <div class="grid gap-sm">
         <div v-for="(organization, index) in organizationStore.organizations" :key="index" class="col-3">
-          <RouterLink :to="{ name: 'sites', params: { organization: organization.slug }}" class="card card--is-link height-xxxl flex flex-column">
+          <RouterLink :to="{ name: redirectRoute, params: { organization: organization.slug }}" class="card card--is-link height-xxxl flex flex-column">
             <h3 class="text-md">{{ organization.title }}</h3>
           </RouterLink>
         </div>
@@ -34,6 +34,7 @@ import IconPlus from '@/app/components/base/icons/IconPlus.vue'
 import CreateOrganizationModal from '@/views/base/organizations/modals/CreateOrganizationModal.vue'
 
 const organizationStore = useOrganizationStore()
+const redirectRoute = import.meta.env.VITE_REDIRECT_FROM_ORGANIZATIONS_ROUTE
 
 onMounted(() => {
     organizationStore.index()
