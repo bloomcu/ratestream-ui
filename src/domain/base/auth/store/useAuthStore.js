@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('authStore', {
             this.user = response.data.data
             localStorage.setItem('user', JSON.stringify(response.data.data))
             
-            this.router.push({ name: 'assets', params: { organization: response.data.data.organization.slug } })
+            this.router.push({ name: 'organizations' })
           })
           .catch(error => {})
       },

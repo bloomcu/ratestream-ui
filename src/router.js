@@ -3,23 +3,15 @@ import { useErrorStore } from '@/app/store/base/useErrorStore'
 import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 import baseRoutes from '@/routes/base/routes.js'
 
-// import Survey from '@/views/Survey.vue';
-// import Flowchart from '@/views/Flowchart.vue';
+import rates from '@/views/rates/routes/index.js'
 
 const routes = [
   ...baseRoutes,
+  ...rates,
   {
     path: '/',
     redirect: 'organizations'
-  },
-  // { 
-  //   path: '/survey', 
-  //   component: Survey 
-  // },
-  // { 
-  //   path: '/flowchart', 
-  //   component: Flowchart
-  // },
+  }
 ]
 
 const router = createRouter({
