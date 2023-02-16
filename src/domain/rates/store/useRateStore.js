@@ -11,19 +11,13 @@ export const useRateStore = defineStore('rateStore', {
     }),
     
     getters: {
-      // groups: (state) => {
-      //   let rates = state.rates
-      //   const result = {}
-      // 
-      //   rates.forEach(rate => {
-      //     if (!result[rate['group']]) {
-      //       result[rate['group']] = []
-      //     }
-      // 
-      //     result[rate['group']].push(rate)
-      //   })
-      //   return result
-      // }
+      whereGroup: (state) => {
+        let {rates} = state.rates
+        
+        return (group) => rates.filter((rate) => {
+          return rate.group === group
+        })
+      }
     },
     
     actions: {

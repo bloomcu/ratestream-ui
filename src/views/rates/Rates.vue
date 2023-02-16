@@ -14,6 +14,8 @@
     </div> -->
     
     <div class="container">
+      <!-- Render rates nested into groups from api -->
+      <!-- <div v-for="(group, index) in rateStore.rates" :key="index" class="border radius-md margin-bottom-md"> -->
       <div v-for="(group, index) in rateStore.rates" :key="index" class="border radius-md margin-bottom-md">
         <table class="cross-table">
           <!-- <thead class="cross-table__header">
@@ -28,14 +30,14 @@
           
           <tbody class="cross-table__body">
             <tr class="cross-table__row cross-table__row--w-full">
-              <td class="cross-table__cell" style="width: 20%;">Group</td>
-              <td class="cross-table__cell" style="width: 20%;">Name</td>
-              <td class="cross-table__cell" style="width: 20%;">Rate</td>
-              <td class="cross-table__cell" style="width: 20%;">Term</td>
-              <td class="cross-table__cell" style="width: 20%;">Year</td>
+              <td class="cross-table__cell" style="width: 28%;">{{ group.title }}</td>
+              <td class="cross-table__cell" style="width: 18%;">Name</td>
+              <td class="cross-table__cell" style="width: 18%;">Rate</td>
+              <td class="cross-table__cell" style="width: 18%;">Term</td>
+              <td class="cross-table__cell" style="width: 18%;">Year</td>
             </tr>
 
-            <tr v-for="rate in group" class="cross-table__row">
+            <tr v-for="(rate, index) in group.rates" :key="index" class="cross-table__row">
               <td class="cross-table__cell"></td>
               <td class="cross-table__cell">{{ rate.name }}</td>
               <td class="cross-table__cell">{{ rate.term }}</td>
@@ -45,6 +47,30 @@
           </tbody>
         </table>
       </div>
+      
+      <!-- Render rates using filter in store -->
+      <!-- <div v-for="(group, index) in rateStore.rates.groups" :key="index" class="border radius-md margin-bottom-md">
+        <table class="cross-table">
+          <tbody class="cross-table__body">
+            <tr class="cross-table__row cross-table__row--w-full">
+              <td class="cross-table__cell" style="width: 28%;">{{ group.title }}</td>
+              <td class="cross-table__cell" style="width: 18%;">Name</td>
+              <td class="cross-table__cell" style="width: 18%;">Rate</td>
+              <td class="cross-table__cell" style="width: 18%;">Term</td>
+              <td class="cross-table__cell" style="width: 18%;">Year</td>
+            </tr>
+
+            <tr v-for="(rate, index) in rateStore.whereGroup(group.title)" :key="index" class="cross-table__row">
+              <td class="cross-table__cell"></td>
+              <td class="cross-table__cell">{{ rate.name }}</td>
+              <td class="cross-table__cell">{{ rate.term }}</td>
+              <td class="cross-table__cell">{{ rate.rate }}</td>
+              <td class="cross-table__cell">{{ rate.year_low }}-{{ rate.year_high }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div> -->
+      
     </div>
   </LayoutDefault>
 </template>
