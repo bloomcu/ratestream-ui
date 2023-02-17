@@ -31,6 +31,15 @@ function handleKeydownEnter(event) {
 
 <style lang="scss">
 .app-inline-editor {
+  text-align: left;
+  border-radius: 5px;
+  padding: 10px;
+  transition: 0.3s;
   cursor: text;
+
+  &:hover,
+  &:focus {
+    background-color: #eee;
+  }
 }
 </style>

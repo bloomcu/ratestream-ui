@@ -65,13 +65,21 @@
           
           <li class="f-header__item">
             <router-link 
-              :to="{ name: 'rates', params: { organization: auth.organization}}" 
+              :to="{ name: 'rates', params: { organization: auth.organization} }" 
               class="f-header__link"
             >
               Rates
             </router-link>
           </li>
           
+          <!-- <li class="f-header__item">
+            <router-link 
+              :to="{ name: 'rates-import', params: { organization: auth.organization} }" 
+              class="f-header__link"
+            >
+              Import
+            </router-link>
+          </li> -->
         </ul>
         
         <!-- Search -->

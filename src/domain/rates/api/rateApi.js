@@ -51,6 +51,18 @@ const rateApi = {
     destroy(organization, id) {
         return HttpClient.delete(`/${organization}/rates/${id}`)
     },
+    
+    /**
+     * Import rates from CSV
+     *
+     * @param Object csv [csv data you want to import]
+     * @return promise
+     */
+    import(organization, csv) {
+        return HttpClient.post(`/${organization}/rates/import`, {
+          csv: csv
+        })
+    },
 }
 
 export { rateApi }
