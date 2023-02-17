@@ -35,7 +35,6 @@
       display: block;
       width: var(--circle-loader-v2-size);
       height: var(--circle-loader-v2-size);
-      color: var(--color-primary); // loader color
 
       > * {
         stroke-width: var(--circle-loader-v2-stroke-width); // loader stroke width
