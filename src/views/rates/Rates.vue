@@ -1,14 +1,16 @@
 <template>
-  <LayoutDefault v-if="rateStore.rates">
+  <LayoutDefault>
     <div class="container flex items-center justify-between margin-y-md">
-      <h1 class="text-lg">Rates</h1>
+      <h1 class="text-lg">Current rates</h1>
+      <!-- <button @click="rateStore.toggleEditPromptModal()" class="btn btn--primary">Edit</button> -->
+      <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Edit rates</router-link>
     </div>
 
-    <div class="container">
+    <!-- <div class="container">
       <DropFile/>
-    </div>
+    </div> -->
     
-    <div class="container margin-bottom-md">
+    <div v-if="rateStore.rates" class="container margin-bottom-md">
       <!-- Render rates nested into groups from api -->
       <!-- <div v-for="(group, index) in rateStore.rates" :key="index" class="border-top border-right border-left _radius-md _margin-bottom-md">
         <RateGroupTable :group="group"/>
@@ -28,16 +30,36 @@
 
             <tr v-for="(rate, index) in rateStore.whereGroup(group.title)" :key="index" class="cross-table__row">
               <td class="cross-table__cell"></td>
-              <td class="cross-table__cell">{{ rate.name }}</td>
-              <td class="cross-table__cell">{{ rate.term }}</td>
-              <td class="cross-table__cell">{{ rate.rate }}</td>
-              <td class="cross-table__cell">{{ rate.year_low }}-{{ rate.year_high }}</td>
+              <td class="cross-table__cell">
+                {{ rate.name }}
+                <!-- <AppInlineEditor :id="rate.id" @updated="">
+                  {{ rate.name }}
+                </AppInlineEditor> -->
+              </td>
+              <td class="cross-table__cell">
+                {{ rate.columns['term'] }}
+                <!-- <AppInlineEditor :id="rate.id" @updated="">
+                  {{ rate.columns['term'] }}
+                </AppInlineEditor> -->
+              </td>
+              <td class="cross-table__cell">
+                {{ rate.columns['rate'] }}
+                <!-- <AppInlineEditor :id="rate.id" @updated="">
+                  {{ rate.columns['rate'] }}
+                </AppInlineEditor> -->
+              </td>
+              <td class="cross-table__cell">
+                {{ rate.columns['year_low'] }}-{{ rate.columns['year_high'] }}
+                <!-- <AppInlineEditor :id="rate.id" @updated="">
+                  {{ rate.columns['year_low'] }}-{{ rate.columns['year_high'] }}
+                </AppInlineEditor> -->
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-
-      <div v-if="!rateStore.rates.groups.length && rateStore.rates.rates" class="_border _radius-md _margin-bottom-md">
+    
+      <div v-if="rateStore.whereGroup(null).length" class="_border _radius-md _margin-bottom-md">
         <table class="cross-table">
           <tbody class="cross-table__body">
             <tr class="cross-table__row cross-table__row--w-full">
@@ -58,8 +80,8 @@
           </tbody>
         </table>
       </div>
-      
     </div>
+    <EditPromptModal/>
   </LayoutDefault>
 </template>
 
@@ -68,7 +90,8 @@ import moment from "moment"
 import { ref, onMounted } from 'vue'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
-import DropFile from '@/views/rates/components/DropFile.vue'
+import AppInlineEditor from '@/app/components/base/forms/AppInlineEditor.vue'
+import EditPromptModal from '@/views/rates/modals/EditPromptModal.vue'
 import RateGroupTable from '@/views/rates/components/RateGroupTable.vue'
 
 const rateStore = useRateStore()
@@ -128,7 +151,7 @@ onMounted(() => {
   .cross-table__cell {
     border: 1px solid var(--color-bg-darker); // border style
     border-top-width: 0;
-    padding: var(--space-xs);
+    padding: var(--space-xxs);
     // width: 25%;
     text-align: center;
 

@@ -8,6 +8,9 @@ export const useRateStore = defineStore('rateStore', {
         rates: null,
         rate: null,
         isLoading: true,
+        isImporting: false,
+        editPromptModalOpen: false,
+        publishPromptModalOpen: false,
     }),
     
     getters: {
@@ -79,6 +82,29 @@ export const useRateStore = defineStore('rateStore', {
               this.isLoading = false
             })
         },
+        
+        import(csv) {
+          const auth = useAuthStore()
+          this.isImporting = true
+          
+          RateApi.import(auth.organization, csv)
+            .then(response => {
+              console.log('CSV imported', response.data)
+              setTimeout(() => {
+                this.router.push({ name: 'rates' })
+                this.togglePublishPromptModal()
+                this.isImporting = false
+              }, 1500)
+            })
+        },
+        
+        toggleEditPromptModal() {
+          this.editPromptModalOpen = !this.editPromptModalOpen
+        },
+        
+        togglePublishPromptModal() {
+          this.publishPromptModalOpen = !this.publishPromptModalOpen
+        }
     }
 })
 
