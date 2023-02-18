@@ -56,20 +56,6 @@
       <div v-if="fileStore.file" class="flex gap-sm items-center float-right margin-y-sm">
         <a @click.prevent="compare()" href="" class="color-contrast-high">Compare to current rates</a>
         <button @click="rateStore.togglePublishPromptModal()" class="btn btn--primary">Publish</button>
-        
-        <!-- <router-link :to="{name: 'rates'}" class="color-contrast-high">Compare to current rates</router-link> -->
-        <!-- <button @click="runImport()" class="btn btn--primary">
-          <span v-if="rateStore.isImporting" class="flex gap-xs items-center">
-            <AppCircleLoader/>
-            Importing
-          </span>
-          <span v-else>Import</span>
-        </button> -->
-      </div>
-      
-      <!-- Publish button -->
-      <div class="">
-        
       </div>
       
       <!-- Table preview -->
@@ -94,7 +80,7 @@
               </td>
 
               <td class="table__cell" role="cell">
-                {{ rate.name }}
+                {{ rate.uid }}
               </td>
 
               <td class="table__cell" role="cell">
