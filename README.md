@@ -1,13 +1,13 @@
-# Build UI
+# RateStream Frontend
 
-A BloomCU build ui.
+The frontend for ratestream.io app.
 
 ## Install Locally
 
 **Step 1:** Clone this repository
 
 ```
-git clone https://github.com/bloomcu/build-ui.git
+git clone https://github.com/bloomcu/ratestream-ui.git
 ```
 
 <br>
@@ -15,7 +15,7 @@ git clone https://github.com/bloomcu/build-ui.git
 **Step 2:** Change directory into application
 
 ```
-cd build-ui
+cd ratestream-ui
 ```
 
 <br>
@@ -28,10 +28,15 @@ npm install
 
 <br>
 
-**Step 4:** Copy **env.sample** to **.env**
-> Example api connection:
+**Step 4:** Copy **env.sample** and create a **.env** file with:
+> Get missing env values from Ryan Harmon
 ```
-VITE_API_BASE_URL=http://build-api.test/api
+VITE_API_BASE_URL=
+VITE_REDIRECT_FROM_ORGANIZATIONS_ROUTE=rates
+VITE_PUSHER_APP_KEY=
+VITE_PUSHER_APP_CLUSTER=
+VITE_PUSHER_APP_AUTH_ENDPOINT=
+VITE_STRIPE_KEY=
 ```
 
 <br>
