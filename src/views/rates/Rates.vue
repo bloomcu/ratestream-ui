@@ -22,7 +22,7 @@
           <tbody class="cross-table__body">
             <tr class="cross-table__row cross-table__row--w-full">
               <td class="cross-table__cell" style="width: 28%;">{{ group.title }}</td>
-              <td class="cross-table__cell" style="width: 18%;">Name</td>
+              <td class="cross-table__cell" style="width: 18%;">Unique Id</td>
               <td class="cross-table__cell" style="width: 18%;">Rate</td>
               <td class="cross-table__cell" style="width: 18%;">Term</td>
               <td class="cross-table__cell" style="width: 18%;">Year</td>
@@ -31,9 +31,9 @@
             <tr v-for="(rate, index) in rateStore.whereGroup(group.title)" :key="index" class="cross-table__row">
               <td class="cross-table__cell"></td>
               <td class="cross-table__cell">
-                {{ rate.name }}
+                {{ rate.uid }}
                 <!-- <AppInlineEditor :id="rate.id" @updated="">
-                  {{ rate.name }}
+                  {{ rate.uid }}
                 </AppInlineEditor> -->
               </td>
               <td class="cross-table__cell">
@@ -64,7 +64,7 @@
           <tbody class="cross-table__body">
             <tr class="cross-table__row cross-table__row--w-full">
               <td class="cross-table__cell" style="width: 28%;">No group</td>
-              <td class="cross-table__cell" style="width: 18%;">Name</td>
+              <td class="cross-table__cell" style="width: 18%;">Unique Id</td>
               <td class="cross-table__cell" style="width: 18%;">Rate</td>
               <td class="cross-table__cell" style="width: 18%;">Term</td>
               <td class="cross-table__cell" style="width: 18%;">Year</td>
@@ -72,10 +72,10 @@
 
             <tr v-for="(rate, index) in rateStore.whereGroup(null)" :key="index" class="cross-table__row">
               <td class="cross-table__cell"></td>
-              <td class="cross-table__cell">{{ rate.name }}</td>
-              <td class="cross-table__cell">{{ rate.term }}</td>
-              <td class="cross-table__cell">{{ rate.rate }}</td>
-              <td class="cross-table__cell">{{ rate.year_low }}-{{ rate.year_high }}</td>
+              <td class="cross-table__cell">{{ rate.uid }}</td>
+              <td class="cross-table__cell">{{ rate.columns['term'] }}</td>
+              <td class="cross-table__cell">{{ rate.columns['rate'] }}</td>
+              <td class="cross-table__cell">{{ rate.columns['year_low'] }}-{{ rate.columns['year_high'] }}</td>
             </tr>
           </tbody>
         </table>
