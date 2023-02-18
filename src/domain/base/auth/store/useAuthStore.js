@@ -21,11 +21,10 @@ export const useAuthStore = defineStore('authStore', {
         await AuthApi.login(email, password)
           .then(response => {      
             // TODO: Do I need to do this if we set the organization in httpClient? No.
+            localStorage.setItem('user', JSON.stringify(response.data.data))
             this.organization = response.data.data.organization.slug
             this.user = response.data.data
-            localStorage.setItem('user', JSON.stringify(response.data.data))
-            
-            this.router.push({ name: 'organizations' })
+            this.router.push({ name: 'rates', params: { organization: response.data.data.organization.slug }})
           })
           .catch(error => {})
       },
@@ -58,7 +57,7 @@ export const useAuthStore = defineStore('authStore', {
           .then(response => {
             localStorage.setItem('user', JSON.stringify(response.data.data))
             this.user = response.data.data
-            this.router.push({ name: 'assets', params: { organization: response.data.data.organization.slug } })
+            this.router.push({ name: 'rates', params: { organization: response.data.data.organization.slug }})
           })
           .catch(error => {})
       },
