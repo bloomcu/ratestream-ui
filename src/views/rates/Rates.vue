@@ -37,15 +37,15 @@
                 </AppInlineEditor> -->
               </td>
               <td class="cross-table__cell">
-                {{ rate.columns['term'] }}
-                <!-- <AppInlineEditor :id="rate.id" @updated="">
-                  {{ rate.columns['term'] }}
-                </AppInlineEditor> -->
-              </td>
-              <td class="cross-table__cell">
                 {{ rate.columns['rate'] }}
                 <!-- <AppInlineEditor :id="rate.id" @updated="">
                   {{ rate.columns['rate'] }}
+                </AppInlineEditor> -->
+              </td>
+              <td class="cross-table__cell">
+                {{ rate.columns['term'] }}
+                <!-- <AppInlineEditor :id="rate.id" @updated="">
+                  {{ rate.columns['term'] }}
                 </AppInlineEditor> -->
               </td>
               <td class="cross-table__cell">
