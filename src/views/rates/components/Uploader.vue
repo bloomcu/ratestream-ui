@@ -35,7 +35,7 @@
       </div>
       
       <!-- Merges - CSV columns to rate columns -->
-      <!-- <div v-if="fileStore.file" class="width-50% margin-bottom-md">
+      <div v-if="fileStore.file" class="width-50% margin-bottom-md">
         <div class="flex gap-sm margin-bottom-sm">
           <div class="text-bold" style="width: 30%;">CSV columns</div>
           <div>→</div>
@@ -50,7 +50,7 @@
             <option v-for="column in columns" :value="column">{{ column }}</option>
           </select>
         </div>
-      </div> -->
+      </div>
       
       <!-- Publish button -->
       <div v-if="fileStore.file" class="flex gap-sm items-center float-right margin-y-sm">
