@@ -54,7 +54,7 @@
       
       <!-- Publish button -->
       <div v-if="fileStore.file" class="flex gap-sm items-center float-right margin-y-sm">
-        <a @click.prevent="compare()" href="" class="color-contrast-high">Compare to current rates</a>
+        <a v-if="rateStore.rates" @click.prevent="compare()" href="" class="color-contrast-high">Compare to current rates</a>
         <button @click="rateStore.togglePublishPromptModal()" class="btn btn--primary">Publish</button>
       </div>
       

@@ -1,5 +1,5 @@
 <template>
-  <LayoutDefault>
+  <LayoutDefault v-if="rateStore.rates">
     <div v-if="rateStore.rates.rates.length" class="container flex items-center justify-between margin-top-md">
       <h1 class="text-lg">Current rates</h1>
       <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Edit rates</router-link>
