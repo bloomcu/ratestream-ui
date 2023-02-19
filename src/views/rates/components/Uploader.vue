@@ -45,7 +45,7 @@
           <label style="width: 30%;" :for="header">{{ header }}</label>
           <div>→</div>
           <select class="" name="">
-            <option value="">Add as new field</option>
+            <option value="">Add as new column</option>
             <option value="">Don't import</option>
             <option v-for="column in columns" :value="column">{{ column }}</option>
           </select>
