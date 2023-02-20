@@ -60,51 +60,10 @@
       
       <!-- Table preview -->
       <div v-if="fileStore.file" class="">
-        <table class="table table--expanded position-relative z-index-1 width-100% text-unit-em text-sm" aria-label="Table Example">
-          <thead class="table__header">
-            <tr class="table__row">
-              <th 
-                v-for="(header, index) in fileStore.file.headers"
-                class="table__cell text-left" 
-                scope="col"
-              >
-              {{ header }}
-              </th>
-            </tr>
-          </thead>
-          
-          <tbody class="table__body">
-            <tr v-for="(rate, index) in fileStore.file.csv" class="table__row">
-              <td class="table__cell" role="cell">
-                {{ rate.group }}
-              </td>
-
-              <td class="table__cell" role="cell">
-                {{ rate.uid }}
-              </td>
-
-              <td class="table__cell" role="cell">
-                {{ rate.year }}
-              </td>
-              
-              <td class="table__cell" role="cell">
-                {{ rate.year_low }}
-              </td>
-              
-              <td class="table__cell" role="cell">
-                {{ rate.year_high }}
-              </td>
-              
-              <td class="table__cell" role="cell">
-                {{ rate.rate }}
-              </td>
-              
-              <td class="table__cell" role="cell">
-                {{ rate.term }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <CSVTable 
+          :columns="fileStore.file.headers" 
+          :rows="fileStore.file.csv"
+        />
       </div>
       
       <PublishPromptModal/>
@@ -118,6 +77,7 @@ import { useFileStore } from '@/domain/files/store/useFileStore'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
 // import AppCircleLoader from '@/app/components/base/loaders/AppCircleLoader.vue'
 import PublishPromptModal from '@/views/rates/modals/PublishPromptModal.vue'
+import CSVTable from '@/views/rates/components/CSVTable.vue'
 
 const fileStore = useFileStore()
 const rateStore = useRateStore()
