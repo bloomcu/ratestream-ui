@@ -18,7 +18,7 @@
 
         <label for="fileInput" class="file-label">
           <div v-if="isDragging">Release to drop files here.</div>
-          <div v-else>Drop CSV file here or <u>click to select</u></div>
+          <div v-else><u>Upload a CSV file</u> or drop it here</div>
         </label>
         
         <div class="preview-container mt-4" v-if="files.length">
