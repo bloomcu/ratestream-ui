@@ -34,7 +34,6 @@
 </template>
 
 <script setup>
-import moment from "moment"
 import { computed, onMounted } from 'vue'
 import { useOrganizationStore } from '@/domain/base/organizations/store/useOrganizationStore'
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
