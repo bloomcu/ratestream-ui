@@ -378,8 +378,49 @@ Title: Tables
 .table {
   position: relative;
   z-index: 1;
+  text-align: left;
+  color: var(--color-contrast-high);
 }
 // <<< end style affecting all versions
+
+// >>> expanded version only (desktop) 👇 -> show standard rows and cols
+.table--expanded {
+  .table__header {
+    border-bottom: 1px solid var(--color-contrast-lower);
+    
+    .table__cell { // header cell style
+      position: relative;
+      z-index: 10;
+      background-color: alpha(var(--color-contrast-lower), 0.3);
+    }
+  }
+  
+  .table__row {
+    border-bottom: 1px solid var(--color-contrast-lower);
+    
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  
+  .table__cell {
+    padding: var(--space-xs) var(--space-sm);
+    border-left: 1px solid var(--color-contrast-lower);
+    
+    &:first-child {
+      border-left: 0px;
+    }
+  }
+
+  // --header-sticky
+  .table__header--sticky {
+    .table__cell { // header cell style
+      position: sticky;
+      top: 0;
+    }
+  }
+}
+// <<< end expanded version
 
 // >>> block version only (mobile) 👇
 .table:not(.table--expanded) {
@@ -414,53 +455,18 @@ Title: Tables
     padding: var(--space-md);
     background-color: var(--color-bg-light);
 
-    &::after { // border bottom
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: var(--space-md);
-      width: calc(100% - (2 * var(--space-md)));
-      height: 1px;
-      background-color: var(--color-contrast-lower);
-    }
+      &::after { // border bottom
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: var(--space-md);
+        width: calc(100% - (2 * var(--space-md)));
+        height: 1px;
+        background-color: var(--color-contrast-lower);
+      }
   }
 }
 // <<< end block version
-
-// >>> expanded version only (desktop) 👇 -> show standard rows and cols
-.table--expanded {
-  .table__header {
-    .table__cell { // header cell style
-      position: relative;
-      z-index: 10;
-      background-color: var(--color-bg);
-      border-bottom: 1px solid var(--color-contrast-lower); // header border bottom
-      font-size: var(--text-sm);
-      color: var(--color-contrast-higher);
-    }
-  }
-  
-  .table__row {
-    border-bottom: 1px solid var(--color-contrast-lower);
-    
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-  
-  .table__cell {
-    padding: calc(var(--space-sm) + 7px) var(--space-sm);
-  }
-
-  // --header-sticky
-  .table__header--sticky {
-    .table__cell { // header cell style
-      position: sticky;
-      top: 0;
-    }
-  }
-}
-// <<< end expanded version
 
 @each $breakpoint, $value in $breakpoints {
   .table--expanded\@#{$breakpoint}::before {
