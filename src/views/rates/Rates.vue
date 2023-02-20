@@ -1,13 +1,19 @@
 <template>
-  <LayoutDefault v-if="rateStore.rates">
-    <div v-if="rateStore.rates.rates.length" class="container flex items-center justify-between margin-top-md">
-      <h1 class="text-lg">Current rates</h1>
+  <LayoutDefault>
+    <div class="container flex items-center justify-between margin-top-md">
+      <h2>Current rates</h2>
       <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Edit rates</router-link>
     </div>
     
-    <div class="container margin-top-md">
+    <div v-if="rateStore.rates" class="container margin-top-md margin-bottom-lg">
       <div v-if="rateStore.isLoading">Loading...</div>
-      <RateTable v-else-if="rateStore.rates.rates.length" :rates="rateStore.rates.rates"/>
+      
+      <RateTable 
+        v-else-if="rateStore.rates" 
+        :columns="rateStore.rates.columns" 
+        :rows="rateStore.rates.rates"
+      />
+      
       <div v-else class="text-component padding-md radius-lg bg-primary bg-opacity-5%">
         <h3>No rates</h3>
         <p>Let's import a CSV.</p>
