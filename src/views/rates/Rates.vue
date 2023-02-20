@@ -2,7 +2,7 @@
   <LayoutDefault>
     <div class="container flex items-center justify-between margin-top-md">
       <h2>Current rates</h2>
-      <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Edit rates</router-link>
+      <router-link v-if="rateStore.rates && rateStore.rates.rates.length" :to="{name: 'rates-import'}" class="btn btn--primary">Edit rates</router-link>
     </div>
     
     <div v-if="rateStore.rates" class="container margin-top-md margin-bottom-lg">
