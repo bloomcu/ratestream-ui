@@ -27,7 +27,6 @@ export const useRateStore = defineStore('rateStore', {
         index(params) {
           const auth = useAuthStore()
           this.isLoading = true
-          this.rates = null
           
           RateApi.index(auth.organization, params)
             .then(response => {

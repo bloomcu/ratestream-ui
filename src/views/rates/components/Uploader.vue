@@ -1,7 +1,7 @@
 <template>
   <div class="margin-bottom-md">
       <div
-        class="dropzone-container margin-bottom-sm"
+        class="dropzone-container margin-bottom-sm radius-lg"
         @dragover="dragover"
         @dragleave="dragleave"
         @drop="dropFile"
@@ -35,7 +35,7 @@
       </div>
       
       <!-- Merges - CSV columns to rate columns -->
-      <div v-if="fileStore.file" class="width-50% margin-bottom-md">
+      <!-- <div v-if="fileStore.file" class="width-50% margin-bottom-md">
         <div class="flex gap-sm margin-bottom-sm">
           <div class="text-bold" style="width: 30%;">CSV columns</div>
           <div>→</div>
@@ -50,12 +50,19 @@
             <option v-for="column in columns" :value="column">{{ column }}</option>
           </select>
         </div>
-      </div>
+      </div> -->
       
-      <!-- Publish button -->
-      <div v-if="fileStore.file" class="flex gap-sm items-center float-right margin-y-sm">
-        <a v-if="rateStore.rates" @click.prevent="compare()" href="" class="color-contrast-high">Compare to current rates</a>
-        <button @click="rateStore.togglePublishPromptModal()" class="btn btn--primary">Publish</button>
+      <div v-if="fileStore.file" class="flex gap-sm justify-end items-center margin-y-sm">
+        <!-- Error -->
+        <div v-if="fileStore.file.errors" class="color-error bg-error bg-opacity-10% border border-error border-opacity-30% padding-xs radius-lg flex-grow">
+          {{ fileStore.file.errors.uid[0] }}
+        </div>
+        
+        <!-- Compare -->
+        <a v-if="rateStore.rates && rateStore.rates.rates.length" @click.prevent="compare()" href="" class="color-contrast-high">Compare to current rates</a>
+        
+        <!-- Publish -->
+        <button @click="rateStore.togglePublishPromptModal()" :disabled="fileStore.file.errors" class="btn btn--primary">Publish</button>
       </div>
       
       <!-- Table preview -->
@@ -72,7 +79,7 @@
 
 <script setup>
 import axios from 'axios'
-import { ref, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useFileStore } from '@/domain/files/store/useFileStore'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
 // import AppCircleLoader from '@/app/components/base/loaders/AppCircleLoader.vue'
@@ -143,6 +150,10 @@ function compare() {
 // 
 //     return fileSrc;
 // }
+
+onMounted(() => {
+  rateStore.index()  
+})
 
 onUnmounted(() => {
   fileStore.file = null
