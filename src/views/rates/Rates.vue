@@ -9,7 +9,7 @@
       <div v-if="rateStore.isLoading">Loading...</div>
       
       <RateTable 
-        v-else-if="rateStore.rates" 
+        v-else-if="rateStore.rates.rates.length" 
         :columns="rateStore.rates.columns" 
         :rows="rateStore.rates.rates"
       />
