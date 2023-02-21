@@ -10,19 +10,7 @@
       <tr v-for="(row, index) in rows" :key="index" class="table__row">
         <td class="table__cell font-semibold">{{ row.uid }}</td>
         <td v-for="(column, index) in columns" :key="index" class="table__cell">
-          <VMenu placement="top" :delay="{
-            hide: 50
-          }">
-            <span>
-              {{ row.columns[column] }}
-            </span>
-            <template #popper>
-              <div @click.prevent="copy(row.uid, column, index)" class="table-cell-inner">
-                <IconEmbed v-if="!isCopied.includes(`${index}${column}${index}`)" size="md" />
-                <span v-else>Copied!</span>
-              </div>
-            </template>
-          </VMenu>
+          <CopyableTableCell :row="row" :column="column" />
         </td>
       </tr>
     </tbody>
@@ -30,12 +18,7 @@
 </template>
 
 <script setup>
-import ButtonCopyToClipboard from '../../../app/components/base/buttons/ButtonCopyToClipboard.vue'
-import IconEmbed from '../../../app/components/base/icons/IconEmbed.vue'
-import useClipboard from '@/app/composables/base/useClipboard'
-import { ref } from 'vue'
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
+import CopyableTableCell from './CopyableTableCell.vue'
 const props = defineProps({
   columns: {
     type: Array
@@ -44,16 +27,7 @@ const props = defineProps({
     type: Array
   }
 })
-const { copyToClipboard } = useClipboard()
-const isCopied = ref([])
-const copy = (uid, column, index) => {
-  copyToClipboard(`<stream-cell uid="${uid}" col="${column}"></stream-cell>`)
-  isCopied.value.push(`${index}${column}${index}`)
-  toast.success("Copied!", {
-    autoClose: 2500,
-    position: 'top-center'
-  });
-}
+
 </script>
 
 <style lang="scss" scoped>
