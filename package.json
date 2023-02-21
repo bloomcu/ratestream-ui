@@ -17,6 +17,7 @@
     "filepond": "^4.30.3",
     "filepond-plugin-file-validate-size": "^2.2.7",
     "filepond-plugin-file-validate-type": "^1.2.8",
+    "floating-vue": "^2.0.0-beta.20",
     "laravel-echo": "^1.14.2",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.34",
