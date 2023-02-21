@@ -4,10 +4,12 @@ import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 import baseRoutes from '@/routes/base/routes.js'
 
 import rates from '@/views/rates/routes/index.js'
+import settings from '@/views/settings/routes/index.js'
 
 const routes = [
   ...baseRoutes,
   ...rates,
+  ...settings,
   {
     path: '/',
     redirect: 'organizations'

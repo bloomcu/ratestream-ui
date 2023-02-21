@@ -1,87 +1,27 @@
 <template>
   <LayoutDefault>
-    <div class="container flex items-center justify-between margin-y-md">
-      <h1 class="text-lg">Current rates</h1>
-      <!-- <button @click="rateStore.toggleEditPromptModal()" class="btn btn--primary">Edit</button> -->
-      <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Edit rates</router-link>
+    <div class="container flex items-center justify-between margin-top-md">
+      <h2>Current rates</h2>
+      <router-link v-if="rateStore.rates && rateStore.rates.rates.length" :to="{name: 'rates-import'}" class="btn btn--primary">Edit rates</router-link>
     </div>
-
-    <!-- <div class="container">
-      <DropFile/>
-    </div> -->
     
-    <div v-if="rateStore.rates" class="container margin-bottom-md">
-      <!-- Render rates nested into groups from api -->
-      <!-- <div v-for="(group, index) in rateStore.rates" :key="index" class="border-top border-right border-left _radius-md _margin-bottom-md">
-        <RateGroupTable :group="group"/>
-      </div> -->
+    <div v-if="rateStore.rates" class="container margin-top-md margin-bottom-lg">
+      <div v-if="rateStore.isLoading">Loading...</div>
       
-      <!-- Render rates using filter in store -->
-      <div v-if="rateStore.rates.groups" v-for="(group, index) in rateStore.rates.groups" :key="index" class="_border _radius-md _margin-bottom-md">
-        <table class="cross-table">
-          <tbody class="cross-table__body">
-            <tr class="cross-table__row cross-table__row--w-full">
-              <td class="cross-table__cell" style="width: 28%;">{{ group.title }}</td>
-              <td class="cross-table__cell" style="width: 18%;">Name</td>
-              <td class="cross-table__cell" style="width: 18%;">Rate</td>
-              <td class="cross-table__cell" style="width: 18%;">Term</td>
-              <td class="cross-table__cell" style="width: 18%;">Year</td>
-            </tr>
-
-            <tr v-for="(rate, index) in rateStore.whereGroup(group.title)" :key="index" class="cross-table__row">
-              <td class="cross-table__cell"></td>
-              <td class="cross-table__cell">
-                {{ rate.name }}
-                <!-- <AppInlineEditor :id="rate.id" @updated="">
-                  {{ rate.name }}
-                </AppInlineEditor> -->
-              </td>
-              <td class="cross-table__cell">
-                {{ rate.columns['term'] }}
-                <!-- <AppInlineEditor :id="rate.id" @updated="">
-                  {{ rate.columns['term'] }}
-                </AppInlineEditor> -->
-              </td>
-              <td class="cross-table__cell">
-                {{ rate.columns['rate'] }}
-                <!-- <AppInlineEditor :id="rate.id" @updated="">
-                  {{ rate.columns['rate'] }}
-                </AppInlineEditor> -->
-              </td>
-              <td class="cross-table__cell">
-                {{ rate.columns['year_low'] }}-{{ rate.columns['year_high'] }}
-                <!-- <AppInlineEditor :id="rate.id" @updated="">
-                  {{ rate.columns['year_low'] }}-{{ rate.columns['year_high'] }}
-                </AppInlineEditor> -->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    
-      <div v-if="rateStore.whereGroup(null).length" class="_border _radius-md _margin-bottom-md">
-        <table class="cross-table">
-          <tbody class="cross-table__body">
-            <tr class="cross-table__row cross-table__row--w-full">
-              <td class="cross-table__cell" style="width: 28%;">No group</td>
-              <td class="cross-table__cell" style="width: 18%;">Name</td>
-              <td class="cross-table__cell" style="width: 18%;">Rate</td>
-              <td class="cross-table__cell" style="width: 18%;">Term</td>
-              <td class="cross-table__cell" style="width: 18%;">Year</td>
-            </tr>
-
-            <tr v-for="(rate, index) in rateStore.whereGroup(null)" :key="index" class="cross-table__row">
-              <td class="cross-table__cell"></td>
-              <td class="cross-table__cell">{{ rate.name }}</td>
-              <td class="cross-table__cell">{{ rate.term }}</td>
-              <td class="cross-table__cell">{{ rate.rate }}</td>
-              <td class="cross-table__cell">{{ rate.year_low }}-{{ rate.year_high }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <RateTable 
+        v-else-if="rateStore.rates.rates.length" 
+        :columns="rateStore.rates.columns" 
+        :rows="rateStore.rates.rates"
+      />
+      
+      <div v-else class="text-component padding-md radius-lg bg-primary bg-opacity-5%">
+        <h3>No rates</h3>
+        <p>Let's import a CSV.</p>
+        <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Import CSV</router-link>
       </div>
     </div>
-    <EditPromptModal/>
+    
+    <!-- <EditPromptModal/> -->
   </LayoutDefault>
 </template>
 
@@ -90,14 +30,13 @@ import moment from "moment"
 import { ref, onMounted } from 'vue'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
-import AppInlineEditor from '@/app/components/base/forms/AppInlineEditor.vue'
-import EditPromptModal from '@/views/rates/modals/EditPromptModal.vue'
-import RateGroupTable from '@/views/rates/components/RateGroupTable.vue'
+// import EditPromptModal from '@/views/rates/modals/EditPromptModal.vue'
+import RateTable from '@/views/rates/components/RateTable.vue'
 
 const rateStore = useRateStore()
 
 onMounted(() => {
-    rateStore.index()
+  rateStore.index()
 })
 </script>
 

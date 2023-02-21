@@ -14,7 +14,7 @@
               You've been invited to join the 
               <span class="color-primary">{{ invitationStore.invitation.organization.title }}</span> team
             </h1>
-            <p class="text-md">Join forces with the team and help build your next website.</p>
+            <p class="text-md">Join forces with your team inside RateStream.io.</p>
           </div>
           
           <div class="flex items-center">

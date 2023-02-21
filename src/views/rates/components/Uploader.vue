@@ -1,7 +1,7 @@
 <template>
   <div class="margin-bottom-md">
       <div
-        class="dropzone-container margin-bottom-sm"
+        class="dropzone-container margin-bottom-sm radius-lg"
         @dragover="dragover"
         @dragleave="dragleave"
         @drop="dropFile"
@@ -18,7 +18,7 @@
 
         <label for="fileInput" class="file-label">
           <div v-if="isDragging">Release to drop files here.</div>
-          <div v-else>Drop CSV file here or <u>click to select</u></div>
+          <div v-else><u>Upload a CSV file</u> or drop it here</div>
         </label>
         
         <div class="preview-container mt-4" v-if="files.length">
@@ -45,80 +45,32 @@
           <label style="width: 30%;" :for="header">{{ header }}</label>
           <div>→</div>
           <select class="" name="">
-            <option value="">Add as new field</option>
+            <option value="">Add as new column</option>
             <option value="">Don't import</option>
             <option v-for="column in columns" :value="column">{{ column }}</option>
           </select>
         </div>
       </div> -->
       
-      <!-- Publish button -->
-      <div v-if="fileStore.file" class="flex gap-sm items-center float-right margin-y-sm">
-        <a @click.prevent="compare()" href="" class="color-contrast-high">Compare to current rates</a>
-        <button @click="rateStore.togglePublishPromptModal()" class="btn btn--primary">Publish</button>
+      <div v-if="fileStore.file" class="flex gap-sm justify-end items-center margin-y-sm">
+        <!-- Error -->
+        <div v-if="fileStore.file.errors" class="color-error bg-error bg-opacity-10% border border-error border-opacity-30% padding-xs radius-lg flex-grow">
+          {{ fileStore.file.errors.uid[0] }}
+        </div>
         
-        <!-- <router-link :to="{name: 'rates'}" class="color-contrast-high">Compare to current rates</router-link> -->
-        <!-- <button @click="runImport()" class="btn btn--primary">
-          <span v-if="rateStore.isImporting" class="flex gap-xs items-center">
-            <AppCircleLoader/>
-            Importing
-          </span>
-          <span v-else>Import</span>
-        </button> -->
-      </div>
-      
-      <!-- Publish button -->
-      <div class="">
+        <!-- Compare -->
+        <a v-if="rateStore.rates && rateStore.rates.rates.length" @click.prevent="compare()" href="" class="color-contrast-high">Compare to current rates</a>
         
+        <!-- Publish -->
+        <button @click="rateStore.togglePublishPromptModal()" :disabled="fileStore.file.errors" class="btn btn--primary">Publish</button>
       </div>
       
       <!-- Table preview -->
       <div v-if="fileStore.file" class="">
-        <table class="table table--expanded position-relative z-index-1 width-100% text-unit-em text-sm" aria-label="Table Example">
-          <thead class="table__header">
-            <tr class="table__row">
-              <th 
-                v-for="(header, index) in fileStore.file.headers"
-                class="table__cell text-left" 
-                scope="col"
-              >
-              {{ header }}
-              </th>
-            </tr>
-          </thead>
-          
-          <tbody class="table__body">
-            <tr v-for="(rate, index) in fileStore.file.csv" class="table__row">
-              <td class="table__cell" role="cell">
-                {{ rate.group }}
-              </td>
-
-              <td class="table__cell" role="cell">
-                {{ rate.name }}
-              </td>
-
-              <td class="table__cell" role="cell">
-                {{ rate.year }}
-              </td>
-              
-              <td class="table__cell" role="cell">
-                {{ rate.year_low }}
-              </td>
-              
-              <td class="table__cell" role="cell">
-                {{ rate.year_high }}
-              </td>
-              
-              <td class="table__cell" role="cell">
-                {{ rate.rate }}
-              </td>
-              
-              <td class="table__cell" role="cell">
-                {{ rate.term }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <CSVTable 
+          :columns="fileStore.file.headers" 
+          :rows="fileStore.file.csv"
+        />
       </div>
       
       <PublishPromptModal/>
@@ -127,11 +79,12 @@
 
 <script setup>
 import axios from 'axios'
-import { ref, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useFileStore } from '@/domain/files/store/useFileStore'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
 // import AppCircleLoader from '@/app/components/base/loaders/AppCircleLoader.vue'
 import PublishPromptModal from '@/views/rates/modals/PublishPromptModal.vue'
+import CSVTable from '@/views/rates/components/CSVTable.vue'
 
 const fileStore = useFileStore()
 const rateStore = useRateStore()
@@ -197,6 +150,10 @@ function compare() {
 // 
 //     return fileSrc;
 // }
+
+onMounted(() => {
+  rateStore.index()  
+})
 
 onUnmounted(() => {
   fileStore.file = null
