@@ -17,19 +17,21 @@
     "filepond": "^4.30.3",
     "filepond-plugin-file-validate-size": "^2.2.7",
     "filepond-plugin-file-validate-type": "^1.2.8",
+    "floating-vue": "^2.0.0-beta.20",
     "laravel-echo": "^1.14.2",
     "moment": "^2.29.4",
-    "moment-timezone": "^0.5.34",
+    "moment-timezone": "^0.5.40",
     "pinia": "^2.0.14",
     "pusher-js": "^7.5.0",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.15"
+    "vue-router": "^4.0.15",
+    "vue3-toastify": "^0.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.1",
     "sass": "^1.51.0",
     "typescript": "^4.5.4",
-    "vite": "^2.9.5",
+    "vite": "^2.9.15",
     "vue-tsc": "^0.34.7"
   }
 }
