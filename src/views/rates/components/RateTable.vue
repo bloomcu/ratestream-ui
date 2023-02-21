@@ -9,18 +9,25 @@
     <tbody class="table__body">
       <tr v-for="(row, index) in rows" :key="index" class="table__row">
         <td class="table__cell font-semibold">{{ row.uid }}</td>
-        <td v-for="(column, index) in columns" :key="index" class="table__cell">{{ row.columns[column] }}</td>
+        <td v-for="(column, index) in columns" :key="index" class="table__cell">
+          <ButtonCopyToClipboard :value="elementToClipboardString(row.uid, column)">
+            {{ row.columns[column] }}</ButtonCopyToClipboard>
+        </td>
       </tr>
     </tbody>
   </table>
 </template>
 
 <script setup>
+import ButtonCopyToClipboard from '../../../app/components/base/buttons/ButtonCopyToClipboard.vue'
+const elementToClipboardString = (uid, col) => {
+  return `<stream-cell uid="${uid}" col="${col}"></stream-cell>`
+}
 const props = defineProps({
-  columns: { 
+  columns: {
     type: Array
   },
-  rows: { 
+  rows: {
     type: Array
   }
 })
