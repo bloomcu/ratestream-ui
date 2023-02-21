@@ -33,6 +33,6 @@ const rateStore = useRateStore()
 const fileStore = useFileStore()
 
 function runImport() {
-  rateStore.import(fileStore.file.csv)
+  rateStore.import(fileStore.file)
 }
 </script>
