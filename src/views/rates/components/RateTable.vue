@@ -10,7 +10,7 @@
       <tr v-for="(row, index) in rows" :key="index" class="table__row">
         <td class="table__cell font-semibold">{{ row.uid }}</td>
         <td v-for="(column, index) in columns" :key="index" class="table__cell">
-          <ButtonCopyToClipboard :value="elementToClipboardString(row.uid, column)">
+          <ButtonCopyToClipboard :value="`<stream-cell uid=&quot;${row.uid}&quot; col=&quot;${column}&quot;></stream-cell>`">
             {{ row.columns[column] }}</ButtonCopyToClipboard>
         </td>
       </tr>
@@ -20,9 +20,6 @@
 
 <script setup>
 import ButtonCopyToClipboard from '../../../app/components/base/buttons/ButtonCopyToClipboard.vue'
-const elementToClipboardString = (uid, col) => {
-  return `<stream-cell uid="${uid}" col="${col}"></stream-cell>`
-}
 const props = defineProps({
   columns: {
     type: Array
