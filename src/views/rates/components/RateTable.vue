@@ -10,7 +10,7 @@
       <tr v-for="(row, index) in rows" :key="index" class="table__row">
         <td class="table__cell font-semibold">{{ row.uid }}</td>
         <td v-for="(column, index) in columns" :key="index" class="table__cell">
-          <VMenu  placement="top" :delay="{
+          <VMenu placement="top" :delay="{
             hide: 50
           }">
             <span>
@@ -34,6 +34,8 @@ import ButtonCopyToClipboard from '../../../app/components/base/buttons/ButtonCo
 import IconEmbed from '../../../app/components/base/icons/IconEmbed.vue'
 import useClipboard from '@/app/composables/base/useClipboard'
 import { ref } from 'vue'
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 const props = defineProps({
   columns: {
     type: Array
@@ -45,8 +47,12 @@ const props = defineProps({
 const { copyToClipboard } = useClipboard()
 const isCopied = ref([])
 const copy = (uid, column, index) => {
-  copyToClipboard(`<stream-cell uid=&quot;${uid}&quot; col=&quot;${column}&quot;></stream-cell>`)
+  copyToClipboard(`<stream-cell uid="${uid}" col="${column}"></stream-cell>`)
   isCopied.value.push(`${index}${column}${index}`)
+  toast.success("Copied!", {
+    autoClose: 2500,
+    position: 'top-center'
+  });
 }
 </script>
 
