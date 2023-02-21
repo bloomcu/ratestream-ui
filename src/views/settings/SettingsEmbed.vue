@@ -8,8 +8,8 @@
       <div class="card card--shadow">
         <div class="text-component">
           <!-- Embed code -->
-          <h4>Your embed code</h4>
-          <p>To install RateStream, place this script at the top of the <span class="text-bold color-primary">&lt;head&gt;</span> section just after any <span class="text-bold color-primary">&lt;meta&gt;</span> tags.</p>
+          <h4>Install RateStream on your website</h4>
+          <p>To install RateStream on your website, place this script at the top of the <span class="text-bold color-primary">&lt;head&gt;</span> section just after any <span class="text-bold color-primary">&lt;meta&gt;</span> tags.</p>
           <div v-if="organizationStore.organization" class="flex flex-column position-relative color-primary bg-primary bg-opacity-10% border border-primary border-opacity-60% margin-top-sm padding-md radius-md">
             <span class="line-height-xl">
               &lt;script&gt;window.STREAM_ORGANIZATION="{{ organizationStore.organization.slug }}"&lt;/script&gt; <br>
