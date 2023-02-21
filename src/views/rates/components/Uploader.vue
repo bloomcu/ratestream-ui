@@ -51,7 +51,7 @@
           </select>
         </div>
       </div> -->
-      
+
       <!-- Error -->
       <div v-if="fileStore.file">
         <div v-if="fileStore.file.errors" class="color-error bg-error bg-opacity-10% border border-error border-opacity-30% padding-xs radius-lg flex-grow">
@@ -59,6 +59,7 @@
         </div>
       </div>
       
+      <!-- Preview -->
       <div v-if="fileStore.file" class="flex gap-sm justify-between items-center margin-y-sm">
         <h3>Preview</h3>
         
