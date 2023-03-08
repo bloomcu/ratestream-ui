@@ -60,6 +60,36 @@ const authApi = {
       password_confirmation: password_confirmation, 
     })
   },
+  
+  /**
+   * Request a password reset
+   *
+   * @param string email
+   * @return promise
+   */
+  requestPasswordReset(email) {
+    return HttpClient.post(`/auth/password/forgot`, {
+      email: email,
+    })
+  },
+  
+  /**
+   * Reset password
+   *
+   * @param string token
+   * @param string email
+   * @param string password
+   * @param string password_confirmation
+   * @return promise
+   */
+  resetPassword(token, email, password, password_confirmation) {
+    return HttpClient.post(`/auth/password/reset`, {
+      token: token,
+      email: email,
+      password: password,
+      password_confirmation: password_confirmation, 
+    })
+  },
 }
 
 export { authApi }
