@@ -48,24 +48,30 @@ export const useAuthStore = defineStore('authStore', {
           .catch(error => {})
       },
       
-      async register(name, email, password, password_confirmation) {
-        await AuthApi.register(name, email, password, password_confirmation)
+      async register(name, email, organization_title, password, password_confirmation) {
+        const redirect = import.meta.env.VITE_REDIRECT_FROM_LOGIN_ROUTE
+        
+        await AuthApi.register(name, email, organization_title, password, password_confirmation)
           .then(response => {
             localStorage.setItem('user', JSON.stringify(response.data.data))
             this.user = response.data.data
+            this.organization = response.data.data.organization.slug
             
             // TODO: The next step for user will be to setup their organization
             // this.router.push({ name: 'onboardOrganization' })
+            this.router.push({ name: redirect, params: { organization: response.data.data.organization.slug }})
           })
           .catch(error => {})
       },
       
       async registerWithInvitation(invitation_uuid, name, email, password, password_confirmation) {
+        const redirect = import.meta.env.VITE_REDIRECT_FROM_LOGIN_ROUTE
+        
         await AuthApi.registerWithInvitation(invitation_uuid, name, email, password, password_confirmation)
           .then(response => {
             localStorage.setItem('user', JSON.stringify(response.data.data))
             this.user = response.data.data
-            this.router.push({ name: 'rates', params: { organization: response.data.data.organization.slug }})
+            this.router.push({ name: redirect, params: { organization: response.data.data.organization.slug }})
           })
           .catch(error => {})
       },
