@@ -39,10 +39,10 @@
           Forgot password?
           <RouterLink :to="{ name: 'forgotPassword' }">Reset password</RouterLink>
         </p>
-        <!-- <p class="text-sm">
+        <p class="text-sm">
           Don't have an account? 
           <RouterLink :to="{ name: 'register' }">Get started</RouterLink>
-        </p> -->
+        </p>
       </div>
       
     </form>
