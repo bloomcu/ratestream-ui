@@ -34,7 +34,7 @@
         </div>
       </div> -->
       
-      <!-- <div class="text-center text-component">
+      <div class="text-center text-component">
         <p class="text-sm">
           Forgot password?
           <RouterLink :to="{ name: 'forgotPassword' }">Reset password</RouterLink>
@@ -43,7 +43,7 @@
           Don't have an account? 
           <RouterLink :to="{ name: 'register' }">Get started</RouterLink>
         </p>
-      </div> -->
+      </div>
       
     </form>
   </div>

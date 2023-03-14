@@ -33,6 +33,7 @@
               <AppInput v-model="inputs.email" label="Email" required disabled />
               <AppInput v-model="inputs.password" type="password" label="Password" :errors="errorStore.errors.password" required />
               <AppInput v-model="inputs.password_confirmation" type="password" label="Confirm password" required />
+              <AppPasswordChecker :password="inputs.password"/>
             </div>
 
             <div class="margin-bottom-sm">
@@ -54,6 +55,7 @@ import { useErrorStore } from '@/app/store/base/useErrorStore'
 import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 import { useInvitationStore } from '@/domain/base/invitations/store/useInvitationStore'
 import AppInput from '@/app/components/base/forms/AppInput.vue'
+import AppPasswordChecker from '@/app/components/base/forms/AppPasswordChecker.vue'
 import UserAvatar from '@/domain/base/users/components/UserAvatar.vue'
 import InvitationSkeletonLoader from '@/views/base/invitations/loaders/InvitationSkeletonLoader.vue'
 
