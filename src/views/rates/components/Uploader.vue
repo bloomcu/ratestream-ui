@@ -75,8 +75,8 @@
       <!-- Table preview -->
       <div v-if="fileStore.file" class="">
         <CSVTable 
-          :columns="fileStore.file.headers" 
-          :rows="fileStore.file.csv"
+          :columns="fileStore.file.columns" 
+          :rows="fileStore.file.rows"
         />
       </div>
       
@@ -101,7 +101,7 @@ const files = ref([])
 const fileInput = ref()
 
 // Setup columns
-let columns = ref(['name', 'year', 'year_low', 'year_high', 'rate', 'term'])
+// let columns = ref(['name', 'year', 'year_low', 'year_high', 'rate', 'term'])
 // let merges = ref([])
 // columns.value.forEach((column) => {
 //   merges[column] = ''
