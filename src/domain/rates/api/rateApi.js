@@ -60,7 +60,7 @@ const rateApi = {
      */
     import(organization, csv) {
         return HttpClient.post(`/${organization}/rates/import`, {
-          columns: csv.headers,
+          columns: csv.columns,
           rows: csv.rows,
         })
     },

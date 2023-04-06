@@ -75,7 +75,7 @@
       <!-- Table preview -->
       <div v-if="fileStore.file" class="">
         <CSVTable 
-          :columns="fileStore.file.headers" 
+          :columns="fileStore.file.columns" 
           :rows="fileStore.file.rows"
         />
       </div>

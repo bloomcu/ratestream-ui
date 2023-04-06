@@ -89,11 +89,11 @@ export const useRateStore = defineStore('rateStore', {
           RateApi.import(auth.organization, csv)
             .then(response => {
               console.log('CSV imported', response.data)
-              // setTimeout(() => {
-              //   this.router.push({ name: 'rates' })
-              //   this.togglePublishPromptModal()
-              //   this.isImporting = false
-              // }, 1500)
+              setTimeout(() => {
+                this.router.push({ name: 'rates' })
+                this.togglePublishPromptModal()
+                this.isImporting = false
+              }, 1500)
             })
         },
         
