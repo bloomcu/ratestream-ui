@@ -12,9 +12,9 @@
       <tr v-for="(rate, index) in group.rates" :key="index" class="cross-table__row">
         <td class="cross-table__cell"></td>
         <td class="cross-table__cell">{{ rate.uid }}</td>
-        <td class="cross-table__cell">{{ rate.columns['rate'] }}</td>
-        <td class="cross-table__cell">{{ rate.columns['term'] }}</td>
-        <td class="cross-table__cell">{{ rate.columns['year_low'] }}-{{ rate.columns['year_high'] }}</td>
+        <td class="cross-table__cell">{{ rate.data['rate'] }}</td>
+        <td class="cross-table__cell">{{ rate.data['term'] }}</td>
+        <td class="cross-table__cell">{{ rate.data['year_low'] }}-{{ rate.data['year_high'] }}</td>
       </tr>
     </tbody>
   </table>
