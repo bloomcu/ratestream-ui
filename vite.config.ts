@@ -22,5 +22,9 @@ export default defineConfig({
               additionalData: `@import './src/app/styles/base/resources';`
           }
       }
+  },
+
+  server: {
+    host: '127.0.0.1'
   }
 })
