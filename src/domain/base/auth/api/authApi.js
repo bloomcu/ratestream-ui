@@ -33,10 +33,11 @@ const authApi = {
    * @param String password_confirmation [repeated password]
    * @return promise
    */
-  register(name, email, password, password_confirmation) {
+  register(name, email, organization_title, password, password_confirmation) {
     return HttpClient.post(`/auth/register`, {
       name: name,
       email: email,
+      organization_title: organization_title,
       password: password,
       password_confirmation: password_confirmation, 
     })
@@ -55,6 +56,36 @@ const authApi = {
   registerWithInvitation(invitation_uuid, name, email, password, password_confirmation) {
     return HttpClient.post(`/auth/register/invitation/${invitation_uuid}`, {
       name: name,
+      email: email,
+      password: password,
+      password_confirmation: password_confirmation, 
+    })
+  },
+  
+  /**
+   * Request a password reset
+   *
+   * @param string email
+   * @return promise
+   */
+  requestPasswordReset(email) {
+    return HttpClient.post(`/auth/password/forgot`, {
+      email: email,
+    })
+  },
+  
+  /**
+   * Reset password
+   *
+   * @param string token
+   * @param string email
+   * @param string password
+   * @param string password_confirmation
+   * @return promise
+   */
+  resetPassword(token, email, password, password_confirmation) {
+    return HttpClient.post(`/auth/password/reset`, {
+      token: token,
       email: email,
       password: password,
       password_confirmation: password_confirmation, 

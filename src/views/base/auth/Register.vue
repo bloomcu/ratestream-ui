@@ -7,9 +7,11 @@
       
       <AppInput v-model="inputs.name" label="Full name" :errors="errorStore.errors.name" required autofocus />
       <AppInput v-model="inputs.email" label="Email" :errors="errorStore.errors.email" required />
+      <AppInput v-model="inputs.organization_title" label="Organization Title" :errors="errorStore.errors.organization_title" required />
       <AppInput v-model="inputs.password" :errors="errorStore.errors.password" type="password" label="Password" required />
       <AppInput v-model="inputs.password_confirmation" type="password" label="Confirm Password" required />
-
+      <AppPasswordChecker :password="inputs.password"/>
+      
       <div class="margin-bottom-sm">
         <button class="btn btn--primary btn--md width-100%">Register with email</button>
       </div>
@@ -48,6 +50,7 @@ import { ref } from 'vue'
 import { useErrorStore } from '@/app/store/base/useErrorStore'
 import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 import AppInput from '@/app/components/base/forms/AppInput.vue'
+import AppPasswordChecker from '@/app/components/base/forms/AppPasswordChecker.vue'
 
 const errorStore = useErrorStore()
 const authStore = useAuthStore()
@@ -55,12 +58,13 @@ const authStore = useAuthStore()
 const inputs = ref({
   name: '',
   email: '',
+  organization_title: '',
   password: '',
   password_confirmation: ''
 })
 
 function register() {
-  const { name, email, password, password_confirmation } = inputs.value
-  authStore.register(name, email, password, password_confirmation)
+  const { name, email, organization_title, password, password_confirmation } = inputs.value
+  authStore.register(name, email, organization_title, password, password_confirmation)
 }
 </script>

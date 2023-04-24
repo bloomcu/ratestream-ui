@@ -39,10 +39,11 @@ router.beforeEach(async (to) => {
   const { user } = useAuthStore()
   
   const publicRouteNames = [
-    'forgotPassword',
     'invitation',
     'login',
     'register',
+    'forgotPassword',
+    'resetPassword',
     'styleDesignBrief',
     'sitesLaunch',
   ]

@@ -5,11 +5,13 @@ import router from '@/router'
 import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
 import App from '@/App.vue'
+import FloatingVue from 'floating-vue'
+import 'floating-vue/dist/style.css'
 
 const app = createApp(App)
       app.use(store)
       app.use(router)
-      
+      app.use(FloatingVue)
 router.isReady().then(() => {
   app.mount('#app')
 })

@@ -15,6 +15,21 @@ export default function useQuery() {
     delete query.value[parameter]
     syncRoute()
   }
+  
+  function unsetAll() {
+    query.value = {}
+    syncRoute()
+  }
+  
+  function replaceAll(parameter, value) {
+    unsetAll()
+    set(parameter, value)
+    syncRoute()
+  }
+  
+  function toggle(parameter, value) {
+    query.value[parameter] === value ? unset(parameter) : set(parameter, value)
+  }
 
   function syncRoute() {
     router.replace({ query: query.value })
@@ -33,5 +48,8 @@ export default function useQuery() {
     query,
     set,
     unset,
+    unsetAll,
+    replaceAll,
+    toggle,
   }
 }
