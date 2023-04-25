@@ -43,7 +43,7 @@ const componentsBaseUrl = import.meta.env.VITE_COMPONENTS_BASE_URL
 const organizationStore = useOrganizationStore()
 
 let embedCode = computed(() => {
-  return `<script>window.STREAM_ORGANIZATION=\"${organizationStore.organization.slug}\"<\/script>\r\n<script src=\"https:\/\/components.ratestream.io\/assets\/index.js\"><\/script>`
+  return `<script>window.STREAM_ORGANIZATION=\"${organizationStore.organization.slug}\"<\/script>\r\n<script src=\"${componentsBaseUrl}/assets\/index.js\"><\/script>`
 })
 
 onMounted(() => {
