@@ -28,7 +28,7 @@ export const useFileStore = defineStore('fileStore', {
           
           FileApi.index(auth.organization, params)
             .then(response => {
-              this.files = response.data
+              this.files = response.data.data
               this.isLoading = false
             }).catch(error => {
               console.log('Error', error.response.data)
@@ -36,14 +36,12 @@ export const useFileStore = defineStore('fileStore', {
         },
         
         async store(file) {
-          // console.log(file)
           const auth = useAuthStore()
           this.isLoading = true
           
           await FileApi.store(auth.organization, file)
             .then(response => {
-              this.files.push(response.data)
-              this.show(response.data.id)
+              this.files.push(response.data.data)
             }).catch(error => {
               console.log('Error', error)
             })
@@ -55,7 +53,7 @@ export const useFileStore = defineStore('fileStore', {
           
           FileApi.show(auth.organization, id)
             .then(response => {
-              this.file = response.data
+              this.file = response.data.data
               this.isLoading = false
             })
         },

@@ -73,10 +73,10 @@
       </div>
       
       <!-- Table preview -->
-      <div v-if="fileStore.file" class="">
+      <div v-if="csvStore.csv" class="">
         <CSVTable 
-          :columns="fileStore.file.columns" 
-          :rows="fileStore.file.rows"
+          :columns="csvStore.csv.columns" 
+          :rows="csvStore.csv.rows"
         />
       </div>
       
@@ -87,12 +87,14 @@
 <script setup>
 import axios from 'axios'
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useCSVStore } from '@/domain/csv/store/useCSVStore'
 import { useFileStore } from '@/domain/files/store/useFileStore'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
 // import AppCircleLoader from '@/app/components/base/loaders/AppCircleLoader.vue'
 import PublishPromptModal from '@/views/rates/modals/PublishPromptModal.vue'
 import CSVTable from '@/views/rates/components/CSVTable.vue'
 
+const csvStore = useCSVStore()
 const fileStore = useFileStore()
 const rateStore = useRateStore()
 
@@ -108,7 +110,7 @@ const fileInput = ref()
 // })
 // console.log(merges)
 
-function cacheFiles() {
+function processFiles() {
   files.value = [...fileInput.files]
   uploadFiles()
 }
@@ -117,14 +119,14 @@ function selectFile(e) {
   e.preventDefault()
   fileInput.files = e.target.files
   isDragging.value = false
-  cacheFiles()
+  processFiles()
 }
 
 function dropFile(e) {
   e.preventDefault()
   fileInput.files = e.dataTransfer.files
   isDragging.value = false
-  cacheFiles()
+  processFiles()
 }
 
 function dragover(e) {
@@ -138,10 +140,16 @@ function dragleave() {
 
 function remove(file) {
   files.value.splice(file, 1)
+  fileStore.files = []
+  csvStore.csv = null
 }
 
 function uploadFiles() {
-    fileStore.store(files.value[0])
+  fileStore.store(files.value[0])
+    .then(() => {
+      // Parse first CSV file
+      csvStore.show(fileStore.files[0].id)
+    })
 }
 
 function compare() {
