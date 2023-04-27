@@ -25,14 +25,14 @@
 
 <script setup>
 import { useRateStore } from '@/domain/rates/store/useRateStore'
-import { useFileStore } from '@/domain/files/store/useFileStore'
+import { useCSVStore } from '@/domain/csv/store/useCSVStore'
 import AppModal from '@/app/components/base/modals/AppModal.vue'
 import AppCircleLoader from '@/app/components/base/loaders/AppCircleLoader.vue'
 
 const rateStore = useRateStore()
-const fileStore = useFileStore()
+const csvStore = useCSVStore()
 
 function runImport() {
-  rateStore.import(fileStore.file)
+  rateStore.import(csvStore.csv)
 }
 </script>
