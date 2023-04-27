@@ -53,14 +53,14 @@
       </div> -->
 
       <!-- Error -->
-      <div v-if="fileStore.file">
-        <div v-if="fileStore.file.errors" class="color-error bg-error bg-opacity-10% border border-error border-opacity-30% padding-xs radius-lg flex-grow">
-          {{ fileStore.file.errors.uid[0] }}
+      <div v-if="csvStore.csv">
+        <div v-if="csvStore.csv.errors" class="color-error bg-error bg-opacity-10% border border-error border-opacity-30% padding-xs radius-lg flex-grow">
+          {{ csvStore.csv.errors.uid[0] }}
         </div>
       </div>
       
       <!-- Preview -->
-      <div v-if="fileStore.file" class="flex gap-sm justify-between items-center margin-y-sm">
+      <div v-if="csvStore.csv" class="flex gap-sm justify-between items-center margin-y-sm">
         <h3>Preview</h3>
         
         <div class="flex gap-md items-center">
@@ -68,7 +68,7 @@
           <a v-if="rateStore.rates && rateStore.rates.rates.length" @click.prevent="compare()" href="" class="color-contrast-high">Compare to current rates</a>
           
           <!-- Publish -->
-          <button @click="rateStore.togglePublishPromptModal()" :disabled="fileStore.file.errors" class="btn btn--primary">Publish</button>
+          <button @click="rateStore.togglePublishPromptModal()" :disabled="csvStore.csv.errors" class="btn btn--primary">Publish</button>
         </div>
       </div>
       
@@ -156,15 +156,6 @@ function compare() {
   let url = document.URL.replace('/import', '')
   window.open(url, '_blank')
 }
-// function generateURL(file) {
-//     let fileSrc = URL.createObjectURL(file)
-// 
-//     setTimeout(() => {
-//         URL.revokeObjectURL(fileSrc)
-//     }, 1000)
-// 
-//     return fileSrc;
-// }
 
 onMounted(() => {
   rateStore.index()  

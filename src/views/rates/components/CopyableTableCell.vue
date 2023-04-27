@@ -3,7 +3,7 @@
         hide: 50
     }">
         <span>
-            {{ row.columns[column] }}
+            {{ row.data[column] }}
         </span>
         <template #popper>
             <div @click.prevent="copy(row.uid, column)" class="table-cell-inner text-center">

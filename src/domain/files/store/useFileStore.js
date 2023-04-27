@@ -38,6 +38,7 @@ export const useFileStore = defineStore('fileStore', {
         async store(file) {
           const auth = useAuthStore()
           this.isLoading = true
+          this.files = []
           
           await FileApi.store(auth.organization, file)
             .then(response => {
