@@ -1,27 +1,23 @@
 <template>
   <LayoutDefault>
-    <div class="container flex items-center justify-between margin-top-md">
-      <h2>Current rates</h2>
-      <router-link v-if="rateStore.rates && rateStore.rates.rates.length" :to="{name: 'rates-import'}" class="btn btn--primary">Edit rates</router-link>
-    </div>
-    
-    <div v-if="rateStore.rates" class="container margin-top-md margin-bottom-lg">
-      <div v-if="rateStore.isLoading">Loading...</div>
+    <div v-if="rateStore.isLoading">Loading...</div>
+
+    <div v-else-if="rateStore.rates.length && rateStore.columns.length">
+      <div class="container flex items-center justify-between margin-top-md">
+        <h2>Current rates</h2>
+        <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Edit rates</router-link>
+      </div>
       
-      <RateTable 
-        v-else-if="rateStore.rates.rates.length" 
-        :columns="rateStore.rates.columns" 
-        :rows="rateStore.rates.rates"
-      />
-      
-      <div v-else class="text-component padding-md radius-lg bg-primary bg-opacity-5%">
-        <h3>No rates</h3>
-        <p>Let's import a CSV.</p>
-        <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Import CSV</router-link>
+      <div class="container margin-top-md margin-bottom-lg">
+        <RateTable :columns="rateStore.columns" :rows="rateStore.rates"/>
       </div>
     </div>
-    
-    <!-- <EditPromptModal/> -->
+
+    <div v-else class="text-component padding-md radius-lg bg-primary bg-opacity-5%">
+      <h3>No rates</h3>
+      <p>Let's import a CSV.</p>
+      <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Import CSV</router-link>
+    </div>
   </LayoutDefault>
 </template>
 
@@ -30,7 +26,6 @@ import moment from "moment"
 import { ref, onMounted } from 'vue'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
-// import EditPromptModal from '@/views/rates/modals/EditPromptModal.vue'
 import RateTable from '@/views/rates/components/RateTable.vue'
 
 const rateStore = useRateStore()

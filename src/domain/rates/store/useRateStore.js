@@ -5,8 +5,11 @@ import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 
 export const useRateStore = defineStore('rateStore', {
     state: () => ({
-        rates: null,
+        rates: [],
         rate: null,
+        columns: [],
+        column: null,
+        edits: [],
         isLoading: true,
         isImporting: false,
         editPromptModalOpen: false,
@@ -30,7 +33,8 @@ export const useRateStore = defineStore('rateStore', {
           
           RateApi.index(auth.organization, params)
             .then(response => {
-              this.rates = response.data
+              this.rates = response.data.rates
+              this.columns = response.data.columns
               this.isLoading = false
             }).catch(error => {
               console.log('Error', error.response.data)
