@@ -23,7 +23,7 @@ defineProps({
     column: String
 })
 
-import IconEmbed from '../../../app/components/base/icons/IconEmbed.vue'
+import IconEmbed from '@/app/components/base/icons/IconEmbed.vue'
 import useClipboard from '@/app/composables/base/useClipboard'
 import { ref } from 'vue'
 import { toast } from 'vue3-toastify';

@@ -12,8 +12,8 @@ export const useRateStore = defineStore('rateStore', {
         edits: [],
         isLoading: true,
         isImporting: false,
-        editPromptModalOpen: false,
-        publishPromptModalOpen: false,
+        isEditing: false,
+        isPublishPromptModalOpen: false,
     }),
     
     getters: {
@@ -95,18 +95,18 @@ export const useRateStore = defineStore('rateStore', {
               console.log('CSV imported', response.data)
               setTimeout(() => {
                 this.router.push({ name: 'rates' })
-                this.togglePublishPromptModal()
+                this.toggleIsPublishPromptModal()
                 this.isImporting = false
               }, 1500)
             })
         },
-        
-        toggleEditPromptModal() {
-          this.editPromptModalOpen = !this.editPromptModalOpen
+
+        toggleIsEditing() {
+          this.isEditing = !this.isEditing
         },
         
-        togglePublishPromptModal() {
-          this.publishPromptModalOpen = !this.publishPromptModalOpen
+        toggleIsPublishPromptModal() {
+          this.isPublishPromptModalOpen = !this.isPublishPromptModalOpen
         }
     }
 })

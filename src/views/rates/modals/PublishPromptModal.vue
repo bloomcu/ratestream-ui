@@ -1,8 +1,8 @@
 <template>
   <AppModal 
     size="xxs"
-    @closed="rateStore.togglePublishPromptModal()"
-    :class="rateStore.publishPromptModalOpen ? 'modal--is-visible' : ''"
+    @closed="rateStore.toggleIsPublishPromptModal()"
+    :class="rateStore.isPublishPromptModalOpen ? 'modal--is-visible' : ''"
   >
     <div class="margin-bottom-md">
       <h2 class="text-md margin-bottom-sm">Publish confirmation</h2>
@@ -10,7 +10,7 @@
     </div>
     
     <div class="flex gap-md items-center justify-between">
-      <button @click="rateStore.togglePublishPromptModal" class="btn btn--accent">Cancel</button>
+      <button @click="rateStore.toggleIsPublishPromptModal()" class="btn btn--accent">Cancel</button>
       
       <button @click="runImport()" class="btn btn--primary">
         <span v-if="rateStore.isImporting" class="flex gap-xs items-center">

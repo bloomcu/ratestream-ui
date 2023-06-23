@@ -1,15 +1,31 @@
 <template>
-  <LayoutDefault>
+  <LayoutDefault maxWidth="">
     <div v-if="rateStore.isLoading">Loading...</div>
 
     <div v-else-if="rateStore.rates.length && rateStore.columns.length">
-      <div class="container flex items-center justify-between margin-top-md">
-        <h2>Current rates</h2>
-        <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Edit rates</router-link>
+      <div v-if="!rateStore.isEditing" class="flex items-center justify-between margin-y-sm">
+        <h3>Current rates</h3>
+        <div class="flex gap-sm">
+          <button @click="rateStore.toggleIsEditing()" class="btn btn--subtle">Edit rates</button>
+          <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Import rates</router-link>
+        </div>
+      </div>
+
+      <!-- <div v-if="rateStore.isEditing" class="container bg-primary-lighter bg-opacity-20% padding-xs radius-lg margin-y-md" role="alert">
+        <div class="flex items-center justify-between">
+          <p>You are currently editing rates</p>
+        </div>
+      </div> -->
+
+      <div v-else class="bg-primary-lighter bg-opacity-20% padding-y-xs padding-x-sm radius-lg margin-y-sm" role="alert">
+        <div class="flex items-center justify-between">
+          <p>You are currently editing rates</p>
+          <button @click="rateStore.toggleIsEditing()" class="btn btn--primary">Save rates</button>
+        </div>
       </div>
       
-      <div class="container margin-top-md margin-bottom-lg">
-        <RateTable :columns="rateStore.columns" :rows="rateStore.rates"/>
+      <div class="margin-bottom-lg">
+        <RateTable/>
       </div>
     </div>
 
