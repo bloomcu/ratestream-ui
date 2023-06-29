@@ -18,7 +18,7 @@ const rateApi = {
      * @return promise
      */
     store(organization, rate) {
-        return HttpClient.post(`/${organization}/rates`, rate)
+      return HttpClient.post(`/${organization}/rates`, rate)
     },
     
     /**
@@ -38,8 +38,8 @@ const rateApi = {
      * @param Object  rate [Properties to update rate with]
      * @return promise
      */
-    update(organization, id, rate) {
-      return HttpClient.put(`/${organization}/rates/${id}`, rate)
+    update(organization, uid, data) {
+      return HttpClient.put(`/${organization}/rates/${uid}`, data)
     },
     
     /**
@@ -64,6 +64,16 @@ const rateApi = {
           rows: csv.rows,
         })
     },
+
+    /**
+     * Store a column
+     *
+     * @param Object name [The column name]
+     * @return promise
+     */
+    storeColumn(organization, name, order = null) {
+      return HttpClient.post(`/${organization}/columns`, name, order)
+  },
 }
 
 export { rateApi }

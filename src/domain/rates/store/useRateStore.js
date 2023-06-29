@@ -36,20 +36,26 @@ export const useRateStore = defineStore('rateStore', {
               this.rates = response.data.rates
               this.columns = response.data.columns
               this.isLoading = false
-            }).catch(error => {
-              console.log('Error', error.response.data)
             })
         },
         
-        async store(rate) {
+        async store() {
           const auth = useAuthStore()
-          this.isLoading = true
+          // this.isLoading = true
           
+          let uid = Math.floor(100000 + Math.random() * 900000).toString()
+          let rate = {
+            new: true,
+            data: {},
+            uid: uid
+          }
+
+          this.rates.push(rate)
+
           await RateApi.store(auth.organization, rate)
-            .then(response => {
-              this.rates.push(response.data.data)
-            }).catch(error => {
-              console.log('Error', error.response.data)
+            .then((response) => {
+              // this.rates.push(response.data.data)
+              console.log('Rate successfully stored')
             })
         },
         
@@ -64,14 +70,14 @@ export const useRateStore = defineStore('rateStore', {
             })
         },
         
-        update() {
+        async update(uid, data) {
           const auth = useAuthStore()
-          this.isLoading = true
+          // this.isLoading = true
           
-          RateApi.update(auth.organization, this.rate.id, this.rate)
+          await RateApi.update(auth.organization, uid, {data: data})
             .then(response => {
               console.log('Rate successfully updated')
-              this.isLoading = false
+              // this.isLoading = false
             })
         },
         
@@ -80,7 +86,7 @@ export const useRateStore = defineStore('rateStore', {
           this.isLoading = true
           
           RateApi.destroy(auth.organization, id)
-            .then(response => {
+            .then(() => {
               this.rates = this.rates.filter((rate) => rate.id !== id)
               this.isLoading = false
             })
@@ -94,10 +100,27 @@ export const useRateStore = defineStore('rateStore', {
             .then(response => {
               console.log('CSV imported', response.data)
               setTimeout(() => {
-                this.router.push({ name: 'rates' })
-                this.toggleIsPublishPromptModal()
                 this.isImporting = false
+                this.toggleIsPublishPromptModal()
+                this.router.push({ name: 'rates' })
               }, 1500)
+            })
+        },
+
+        async storeColumn() {
+          const auth = useAuthStore()
+
+          let order = this.columns.length + 2
+          let name = 'Column ' + order
+
+          this.columns.push({
+            name: name,
+            order: order
+          })
+
+          await RateApi.storeColumn(auth.organization, {name: name, order: order})
+            .then(() => {
+              console.log('Column successfully stored')
             })
         },
 
@@ -107,7 +130,7 @@ export const useRateStore = defineStore('rateStore', {
         
         toggleIsPublishPromptModal() {
           this.isPublishPromptModalOpen = !this.isPublishPromptModalOpen
-        }
+        },
     }
 })
 

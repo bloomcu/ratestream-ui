@@ -11,21 +11,38 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['updated'])
+import { useRateStore } from '@/domain/rates/store/useRateStore'
+
+const rateStore = useRateStore()
+// const emit = defineEmits(['updated'])
 
 const props = defineProps({
-  id: {
-    type: Number,
-    default: '',
+  uid: {
+    type: String,
+    required: true,
+  },
+  column: {
+    type: String,
+    required: true,
   },
 })
 
+function updateRate(event) {
+  rateStore.update(props.uid, {[props.column]: event.target.innerText})
+    .then(() => {
+      console.log('Rate updated in RateTableCell.vue')
+    })
+}
+
 function handleBlur(event) {
-  emit('updated', props.id, event.target.innerText)
+  // emit('updated', props.column, event.target.innerText)
+  updateRate(event)
 }
 
 function handleKeydownEnter(event) {
   event.target.blur()
+  // handleBlur(event)
+  // updateRate()
 }
 </script>
 
