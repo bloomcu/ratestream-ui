@@ -388,7 +388,7 @@ Title: Tables
 -------------------------------- */
 // >>> style affecting all (block + expanded) versions 👇
 .table {
-  display: block;
+  position: relative;
   max-width: -moz-fit-content;
   max-width: fit-content;
   overflow-x: auto;
@@ -434,6 +434,7 @@ Title: Tables
     .table__cell { // header cell style
       position: sticky;
       top: 0;
+      z-index: 10;
     }
   }
 }

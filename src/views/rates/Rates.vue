@@ -24,9 +24,7 @@
         </div>
       </div>
       
-      <div class="margin-bottom-lg">
-        <RateTable/>
-      </div>
+      <RateTable/>
     </div>
 
     <div v-else class="text-component padding-md radius-lg bg-primary bg-opacity-5%">
