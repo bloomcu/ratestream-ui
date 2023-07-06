@@ -4,7 +4,7 @@
     spellcheck="false" 
     @blur="handleBlur($event)"
     @keydown.enter="handleKeydownEnter($event)"
-    :class="{'app-inline-editor__hoverable app-inline-editor__highlighted': editable}"
+    :class="{'app-inline-editor__hoverable app-inline-editor__highlighted': canEdit}"
     class="app-inline-editor"
   >
     <slot/>
@@ -14,7 +14,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
-// :class="canEdit ? 'app-inline-editor__hoverable app-inline-editor__highlighted' : ''"
+
 const rateStore = useRateStore()
 
 const props = defineProps({
