@@ -66,6 +66,17 @@ const rateApi = {
     },
 
     /**
+     * Update a rate UID
+     *
+     * @param Integer uid [UID of the rate you want to update]
+     * @param Object  newUid [New UID of the rate you want to update]
+     * @return promise
+     */
+    updateUid(organization, uid, newUid) {
+      return HttpClient.put(`/${organization}/rates/uid/update/${uid}`, {uid: newUid})
+    },
+
+    /**
      * Store a column
      *
      * @param Object name [The column name]

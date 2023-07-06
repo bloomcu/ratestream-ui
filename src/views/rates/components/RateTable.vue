@@ -13,9 +13,10 @@
         <tbody class="table__body">
           <tr v-for="(row, index) in rateStore.rates" :key="index" class="table__row">
             <!-- Make this a component RateTableUID.vue -->
-            <td class="table__cell font-semibold padding-xs">
-              <!-- <RateTableCell v-if="row.new" :uid="row.uid" :column="uid">{{ row.uid }}</RateTableCell> -->
-              {{ row.uid }}
+            <td class="table__cell font-semibold">
+              <RateTableCellUid :editable="row.new" :uid="row.uid">
+                {{ row.uid }}
+              </RateTableCellUid>
             </td>
 
             <td v-for="(column, index) in rateStore.columns" :key="index" class="table__cell">
@@ -46,6 +47,7 @@
 <script setup>
 import { useRateStore } from '@/domain/rates/store/useRateStore'
 import RateTableCell from '@/views/rates/components/RateTableCell.vue'
+import RateTableCellUid from '@/views/rates/components/RateTableCellUid.vue'
 import IconPlus from '@/app/components/base/icons/IconPlus.vue'
 import CopyableTableCell from './CopyableTableCell.vue'
 

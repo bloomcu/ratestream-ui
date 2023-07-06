@@ -102,6 +102,34 @@ Title: Button radio group
 
 /* --------------------------------
 
+Title: Inline text editor
+
+-------------------------------- */
+.app-inline-editor {
+  text-align: left;
+  padding: 10px;
+  transition: 0.3s;
+  cursor: text;
+}
+
+.app-inline-editor__hoverable {
+  &:hover,
+  &:focus {
+    background-color: #eee;
+  }
+}
+
+.app-inline-editor__highlighted {
+  background-color: alpha(var(--color-success), 0.15);
+
+  &:hover,
+  &:focus {
+    background-color: alpha(var(--color-success), 0.3);
+  }
+}
+
+/* --------------------------------
+
 TODO: Do we need this?
 Title: Action icon
 

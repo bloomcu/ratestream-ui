@@ -107,6 +107,15 @@ export const useRateStore = defineStore('rateStore', {
             })
         },
 
+        async updateUid(uid, newUid) {
+          const auth = useAuthStore()
+          
+          await RateApi.updateUid(auth.organization, uid, newUid)
+            .then(response => {
+              console.log('Rate UID successfully updated')
+            })
+        },
+
         async storeColumn() {
           const auth = useAuthStore()
 

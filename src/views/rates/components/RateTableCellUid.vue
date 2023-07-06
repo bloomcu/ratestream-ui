@@ -1,18 +1,20 @@
 <template>
   <div
-    contenteditable 
+    :contenteditable="canEdit"
     spellcheck="false" 
     @blur="handleBlur($event)"
     @keydown.enter="handleKeydownEnter($event)"
-    class="app-inline-editor app-inline-editor__hoverable"
+    :class="{'app-inline-editor__hoverable app-inline-editor__highlighted': editable}"
+    class="app-inline-editor"
   >
     <slot/>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
-
+// :class="canEdit ? 'app-inline-editor__hoverable app-inline-editor__highlighted' : ''"
 const rateStore = useRateStore()
 
 const props = defineProps({
@@ -20,21 +22,23 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  column: {
-    type: String,
-    required: true,
-  },
+  editable: {
+    type: Boolean,
+    default: false,
+  }
 })
 
-function updateRate(event) {
-  rateStore.update(props.uid, {[props.column]: event.target.innerText})
+let canEdit = ref(props.editable)
+
+function updateUid(event) {
+  rateStore.updateUid(props.uid, event.target.innerText)
     .then(() => {
-      console.log('Rate cell successfully updated')
+      canEdit.value = false
     })
 }
 
 function handleBlur(event) {
-  updateRate(event)
+  updateUid(event)
 }
 
 function handleKeydownEnter(event) {
