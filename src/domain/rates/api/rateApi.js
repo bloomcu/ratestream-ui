@@ -51,6 +51,20 @@ const rateApi = {
     destroy(organization, id) {
         return HttpClient.delete(`/${organization}/rates/${id}`)
     },
+
+    /**
+     * Batch update rates and columns
+     *
+     * @param Array rates [rates to be updated]
+     * @param Array columns [columns to be updated]
+     * @return promise
+     */
+    batch(organization, rates, columns) {
+      return HttpClient.post(`/${organization}/rates/batch`, {
+        rates: rates, 
+        columns: columns
+      })
+    },
     
     /**
      * Import rates from CSV
@@ -65,26 +79,26 @@ const rateApi = {
         })
     },
 
-    /**
-     * Update a rate UID
-     *
-     * @param Integer uid [UID of the rate you want to update]
-     * @param Object  newUid [New UID of the rate you want to update]
-     * @return promise
-     */
-    updateUid(organization, uid, newUid) {
-      return HttpClient.put(`/${organization}/rates/uid/update/${uid}`, {uid: newUid})
-    },
+    // /**
+    //  * Update a rate UID
+    //  *
+    //  * @param Integer uid [UID of the rate you want to update]
+    //  * @param Object  newUid [New UID of the rate you want to update]
+    //  * @return promise
+    //  */
+    // updateUid(organization, uid, newUid) {
+    //   return HttpClient.put(`/${organization}/rates/uid/update/${uid}`, {uid: newUid})
+    // },
 
-    /**
-     * Store a column
-     *
-     * @param Object name [The column name]
-     * @return promise
-     */
-    storeColumn(organization, name, order = null) {
-      return HttpClient.post(`/${organization}/columns`, name, order)
-  },
+    // /**
+    //  * Store a column
+    //  *
+    //  * @param Object name [The column name]
+    //  * @return promise
+    //  */
+    // storeColumn(organization, name, order = null) {
+    //   return HttpClient.post(`/${organization}/columns`, name, order)
+    // },
 }
 
 export { rateApi }

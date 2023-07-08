@@ -1,26 +1,24 @@
 <template>
   <LayoutDefault maxWidth="">
-    <div v-if="rateStore.isLoading">Loading...</div>
+    <RatesSkeletonLoader v-if="rateStore.isLoading"/>
 
     <div v-else-if="rateStore.rates.length && rateStore.columns.length">
+
       <div v-if="!rateStore.isEditing" class="flex items-center justify-between margin-y-sm">
         <h3>Current rates</h3>
         <div class="flex gap-sm">
-          <button @click="rateStore.toggleIsEditing()" class="btn btn--subtle">Edit rates</button>
-          <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Import rates</router-link>
+          <button @click="rateStore.toggleIsEditing()" class="btn btn--subtle">Edit</button>
+          <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Import</router-link>
         </div>
       </div>
 
-      <!-- <div v-if="rateStore.isEditing" class="container bg-primary-lighter bg-opacity-20% padding-xs radius-lg margin-y-md" role="alert">
-        <div class="flex items-center justify-between">
-          <p>You are currently editing rates</p>
-        </div>
-      </div> -->
-
       <div v-else class="bg-primary-lighter bg-opacity-20% padding-y-xs padding-x-sm radius-lg margin-y-sm" role="alert">
         <div class="flex items-center justify-between">
-          <p>You are currently editing rates</p>
-          <button @click="rateStore.toggleIsEditing()" class="btn btn--primary">Save rates</button>
+          <p>You are currently editing</p>
+          <div class="flex gap-xs">
+            <button @click="rateStore.cancelEditing()" class="btn btn--subtle">Cancel</button>
+            <button @click="rateStore.batch()" class="btn btn--primary">Save</button>
+          </div>
         </div>
       </div>
       
@@ -40,6 +38,7 @@ import moment from "moment"
 import { ref, onMounted } from 'vue'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
+import RatesSkeletonLoader from '@/views/rates/loaders/RatesSkeletonLoader.vue'
 import RateTable from '@/views/rates/components/RateTable.vue'
 
 const rateStore = useRateStore()

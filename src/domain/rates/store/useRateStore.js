@@ -1,15 +1,15 @@
+import set from "lodash/set";
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { rateApi as RateApi } from '@/domain/rates/api/rateApi'
-
 import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 
 export const useRateStore = defineStore('rateStore', {
     state: () => ({
         rates: [],
-        rate: null,
+        // rate: null,
         columns: [],
-        column: null,
-        edits: [],
+        // column: null,
+        // edits: [],
         isLoading: true,
         isImporting: false,
         isEditing: false,
@@ -17,6 +17,14 @@ export const useRateStore = defineStore('rateStore', {
     }),
     
     getters: {
+      whereUid: (state) => {
+        let rates = state.rates
+        
+        return (uid) => rates.filter((rate) => {
+          return rate.uid === uid
+        })
+      },
+
       whereGroup: (state) => {
         let {rates} = state.rates
         
@@ -27,71 +35,89 @@ export const useRateStore = defineStore('rateStore', {
     },
     
     actions: {
-        index(params) {
+        async index(params) {
           const auth = useAuthStore()
           this.isLoading = true
           
-          RateApi.index(auth.organization, params)
+          await RateApi.index(auth.organization, params)
             .then(response => {
               this.rates = response.data.rates
               this.columns = response.data.columns
-              this.isLoading = false
-            })
-        },
-        
-        async store() {
-          const auth = useAuthStore()
-          // this.isLoading = true
-          
-          let uid = Math.floor(100000 + Math.random() * 900000).toString()
-          let rate = {
-            new: true,
-            data: {},
-            uid: uid
-          }
 
-          this.rates.push(rate)
+              setTimeout(() => {
+                this.isLoading = false
+              }, 800)
+            })
+        },
+        
+        // async store() {
+        //   const auth = useAuthStore()
+        //   // this.isLoading = true
+          
+        //   let uid = Math.floor(100000 + Math.random() * 900000).toString()
+        //   let rate = {
+        //     new: true,
+        //     data: {},
+        //     uid: uid
+        //   }
 
-          await RateApi.store(auth.organization, rate)
-            .then((response) => {
-              // this.rates.push(response.data.data)
-              console.log('Rate successfully stored')
-            })
-        },
+        //   this.rates.push(rate)
+
+        //   await RateApi.store(auth.organization, rate)
+        //     .then((response) => {
+        //       // this.rates.push(response.data.data)
+        //       console.log('Rate successfully stored')
+        //     })
+        // },
         
-        show(id) {
-          const auth = useAuthStore()
-          this.isLoading = true
+        // show(id) {
+        //   const auth = useAuthStore()
+        //   this.isLoading = true
           
-          RateApi.show(auth.organization, id)
+        //   RateApi.show(auth.organization, id)
+        //     .then(response => {
+        //       this.rate = response.data.data
+        //       this.isLoading = false
+        //     })
+        // },
+        
+        // async update(uid, data) {
+        //   const auth = useAuthStore()
+        //   // this.isLoading = true
+          
+        //   await RateApi.update(auth.organization, uid, {data: data})
+        //     .then(response => {
+        //       console.log('Rate successfully updated')
+        //       // this.isLoading = false
+        //     })
+        // },
+        
+        // destroy(id) {
+        //   const auth = useAuthStore()
+        //   this.isLoading = true
+          
+        //   RateApi.destroy(auth.organization, id)
+        //     .then(() => {
+        //       this.rates = this.rates.filter((rate) => rate.id !== id)
+        //       this.isLoading = false
+        //     })
+        // },
+        
+        batch() {
+          const auth = useAuthStore()
+          this.isImporting = true
+          
+          RateApi.batch(auth.organization, this.rates, this.columns)
             .then(response => {
-              this.rate = response.data.data
-              this.isLoading = false
+              console.log('Batch updated', response.data)
+
+              setTimeout(() => {
+                this.isImporting = false
+                this.toggleIsEditing()
+              }, 1000)
             })
         },
-        
-        async update(uid, data) {
-          const auth = useAuthStore()
-          // this.isLoading = true
-          
-          await RateApi.update(auth.organization, uid, {data: data})
-            .then(response => {
-              console.log('Rate successfully updated')
-              // this.isLoading = false
-            })
-        },
-        
-        destroy(id) {
-          const auth = useAuthStore()
-          this.isLoading = true
-          
-          RateApi.destroy(auth.organization, id)
-            .then(() => {
-              this.rates = this.rates.filter((rate) => rate.id !== id)
-              this.isLoading = false
-            })
-        },
-        
+
         import(csv) {
           const auth = useAuthStore()
           this.isImporting = true
@@ -107,17 +133,53 @@ export const useRateStore = defineStore('rateStore', {
             })
         },
 
-        async updateUid(uid, newUid) {
-          const auth = useAuthStore()
+        // async updateUid(uid, newUid) {
+        //   const auth = useAuthStore()
           
-          await RateApi.updateUid(auth.organization, uid, newUid)
-            .then(response => {
-              console.log('Rate UID successfully updated')
-            })
+        //   await RateApi.updateUid(auth.organization, uid, newUid)
+        //     .then(response => {
+        //       console.log('Rate UID successfully updated')
+        //     })
+        // },
+
+        updateCell(uid, column, value) {
+          let rate = this.whereUid(uid)
+
+          if (!rate.data[column]) {
+            rate.data = {...rate.data, [column]: value }
+          } else {
+            rate.data[column] = value
+          }
+
+          // this.whereUid(uid).data[column] = value
+
+          // set({
+          //   object: this.rates,
+          //   path: this.whereUid(uid).data[column],
+          //   value: value,
+          // })
+
+          // rateStore.update(uid, {column: event.target.innerText})
+          //   .then(() => {
+          //     console.log('Rate cell successfully updated')
+          //   })
         },
 
-        async storeColumn() {
-          const auth = useAuthStore()
+        addRow() {
+          let uid = Math.floor(100000 + Math.random() * 900000).toString()
+
+          let row = {
+            uid: uid,
+            data: {},
+            new: true,
+          }
+
+          this.rates.push(row)
+        },
+
+        addColumn() {
+        // async storeColumn() {
+          // const auth = useAuthStore()
 
           let order = this.columns.length + 2
           let name = 'Column ' + order
@@ -127,10 +189,17 @@ export const useRateStore = defineStore('rateStore', {
             order: order
           })
 
-          await RateApi.storeColumn(auth.organization, {name: name, order: order})
-            .then(() => {
-              console.log('Column successfully stored')
-            })
+          // await RateApi.storeColumn(auth.organization, {name: name, order: order})
+          //   .then(() => {
+          //     console.log('Column successfully stored')
+          //   })
+        },
+
+        cancelEditing() {
+          this.index()
+            .then(
+              this.toggleIsEditing()
+            )
         },
 
         toggleIsEditing() {
