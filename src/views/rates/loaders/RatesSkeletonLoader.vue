@@ -32,26 +32,6 @@
       <li>
         <div class="ske ske--heading"></div>
       </li>
-
-      <li>
-        <div class="ske ske--heading"></div>
-      </li>
-
-      <li>
-        <div class="ske ske--heading"></div>
-      </li>
-
-      <li>
-        <div class="ske ske--heading"></div>
-      </li>
-
-      <li>
-        <div class="ske ske--heading"></div>
-      </li>
-
-      <li>
-        <div class="ske ske--heading"></div>
-      </li>
     </ul>
   </div>
 </template>

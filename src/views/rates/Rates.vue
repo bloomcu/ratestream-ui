@@ -2,7 +2,7 @@
   <LayoutDefault maxWidth="">
     <RatesSkeletonLoader v-if="rateStore.isLoading"/>
 
-    <div v-else-if="rateStore.rates.length && rateStore.columns.length">
+    <div v-else>
 
       <div v-if="!rateStore.isEditing" class="flex items-center justify-between margin-y-sm">
         <h3>Current rates</h3>
@@ -17,19 +17,21 @@
           <p>You are currently editing</p>
           <div class="flex gap-xs">
             <button @click="rateStore.cancelEditing()" class="btn btn--subtle">Cancel</button>
-            <button @click="rateStore.batch()" class="btn btn--primary">Save</button>
+            <button @click="rateStore.batch()" class="btn btn--primary">Publish</button>
           </div>
         </div>
       </div>
       
-      <RateTable/>
+      <div :class="{'padding-left-md': rateStore.isEditing}">
+        <RateTable/>
+      </div>
     </div>
 
-    <div v-else class="text-component padding-md radius-lg bg-primary bg-opacity-5%">
+    <!-- <div v-else class="text-component padding-md radius-lg bg-primary bg-opacity-5%">
       <h3>No rates</h3>
       <p>Let's import a CSV.</p>
       <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Import CSV</router-link>
-    </div>
+    </div> -->
   </LayoutDefault>
 </template>
 

@@ -46,7 +46,7 @@ export const useRateStore = defineStore('rateStore', {
 
               setTimeout(() => {
                 this.isLoading = false
-              }, 800)
+              }, 400)
             })
         },
         
@@ -181,7 +181,7 @@ export const useRateStore = defineStore('rateStore', {
         // async storeColumn() {
           // const auth = useAuthStore()
 
-          let order = this.columns.length + 2
+          let order = this.columns.length + 1
           let name = 'Column ' + order
 
           this.columns.push({

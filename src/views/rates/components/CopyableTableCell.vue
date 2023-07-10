@@ -2,9 +2,9 @@
     <VMenu placement="top" :delay="{
         hide: 50
     }">
-        <span>
+        <div class="copyable-cell display-block width-100% padding-xxs">
             {{ row.data[column] }}
-        </span>
+        </div>
         <template #popper>
             <div @click.prevent="copy(row.uid, column)" class="table-cell-inner text-center">
                 <template v-if="!isCopied">
@@ -40,3 +40,14 @@ const copy = (uid, column) => {
     });
 }
 </script>
+
+<style lang="scss">
+.copyable-cell {
+  transition: 0.2s;
+
+  &:hover,
+  &:focus {
+    background-color: #eee;
+  }
+}
+</style>
