@@ -7,7 +7,7 @@
           <tr class="table__row">
             <th class="table__cell font-semibold padding-xs">Unique ID</th>
             <th v-for="column in rateStore.columns" :key="column.id" class="table__cell font-medium padding-xs">
-              <button v-if="rateStore.isEditing" class="reset position-absolute cursor-pointer color-contrast-low" style="right: 15px;">
+              <button v-if="rateStore.isEditing" @click="rateStore.deleteColumn(column.name)" class="reset position-absolute cursor-pointer color-contrast-low" style="right: 15px;">
                 <IconTrash size="xs"/>
               </button>
 
@@ -19,7 +19,7 @@
         <tbody class="table__body">
           <tr v-for="(row, rowIndex) in rateStore.rates" :key="rowIndex" class="table__row">
             <td class="table__cell padding-xxs color-contrast-low">
-              <button v-if="rateStore.isEditing" class="reset position-absolute cursor-pointer" style="left: -33px;">
+              <button v-if="rateStore.isEditing" @click="rateStore.deleteRate(row.uid)" class="reset position-absolute cursor-pointer" style="left: -33px;">
                 <IconTrash size="xs"/>
               </button>
               

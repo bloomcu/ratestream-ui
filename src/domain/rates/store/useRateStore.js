@@ -9,7 +9,7 @@ export const useRateStore = defineStore('rateStore', {
         // rate: null,
         columns: [],
         // column: null,
-        // edits: [],
+        deletes: [],
         isLoading: true,
         isImporting: false,
         isEditing: false,
@@ -92,22 +92,40 @@ export const useRateStore = defineStore('rateStore', {
         //     })
         // },
         
-        // destroy(id) {
+        // destroy(uid) {
         //   const auth = useAuthStore()
         //   this.isLoading = true
           
-        //   RateApi.destroy(auth.organization, id)
+        //   RateApi.destroy(auth.organization, uid)
         //     .then(() => {
-        //       this.rates = this.rates.filter((rate) => rate.id !== id)
+        //       this.rates = this.rates.filter((rate) => rate.uid !== uid)
         //       this.isLoading = false
         //     })
         // },
+
+        deleteRate(uid) {
+          this.deletes.push({
+            model: 'rate',
+            uid: uid
+          })
+          
+          this.rates = this.rates.filter((rate) => rate.uid !== uid)
+        },
+
+        deleteColumn(uid) {
+          this.deletes.push({
+            model: 'column',
+            uid: uid
+          })
+          
+          this.columns = this.columns.filter((column) => column.name !== uid)
+        },
         
         batch() {
           const auth = useAuthStore()
           this.isImporting = true
           
-          RateApi.batch(auth.organization, this.rates, this.columns)
+          RateApi.batch(auth.organization, this.rates, this.columns, this.deletes)
             .then(response => {
               console.log('Batch updated', response.data)
 

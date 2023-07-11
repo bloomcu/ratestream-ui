@@ -42,15 +42,15 @@ const rateApi = {
       return HttpClient.put(`/${organization}/rates/${uid}`, data)
     },
     
-    /**
-     * Destroy a rate
-     *
-     * @param Integer id [Id of the file you want to destroy]
-     * @return promise
-     */
-    destroy(organization, id) {
-        return HttpClient.delete(`/${organization}/rates/${id}`)
-    },
+    // /**
+    //  * Destroy a rate
+    //  *
+    //  * @param Integer id [Id of the file you want to destroy]
+    //  * @return promise
+    //  */
+    // destroy(organization, uid) {
+    //     return HttpClient.delete(`/${organization}/rates/${uid}`)
+    // },
 
     /**
      * Batch update rates and columns
@@ -59,10 +59,11 @@ const rateApi = {
      * @param Array columns [columns to be updated]
      * @return promise
      */
-    batch(organization, rates, columns) {
+    batch(organization, rates, columns, deletes) {
       return HttpClient.post(`/${organization}/rates/batch`, {
         rates: rates, 
-        columns: columns
+        columns: columns,
+        deletes: deletes,
       })
     },
     
