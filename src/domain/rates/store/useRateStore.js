@@ -1,7 +1,10 @@
-import set from "lodash/set";
+// import set from "lodash/set";
+import { customAlphabet } from 'nanoid'
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { rateApi as RateApi } from '@/domain/rates/api/rateApi'
 import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
+
+const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 8)
 
 export const useRateStore = defineStore('rateStore', {
     state: () => ({
@@ -103,6 +106,28 @@ export const useRateStore = defineStore('rateStore', {
         //     })
         // },
 
+        addRow() {
+          let uid = nanoid()
+
+          this.rates.push({
+            uid: uid,
+            data: {},
+            // new: true,
+          })
+        },
+
+        addColumn() {
+          let uid = nanoid()
+          let order = this.columns.length + 1
+          let name = 'Column ' + order
+
+          this.columns.push({
+            uid: uid,
+            order: order,
+            name: name,
+          })
+        },
+
         deleteRate(uid) {
           this.deletes.push({
             model: 'rate',
@@ -118,7 +143,7 @@ export const useRateStore = defineStore('rateStore', {
             uid: uid
           })
           
-          this.columns = this.columns.filter((column) => column.name !== uid)
+          this.columns = this.columns.filter((column) => column.uid !== uid)
         },
         
         batch() {
@@ -160,58 +185,15 @@ export const useRateStore = defineStore('rateStore', {
         //     })
         // },
 
-        updateCell(uid, column, value) {
-          let rate = this.whereUid(uid)
+        // updateCell(uid, column, value) {
+        //   let rate = this.whereUid(uid)
 
-          if (!rate.data[column]) {
-            rate.data = {...rate.data, [column]: value }
-          } else {
-            rate.data[column] = value
-          }
-
-          // this.whereUid(uid).data[column] = value
-
-          // set({
-          //   object: this.rates,
-          //   path: this.whereUid(uid).data[column],
-          //   value: value,
-          // })
-
-          // rateStore.update(uid, {column: event.target.innerText})
-          //   .then(() => {
-          //     console.log('Rate cell successfully updated')
-          //   })
-        },
-
-        addRow() {
-          let uid = Math.floor(100000 + Math.random() * 900000).toString()
-
-          let row = {
-            uid: uid,
-            data: {},
-            new: true,
-          }
-
-          this.rates.push(row)
-        },
-
-        addColumn() {
-        // async storeColumn() {
-          // const auth = useAuthStore()
-
-          let order = this.columns.length + 1
-          let name = 'Column ' + order
-
-          this.columns.push({
-            name: name,
-            order: order
-          })
-
-          // await RateApi.storeColumn(auth.organization, {name: name, order: order})
-          //   .then(() => {
-          //     console.log('Column successfully stored')
-          //   })
-        },
+        //   if (!rate.data[column]) {
+        //     rate.data = {...rate.data, [column]: value }
+        //   } else {
+        //     rate.data[column] = value
+        //   }
+        // },
 
         cancelEditing() {
           this.index()

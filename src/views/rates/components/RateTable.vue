@@ -1,37 +1,53 @@
 <template>
   <div class="radius-lg border shadow-sm width-100% height-100% margin-bottom-md">
-    <!-- Left and right -->
     <div class="rate-table flex flex-row justify-between width-100% radius-lg">
       <table class="table table--expanded bg-light">
         <thead class="table__header table__header--sticky">
+          <!-- Headers -->
           <tr class="table__row">
-            <th class="table__cell font-semibold padding-xs">Unique ID</th>
-            <th v-for="column in rateStore.columns" :key="column.id" class="table__cell font-medium padding-xs">
-              <button v-if="rateStore.isEditing" @click="rateStore.deleteColumn(column.name)" class="reset position-absolute cursor-pointer color-contrast-low" style="right: 15px;">
+            <th class="table__cell font-semibold padding-xs"></th>
+
+            <!-- Columns -->
+            <th v-for="column in rateStore.columns" :key="column.id" class="table__cell font-medium">
+              <!-- {{ column.name }} -->
+
+              <RateTableCell v-if="rateStore.isEditing" v-model="column.name">
+                {{ column.name }}
+              </RateTableCell>
+
+              <div v-else class="padding-xs">{{ column.name }}</div>
+
+              <button v-if="rateStore.isEditing" @click="rateStore.deleteColumn(column.name)" class="reset position-absolute cursor-pointer color-contrast-low" style="right: 15px; top: 25%;">
                 <IconTrash size="xs"/>
               </button>
-
-              {{ column.name }}
             </th>
+          </tr>
+
+          <!-- Unique ID -->
+          <tr class="table__row">
+            <th class="table__cell font-semibold padding-xs">Unique ID</th>
+            <th v-for="column in rateStore.columns" :key="column.id" class="table__cell padding-xxs color-contrast-low">{{ column.uid }}</th>
           </tr>
         </thead>
 
         <tbody class="table__body">
+          <!-- Rows -->
           <tr v-for="(row, rowIndex) in rateStore.rates" :key="rowIndex" class="table__row">
+            <!-- Row uid -->
             <td class="table__cell padding-xxs color-contrast-low">
               <button v-if="rateStore.isEditing" @click="rateStore.deleteRate(row.uid)" class="reset position-absolute cursor-pointer" style="left: -33px;">
                 <IconTrash size="xs"/>
               </button>
-              
               <span>{{ row.uid }}</span>
             </td>
 
+            <!-- Row cells -->
             <td v-for="(column, index) in rateStore.columns" :key="index" class="table__cell position-relative">
-              <RateTableCell v-if="rateStore.isEditing" v-model="row.data[column.name]">
-                {{ row.data[column.name] }}
+              <RateTableCell v-if="rateStore.isEditing" v-model="row.data[column.uid]">
+                {{ row.data[column.uid] }}
               </RateTableCell>
 
-              <CopyableTableCell v-else-if="row.data[column.name]" :row="row" :column="column.name" />
+              <CopyableTableCell v-else-if="row.data[column.uid]" :row="row" :column="column.uid" />
             </td>
           </tr>
         </tbody>

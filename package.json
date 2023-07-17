@@ -22,6 +22,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.40",
+    "nanoid": "^4.0.2",
     "pinia": "^2.0.14",
     "pusher-js": "^7.5.0",
     "vue": "^3.2.25",
