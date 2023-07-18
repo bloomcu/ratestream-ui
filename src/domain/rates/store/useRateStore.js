@@ -4,7 +4,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 import { rateApi as RateApi } from '@/domain/rates/api/rateApi'
 import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 
-const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 8)
+const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 6)
 
 export const useRateStore = defineStore('rateStore', {
     state: () => ({
