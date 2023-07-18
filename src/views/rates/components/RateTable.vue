@@ -3,6 +3,12 @@
     <div class="rate-table flex flex-row justify-between width-100% radius-lg">
       <table class="table table--expanded bg-light">
         <thead class="table__header table__header--sticky">
+          <!-- Unique ID -->
+          <tr class="table__row">
+            <th class="table__cell font-semibold padding-xs">Unique ID</th>
+            <th v-for="column in rateStore.columns" :key="column.id" class="table__cell padding-xxs color-contrast-low">{{ column.uid }}</th>
+          </tr>
+          
           <!-- Headers -->
           <tr class="table__row">
             <th class="table__cell font-semibold padding-xs"></th>
@@ -17,16 +23,10 @@
 
               <div v-else class="padding-xs">{{ column.name }}</div>
 
-              <button v-if="rateStore.isEditing" @click="rateStore.deleteColumn(column.name)" class="reset position-absolute cursor-pointer color-contrast-low" style="right: 15px; top: 25%;">
+              <button v-if="rateStore.isEditing" @click="rateStore.deleteColumn(column.uid)" class="reset position-absolute cursor-pointer color-contrast-low" style="right: 15px; top: 25%;">
                 <IconTrash size="xs"/>
               </button>
             </th>
-          </tr>
-
-          <!-- Unique ID -->
-          <tr class="table__row">
-            <th class="table__cell font-semibold padding-xs">Unique ID</th>
-            <th v-for="column in rateStore.columns" :key="column.id" class="table__cell padding-xxs color-contrast-low">{{ column.uid }}</th>
           </tr>
         </thead>
 
