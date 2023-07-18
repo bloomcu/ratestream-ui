@@ -21,6 +21,10 @@
           </div>
         </div>
       </div>
+
+      <div v-if="errorStore.serverError" class="bg-error-lighter bg-opacity-20% padding-y-xs padding-x-sm radius-lg margin-y-sm" role="alert">
+        <p>{{ errorStore.serverError }}</p>
+      </div>
       
       <div :class="{'padding-left-md': rateStore.isEditing}">
         <RateTable/>
@@ -39,11 +43,13 @@
 import moment from "moment"
 import { ref, onMounted } from 'vue'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
+import { useErrorStore } from '@/app/store/base/useErrorStore'
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
 import RatesSkeletonLoader from '@/views/rates/loaders/RatesSkeletonLoader.vue'
 import RateTable from '@/views/rates/components/RateTable.vue'
 
 const rateStore = useRateStore()
+const errorStore = useErrorStore()
 
 onMounted(() => {
   rateStore.index()
