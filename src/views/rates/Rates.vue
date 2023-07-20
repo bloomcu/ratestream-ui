@@ -1,27 +1,41 @@
 <template>
-  <LayoutDefault>
-    <div class="container flex items-center justify-between margin-top-md">
-      <h2>Current rates</h2>
-      <router-link v-if="rateStore.rates && rateStore.rates.rates.length" :to="{name: 'rates-import'}" class="btn btn--primary">Edit rates</router-link>
-    </div>
-    
-    <div v-if="rateStore.rates" class="container margin-top-md margin-bottom-lg">
-      <div v-if="rateStore.isLoading">Loading...</div>
+  <LayoutDefault maxWidth="">
+    <RatesSkeletonLoader v-if="rateStore.isLoading"/>
+
+    <div v-else>
+
+      <div v-if="!rateStore.isEditing" class="flex items-center justify-between margin-y-sm">
+        <h3>Current rates</h3>
+        <div class="flex gap-sm">
+          <button @click="rateStore.toggleIsEditing()" class="btn btn--subtle">Edit</button>
+          <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Import</router-link>
+        </div>
+      </div>
+
+      <div v-else class="bg-primary-lighter bg-opacity-20% padding-y-xs padding-x-sm radius-lg margin-y-sm" role="alert">
+        <div class="flex items-center justify-between">
+          <p>You are currently editing</p>
+          <div class="flex gap-xs">
+            <button @click="rateStore.cancelEditing()" class="btn btn--subtle">Cancel</button>
+            <button @click="rateStore.batch()" class="btn btn--primary">Publish</button>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="errorStore.serverError" class="bg-error-lighter bg-opacity-20% padding-y-xs padding-x-sm radius-lg margin-y-sm" role="alert">
+        <p>{{ errorStore.serverError }}</p>
+      </div>
       
-      <RateTable 
-        v-else-if="rateStore.rates.rates.length" 
-        :columns="rateStore.rates.columns" 
-        :rows="rateStore.rates.rates"
-      />
-      
-      <div v-else class="text-component padding-md radius-lg bg-primary bg-opacity-5%">
-        <h3>No rates</h3>
-        <p>Let's import a CSV.</p>
-        <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Import CSV</router-link>
+      <div :class="{'padding-left-md': rateStore.isEditing}">
+        <RateTable/>
       </div>
     </div>
-    
-    <!-- <EditPromptModal/> -->
+
+    <!-- <div v-else class="text-component padding-md radius-lg bg-primary bg-opacity-5%">
+      <h3>No rates</h3>
+      <p>Let's import a CSV.</p>
+      <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Import CSV</router-link>
+    </div> -->
   </LayoutDefault>
 </template>
 
@@ -29,11 +43,13 @@
 import moment from "moment"
 import { ref, onMounted } from 'vue'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
+import { useErrorStore } from '@/app/store/base/useErrorStore'
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
-// import EditPromptModal from '@/views/rates/modals/EditPromptModal.vue'
+import RatesSkeletonLoader from '@/views/rates/loaders/RatesSkeletonLoader.vue'
 import RateTable from '@/views/rates/components/RateTable.vue'
 
 const rateStore = useRateStore()
+const errorStore = useErrorStore()
 
 onMounted(() => {
   rateStore.index()

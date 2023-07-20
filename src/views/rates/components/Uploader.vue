@@ -65,10 +65,10 @@
         
         <div class="flex gap-md items-center">
           <!-- Compare -->
-          <a v-if="rateStore.rates && rateStore.rates.rates.length" @click.prevent="compare()" href="" class="color-contrast-high">Compare to current rates</a>
+          <a v-if="rateStore.rates.length" @click.prevent="compare()" href="" class="color-contrast-high">Compare to current rates</a>
           
           <!-- Publish -->
-          <button @click="rateStore.togglePublishPromptModal()" :disabled="csvStore.csv.errors" class="btn btn--primary">Publish</button>
+          <button @click="rateStore.toggleIsPublishPromptModal()" :disabled="csvStore.csv.errors" class="btn btn--primary">Publish</button>
         </div>
       </div>
       

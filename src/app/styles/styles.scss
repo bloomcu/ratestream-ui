@@ -13,6 +13,18 @@ Descr: Utility classes
   width: fit-content;
 }
 
+.hoverable {
+  transition: 0.3s;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background-color: #eee;
+  }
+}
+
+
+
 /* --------------------------------
 
 Title: App Utility Classes
@@ -85,6 +97,34 @@ Title: Button radio group
 
   .icon {
     display: block;
+  }
+}
+
+/* --------------------------------
+
+Title: Inline text editor
+
+-------------------------------- */
+.app-inline-editor {
+  text-align: left;
+  padding: 10px;
+  transition: 0.3s;
+  cursor: text;
+}
+
+.app-inline-editor__hoverable {
+  &:hover,
+  &:focus {
+    background-color: #eee;
+  }
+}
+
+.app-inline-editor__highlighted {
+  background-color: alpha(var(--color-success), 0.15);
+
+  &:hover,
+  &:focus {
+    background-color: alpha(var(--color-success), 0.3);
   }
 }
 
@@ -377,6 +417,10 @@ Title: Tables
 // >>> style affecting all (block + expanded) versions 👇
 .table {
   position: relative;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  overflow-x: auto;
+  white-space: nowrap;
   z-index: 1;
   text-align: left;
   color: var(--color-contrast-high);
@@ -396,16 +440,17 @@ Title: Tables
   }
   
   .table__row {
-    border-bottom: 1px solid var(--color-contrast-lower);
-    
+    border-bottom: 1px solid #e3e3e3;
+    border-right: 1px solid #e3e3e3;
+
     &:last-child {
       border-bottom: none;
     }
   }
   
   .table__cell {
-    padding: var(--space-xs) var(--space-sm);
-    border-left: 1px solid var(--color-contrast-lower);
+    // padding: var(--space-xs) var(--space-sm);
+    border-left: 1px solid #e3e3e3;
     
     &:first-child {
       border-left: 0px;
@@ -417,6 +462,7 @@ Title: Tables
     .table__cell { // header cell style
       position: sticky;
       top: 0;
+      z-index: 10;
     }
   }
 }

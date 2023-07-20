@@ -18,7 +18,7 @@ const rateApi = {
      * @return promise
      */
     store(organization, rate) {
-        return HttpClient.post(`/${organization}/rates`, rate)
+      return HttpClient.post(`/${organization}/rates`, rate)
     },
     
     /**
@@ -38,18 +38,33 @@ const rateApi = {
      * @param Object  rate [Properties to update rate with]
      * @return promise
      */
-    update(organization, id, rate) {
-      return HttpClient.put(`/${organization}/rates/${id}`, rate)
+    update(organization, uid, data) {
+      return HttpClient.put(`/${organization}/rates/${uid}`, data)
     },
     
+    // /**
+    //  * Destroy a rate
+    //  *
+    //  * @param Integer id [Id of the file you want to destroy]
+    //  * @return promise
+    //  */
+    // destroy(organization, uid) {
+    //     return HttpClient.delete(`/${organization}/rates/${uid}`)
+    // },
+
     /**
-     * Destroy a rate
+     * Batch update rates and columns
      *
-     * @param Integer id [Id of the file you want to destroy]
+     * @param Array rates [rates to be updated]
+     * @param Array columns [columns to be updated]
      * @return promise
      */
-    destroy(organization, id) {
-        return HttpClient.delete(`/${organization}/rates/${id}`)
+    batch(organization, rates, columns, deletes) {
+      return HttpClient.post(`/${organization}/rates/batch`, {
+        rates: rates, 
+        columns: columns,
+        deletes: deletes,
+      })
     },
     
     /**
@@ -64,6 +79,27 @@ const rateApi = {
           rows: csv.rows,
         })
     },
+
+    // /**
+    //  * Update a rate UID
+    //  *
+    //  * @param Integer uid [UID of the rate you want to update]
+    //  * @param Object  newUid [New UID of the rate you want to update]
+    //  * @return promise
+    //  */
+    // updateUid(organization, uid, newUid) {
+    //   return HttpClient.put(`/${organization}/rates/uid/update/${uid}`, {uid: newUid})
+    // },
+
+    // /**
+    //  * Store a column
+    //  *
+    //  * @param Object name [The column name]
+    //  * @return promise
+    //  */
+    // storeColumn(organization, name, order = null) {
+    //   return HttpClient.post(`/${organization}/columns`, name, order)
+    // },
 }
 
 export { rateApi }

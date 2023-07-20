@@ -16,7 +16,7 @@ const emit = defineEmits(['updated'])
 const props = defineProps({
   id: {
     type: Number,
-    required: true,
+    default: null,
   },
 })
 
