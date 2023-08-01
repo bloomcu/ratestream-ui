@@ -8,6 +8,7 @@
         <h3>Current rates</h3>
         <div class="flex gap-sm">
           <button @click="rateStore.toggleIsEditing()" class="btn btn--subtle">Edit</button>
+          <!-- <button @click="rateStore.export()" class="btn btn--subtle">Export</button> -->
           <router-link :to="{name: 'rates-import'}" class="btn btn--primary">Import</router-link>
         </div>
       </div>

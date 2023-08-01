@@ -181,6 +181,12 @@ export const useRateStore = defineStore('rateStore', {
           })
       },
 
+      export() {
+        const auth = useAuthStore()
+        const baseURL = import.meta.env.VITE_API_BASE_URL
+        window.open(`${baseURL}/${auth.organization}/rates/export`, '_blank')
+      },
+
       // async updateUid(uid, newUid) {
       //   const auth = useAuthStore()
         
