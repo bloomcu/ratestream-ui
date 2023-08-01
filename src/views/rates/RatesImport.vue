@@ -5,7 +5,7 @@
     </div>
     
     <!-- Under construction -->
-    <div class="container margin-top-md">
+    <!-- <div class="container margin-top-md">
       <aside class="note">
         <div class="flex items-center">
           <svg class="icon icon--md margin-right-sm" viewBox="0 0 30 30">
@@ -25,9 +25,9 @@
           </div>
         </div>
       </aside>
-    </div>
+    </div> -->
 
-    <!-- <div class="container text-component margin-top-md">
+    <div class="container text-component margin-top-md">
       <p class="text-bold">CSV import requirements</p>
       <p>In order to successfully import a CSV, the CSV must follow these two rules:</p>
       <ol class="list list--ol">
@@ -38,7 +38,7 @@
 
     <div class="container margin-top-md">
       <Uploader/>
-    </div> -->
+    </div>
   </LayoutDefault>
 </template>
 
