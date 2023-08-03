@@ -5,7 +5,10 @@ import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 
 export const useCSVStore = defineStore('csvStore', {
     state: () => ({
-        csv: null,
+        // csv: null,
+        columns: null,
+        rows: null,
+        errors: null,
         isLoading: true,
     }),
 
@@ -16,8 +19,11 @@ export const useCSVStore = defineStore('csvStore', {
           
           CSVApi.show(auth.organization, id)
             .then(response => {
-              this.csv = response.data.data
-              this.isLoading = false
+            //   this.csv = response.data.data
+                this.columns = response.data.columns
+                this.rows = response.data.rows
+                this.errors = response.data.errors
+                this.isLoading = false
             })
         },
     }

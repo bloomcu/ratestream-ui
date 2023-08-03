@@ -53,14 +53,14 @@
       </div> -->
 
       <!-- Error -->
-      <div v-if="csvStore.csv">
-        <div v-if="csvStore.csv.errors" class="color-error bg-error bg-opacity-10% border border-error border-opacity-30% padding-xs radius-lg flex-grow">
-          {{ csvStore.csv.errors.uid[0] }}
+      <div v-if="csvStore.errors">
+        <div v-if="csvStore.errors.uid" class="color-error bg-error bg-opacity-10% border border-error border-opacity-30% padding-xs radius-lg flex-grow">
+          {{ csvStore.errors.uid[0] }}
         </div>
       </div>
       
       <!-- Preview -->
-      <div v-if="csvStore.csv" class="flex gap-sm justify-between items-center margin-y-sm">
+      <div v-if="csvStore.columns" class="flex gap-sm justify-between items-center margin-y-sm">
         <h3>Preview</h3>
         
         <div class="flex gap-md items-center">
@@ -68,16 +68,13 @@
           <a v-if="rateStore.rates.length" @click.prevent="compare()" href="" class="color-contrast-high">Compare to current rates</a>
           
           <!-- Publish -->
-          <button @click="rateStore.toggleIsPublishPromptModal()" :disabled="csvStore.csv.errors" class="btn btn--primary">Publish</button>
+          <button @click="rateStore.toggleIsPublishPromptModal()" :disabled="csvStore.errors" class="btn btn--primary">Publish</button>
         </div>
       </div>
       
       <!-- Table preview -->
-      <div v-if="csvStore.csv" class="">
-        <CSVTable 
-          :columns="csvStore.csv.columns" 
-          :rows="csvStore.csv.rows"
-        />
+      <div v-if="csvStore.columns" class="">
+        <CSVTable/>
       </div>
       
       <PublishPromptModal/>
@@ -90,7 +87,6 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useCSVStore } from '@/domain/csv/store/useCSVStore'
 import { useFileStore } from '@/domain/files/store/useFileStore'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
-// import AppCircleLoader from '@/app/components/base/loaders/AppCircleLoader.vue'
 import PublishPromptModal from '@/views/rates/modals/PublishPromptModal.vue'
 import CSVTable from '@/views/rates/components/CSVTable.vue'
 
@@ -101,14 +97,6 @@ const rateStore = useRateStore()
 const isDragging = ref(false)
 const files = ref([])
 const fileInput = ref()
-
-// Setup columns
-// let columns = ref(['name', 'year', 'year_low', 'year_high', 'rate', 'term'])
-// let merges = ref([])
-// columns.value.forEach((column) => {
-//   merges[column] = ''
-// })
-// console.log(merges)
 
 function processFiles() {
   files.value = [...fileInput.files]
