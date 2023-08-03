@@ -80,7 +80,7 @@ import CopyableTableCell from './CopyableTableCell.vue'
 const rateStore = useRateStore()
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .rate-table {
   background-color: #f2f3f3;
 }
