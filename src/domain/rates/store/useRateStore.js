@@ -166,11 +166,11 @@ export const useRateStore = defineStore('rateStore', {
           })
       },
 
-      import(csv) {
+      import(columns, rows) {
         const auth = useAuthStore()
         this.isImporting = true
         
-        RateApi.import(auth.organization, csv)
+        RateApi.batch(auth.organization, rows, columns, [])
           .then(response => {
             console.log('CSV imported', response.data)
             setTimeout(() => {
@@ -180,6 +180,21 @@ export const useRateStore = defineStore('rateStore', {
             }, 1500)
           })
       },
+
+      // import(csv) {
+      //   const auth = useAuthStore()
+      //   this.isImporting = true
+        
+      //   RateApi.import(auth.organization, csv)
+      //     .then(response => {
+      //       console.log('CSV imported', response.data)
+      //       setTimeout(() => {
+      //         this.isImporting = false
+      //         this.toggleIsPublishPromptModal()
+      //         this.router.push({ name: 'rates' })
+      //       }, 1500)
+      //     })
+      // },
 
       export() {
         const auth = useAuthStore()
