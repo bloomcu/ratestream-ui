@@ -151,28 +151,30 @@ export const useRateStore = defineStore('rateStore', {
         this.columns = this.columns.filter((column) => column.uid !== uid)
       },
       
-      batch() {
+      async batch() {
         const auth = useAuthStore()
         this.isImporting = true
         
-        RateApi.batch(auth.organization, this.rates, this.columns, this.deletes)
+        await RateApi.batch(auth.organization, this.rates, this.columns, this.deletes)
           .then(response => {
             console.log('Batch updated', response.data)
 
             setTimeout(() => {
               this.isImporting = false
+              this.toggleIsPublishPromptModal()
               this.toggleIsEditing()
             }, 1000)
           })
       },
 
-      import(columns, rows) {
+      async import(columns, rows) {
         const auth = useAuthStore()
         this.isImporting = true
         
-        RateApi.batch(auth.organization, rows, columns, [])
+        await RateApi.batch(auth.organization, rows, columns, [])
           .then(response => {
             console.log('CSV imported', response.data)
+            
             setTimeout(() => {
               this.isImporting = false
               this.toggleIsPublishPromptModal()

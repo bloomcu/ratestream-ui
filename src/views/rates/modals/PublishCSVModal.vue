@@ -12,7 +12,7 @@
     <div class="flex gap-md items-center justify-between">
       <button @click="rateStore.toggleIsPublishPromptModal()" class="btn btn--accent">Cancel</button>
       
-      <button @click="runImport()" class="btn btn--primary">
+      <button @click="rateStore.import(csvStore.columns, csvStore.rows)" class="btn btn--primary">
         <span v-if="rateStore.isImporting" class="flex gap-xs items-center">
           <AppCircleLoader/>
           Publishing
@@ -31,8 +31,4 @@ import AppCircleLoader from '@/app/components/base/loaders/AppCircleLoader.vue'
 
 const rateStore = useRateStore()
 const csvStore = useCSVStore()
-
-function runImport() {
-  rateStore.import(csvStore.columns, csvStore.rows)
-}
 </script>
