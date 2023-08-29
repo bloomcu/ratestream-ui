@@ -77,7 +77,7 @@
         <CSVTable/>
       </div>
       
-      <PublishPromptModal/>
+      <PublishCSVModal/>
     </div>
 </template>
 
@@ -87,7 +87,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useCSVStore } from '@/domain/csv/store/useCSVStore'
 import { useFileStore } from '@/domain/files/store/useFileStore'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
-import PublishPromptModal from '@/views/rates/modals/PublishPromptModal.vue'
+import PublishCSVModal from '@/views/rates/modals/PublishCSVModal.vue'
 import CSVTable from '@/views/rates/components/CSVTable.vue'
 
 const csvStore = useCSVStore()

@@ -18,7 +18,9 @@
           <p>You are currently editing</p>
           <div class="flex gap-xs">
             <button @click="rateStore.cancelEditing()" class="btn btn--subtle">Cancel</button>
-            <button @click="rateStore.batch()" class="btn btn--primary">Publish</button>
+
+            <!-- Publish -->
+            <button @click="rateStore.toggleIsPublishPromptModal()" class="btn btn--primary">Publish</button>
           </div>
         </div>
       </div>
@@ -30,6 +32,8 @@
       <div :class="{'padding-left-md': rateStore.isEditing}">
         <RateTable/>
       </div>
+
+      <PublishEditsModal/>
     </div>
 
     <!-- <div v-else class="text-component padding-md radius-lg bg-primary bg-opacity-5%">
@@ -48,6 +52,7 @@ import { useErrorStore } from '@/app/store/base/useErrorStore'
 import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
 import RatesSkeletonLoader from '@/views/rates/loaders/RatesSkeletonLoader.vue'
 import RateTable from '@/views/rates/components/RateTable.vue'
+import PublishEditsModal from '@/views/rates/modals/PublishEditsModal.vue'
 
 const rateStore = useRateStore()
 const errorStore = useErrorStore()
