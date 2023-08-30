@@ -99,6 +99,7 @@ const files = ref([])
 const fileInput = ref()
 
 function processFiles() {
+  csvStore.errors = null
   files.value = [...fileInput.files]
   uploadFiles()
 }
@@ -129,7 +130,9 @@ function dragleave() {
 function remove(file) {
   files.value.splice(file, 1)
   fileStore.files = []
-  csvStore.csv = null
+  csvStore.rows = null
+  csvStore.columns = null
+  csvStore.errors = null
 }
 
 function uploadFiles() {
