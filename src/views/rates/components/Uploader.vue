@@ -129,10 +129,7 @@ function dragleave() {
 
 function remove(file) {
   files.value.splice(file, 1)
-  fileStore.files = []
-  csvStore.rows = null
-  csvStore.columns = null
-  csvStore.errors = null
+  unmount()
 }
 
 function uploadFiles() {
@@ -148,12 +145,20 @@ function compare() {
   window.open(url, '_blank')
 }
 
+function unmount() {
+  fileStore.files = []
+  csvStore.rows = null
+  csvStore.columns = null
+  csvStore.errors = null
+}
+
 onMounted(() => {
   rateStore.index()  
 })
 
 onUnmounted(() => {
   fileStore.file = null
+  unmount()
 })
 </script>
 
