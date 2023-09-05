@@ -33,29 +33,14 @@
           </div>
         </div>
       </div>
-      
-      <!-- Merges - CSV columns to rate columns -->
-      <!-- <div v-if="fileStore.file" class="width-50% margin-bottom-md">
-        <div class="flex gap-sm margin-bottom-sm">
-          <div class="text-bold" style="width: 30%;">CSV columns</div>
-          <div>→</div>
-          <div class="text-bold">Rate columns</div>
-        </div>
-        <div v-for="header in fileStore.file.headers" class="flex gap-sm margin-bottom-xxs">
-          <label style="width: 30%;" :for="header">{{ header }}</label>
-          <div>→</div>
-          <select class="" name="">
-            <option value="">Add as new column</option>
-            <option value="">Don't import</option>
-            <option v-for="column in columns" :value="column">{{ column }}</option>
-          </select>
-        </div>
-      </div> -->
 
-      <!-- Error -->
+      <!-- Errors -->
       <div v-if="csvStore.errors">
         <div v-if="csvStore.errors.uid" class="color-error bg-error bg-opacity-10% border border-error border-opacity-30% padding-xs radius-lg flex-grow">
           {{ csvStore.errors.uid[0] }}
+        </div>
+        <div v-if="csvStore.errors.file" class="color-error bg-error bg-opacity-10% border border-error border-opacity-30% padding-xs radius-lg flex-grow">
+          {{ csvStore.errors.file[0] }}
         </div>
       </div>
       
@@ -99,6 +84,7 @@ const files = ref([])
 const fileInput = ref()
 
 function processFiles() {
+  csvStore.errors = null
   files.value = [...fileInput.files]
   uploadFiles()
 }
@@ -112,6 +98,13 @@ function selectFile(e) {
 
 function dropFile(e) {
   e.preventDefault()
+  if (e.dataTransfer.files[0]['type'] !== 'text/csv') {
+    console.log('not a CSV')
+    csvStore.errors = { file: ['Invalid file type. Please select a CSV file with the .csv extension.'] }
+    isDragging.value = false
+    return;
+  }
+
   fileInput.files = e.dataTransfer.files
   isDragging.value = false
   processFiles()
@@ -128,8 +121,7 @@ function dragleave() {
 
 function remove(file) {
   files.value.splice(file, 1)
-  fileStore.files = []
-  csvStore.csv = null
+  unmount()
 }
 
 function uploadFiles() {
@@ -145,12 +137,20 @@ function compare() {
   window.open(url, '_blank')
 }
 
+function unmount() {
+  fileStore.files = []
+  csvStore.rows = null
+  csvStore.columns = null
+  csvStore.errors = null
+}
+
 onMounted(() => {
   rateStore.index()  
 })
 
 onUnmounted(() => {
   fileStore.file = null
+  unmount()
 })
 </script>
 

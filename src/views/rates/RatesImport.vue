@@ -29,11 +29,11 @@
 
     <div class="container text-component margin-top-md">
       <p class="text-bold">CSV import requirements</p>
-      <p>In order to successfully import a CSV, the CSV must follow these two rules:</p>
-      <ol class="list list--ol">
-        <li>Each row must have a unique row ID (for example, a unique name).</li>
+      <p>In order to successfully import a CSV, each row and column must have a unique ID.</p>
+      <!-- <ol class="list list--ol">
+        <li>Each row and column must have a unique ID.</li>
         <li>There must be no empty columns or empty rows.</li>
-      </ol>
+      </ol> -->
     </div>
 
     <div class="container margin-top-md">
