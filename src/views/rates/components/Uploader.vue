@@ -98,6 +98,13 @@ function selectFile(e) {
 
 function dropFile(e) {
   e.preventDefault()
+  if (e.dataTransfer.files[0]['type'] !== 'text/csv') {
+    console.log('not a CSV')
+    csvStore.errors = { file: ['Invalid file type. Please select a CSV file with the .csv extension.'] }
+    isDragging.value = false
+    return;
+  }
+
   fileInput.files = e.dataTransfer.files
   isDragging.value = false
   processFiles()
