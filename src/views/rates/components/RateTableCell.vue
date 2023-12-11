@@ -1,14 +1,11 @@
 <template>
-  <!-- <div style="position: absolute; display: inline-block; top: 0; right: 0; bottom: 0; left: 0;"> -->
-    <input 
-      @input="updateValue($event.target.value)"
-      :value="modelValue"
-      type="text"
-      :disabled="disabled"
+  <div 
+      v-text="modelValue"
+      @input="$emit('update:modelValue', $event.target.innerText)"
+      contenteditable
       :class="errors ? 'bg-error' : ''"
       class="rate-table-cell reset width-100% height-100% padding-xxs"
-    >
-  <!-- </div> -->
+    ></div>
 </template>
 
 <script setup>
