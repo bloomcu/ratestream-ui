@@ -6,9 +6,16 @@
             {{ row.data[column] }}
         </div>
         <template #popper>
-            <div @click.prevent="copy(row.uid, column)" class="table-cell-inner text-center">
+            <div @click.prevent="copyShortcode(row.uid, column)" class="table-cell-inner text-center padding-xxs cursor-pointer copyable-cell--trigger">
                 <template v-if="!isCopied">
-                    <IconEmbed size="md" />
+                    <IconEmbed size="xs" />
+                    <p>WP Shortcode</p>
+                </template>
+                <span v-else>Copied!</span>
+            </div>
+            <div @click.prevent="copy(row.uid, column)" class="table-cell-inner text-center padding-xxs cursor-pointer copyable-cell--trigger">
+                <template v-if="!isCopied">
+                    <IconEmbed size="xs" />
                     <p>Embed</p>
                 </template>
                 <span v-else>Copied!</span>
@@ -39,6 +46,14 @@ const copy = (uid, column) => {
         position: 'top-center'
     });
 }
+const copyShortcode = (uid, column) => {
+    copyToClipboard(`[stream-cell uid="${uid}" col="${column}"/]`)
+    isCopied.value = true
+    toast.success("Copied!", {
+        autoClose: 2500,
+        position: 'top-center'
+    });
+}
 </script>
 
 <style lang="scss">
@@ -48,6 +63,11 @@ const copy = (uid, column) => {
   &:hover,
   &:focus {
     background-color: #eee;
+  }
+  &--trigger {
+    &:hover {
+        background-color: #ddd;
+    }
   }
 }
 </style>
