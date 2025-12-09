@@ -36,18 +36,18 @@
                 :key="invite.uuid" 
                 class="table__row"
               >
-                <td class="table__cell" role="cell">
+                <td class="table__cell padding-xxs" role="cell">
                   <p class="font-medium">{{ invite.email }}</p>
                 </td>
-                <td class="table__cell" role="cell">
+                <td class="table__cell padding-xxs" role="cell">
                   {{ moment(invite.created_at).fromNow() }}
                 </td>
-                <td class="table__cell text-right" role="cell">
+                <td class="table__cell text-right padding-xxs" role="cell">
                   <ButtonCopyToClipboard :value="invite.url" class="btn btn--sm btn--subtle width-100%">
                     Copy invite URL
                   </ButtonCopyToClipboard>
                 </td>
-                <td class="table__cell" role="cell">
+                <td class="table__cell padding-xxs" role="cell">
                   <ButtonDestroy @click="inviteStore.destroy(invite.uuid)"/>
                 </td>
               </tr>
@@ -58,13 +58,13 @@
       
       <!-- Users -->
       <div class="card card--shadow margin-bottom-lg">
-        <h2 class="text-base">My team</h2>
-        <table class="table table--expanded position-relative z-index-1 width-100% text-unit-em text-sm">
+        <h2 class="text-base margin-bottom-xs">My team</h2>
+        <table class="table table--expanded position-relative z-index-1 min-width-100% max-width-100% text-unit-em text-sm">
           <thead class="table__header">
             <tr class="table__row">
-              <th class="table__cell text-left" scope="col">User</th>
-              <th class="table__cell text-left" scope="col">Role</th>
-              <th class="table__cell text-right" scope="col">Joined</th>
+              <th class="table__cell text-left padding-xxs" scope="col">User</th>
+              <th class="table__cell text-left padding-xxs" scope="col">Role</th>
+              <th class="table__cell text-right padding-xxs" scope="col">Joined</th>
             </tr>
           </thead>
           <tbody class="table__body">
@@ -73,19 +73,19 @@
               :key="user.id"
               class="table__row"
             >
-              <td class="table__cell flex items-center" role="cell">
+              <td class="table__cell flex items-center padding-xxs" role="cell">
                 <UserAvatar :name="user.name" size="lg"/>
                 <div class="padding-left-sm">
                   <p class="font-medium margin-bottom-xxxxs">{{ user.name }}</p>
                   <p class="color-contrast-medium">{{ user.email }}</p>
                 </div>
               </td>
-              <td class="table__cell" role="cell">
+              <td class="table__cell padding-xxs" role="cell">
                 <AppChip color="outline">
                   {{ user.role }}
                 </AppChip>
               </td>
-              <td class="table__cell text-right" role="cell">
+              <td class="table__cell text-right padding-xxs" role="cell">
                 {{ moment(user.created_at).fromNow() }}
               </td>
             </tr>
