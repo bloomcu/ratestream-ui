@@ -36,18 +36,18 @@
                 :key="invite.uuid" 
                 class="table__row"
               >
-                <td class="table__cell" role="cell">
+                <td class="table__cell padding-xxs" role="cell">
                   <p class="font-medium">{{ invite.email }}</p>
                 </td>
-                <td class="table__cell" role="cell">
+                <td class="table__cell padding-xxs" role="cell">
                   {{ moment(invite.created_at).fromNow() }}
                 </td>
-                <td class="table__cell text-right" role="cell">
+                <td class="table__cell text-right padding-xxs" role="cell">
                   <ButtonCopyToClipboard :value="invite.url" class="btn btn--sm btn--subtle width-100%">
                     Copy invite URL
                   </ButtonCopyToClipboard>
                 </td>
-                <td class="table__cell" role="cell">
+                <td class="table__cell padding-xxs" role="cell">
                   <ButtonDestroy @click="inviteStore.destroy(invite.uuid)"/>
                 </td>
               </tr>
