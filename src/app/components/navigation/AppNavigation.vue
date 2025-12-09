@@ -104,7 +104,7 @@
               <li class="f-header__dropdown-container">
                 <RouterLink :to="{ name: 'users' }" class="f-header__dropdown-link">People</RouterLink>
                 <RouterLink :to="{ name: 'settings-embed' }" class="f-header__dropdown-link">Settings</RouterLink>
-                <RouterLink v-if="auth.user.role == 'admin'" :to="{ name: 'organizations' }" class="f-header__dropdown-link">Organizations</RouterLink>
+                <RouterLink v-if="auth.user.role == 'super_admin'" :to="{ name: 'organizations' }" class="f-header__dropdown-link">Organizations</RouterLink>
                 <RouterLink :to="{ name: 'logout' }" class="f-header__dropdown-link">Log out</RouterLink>
               </li>
             </ul>

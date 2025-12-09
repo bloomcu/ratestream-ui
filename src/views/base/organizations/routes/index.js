@@ -5,6 +5,6 @@ export default [
     path: "/organizations",
     name: "organizations",
     component: Organizations,
-    meta: { authorize: ['admin'] }
+    meta: { authorize: ['super_admin'] }
   },
 ]
