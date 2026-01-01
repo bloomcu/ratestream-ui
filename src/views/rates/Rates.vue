@@ -45,7 +45,7 @@
 
             <!-- Publish -->
             <button @click="rateStore.toggleIsPublishPromptModal()" class="btn btn--primary">{{publishLabel}}</button>
-            <button v-if="isRevision" @click="rateStore.toggleIsPublishPromptModal()" class="btn btn--primary">Publish Now</button>
+            <button v-if="isRevision" @click="rateStore.toggleIsPublishNowPromptModal()" class="btn btn--primary">Publish Now</button>
 
           </div>
         </div>
@@ -60,6 +60,7 @@
       </div>
 
       <PublishEditsModal/>
+      <PublishNowModal/>
     </div>
 
     <!-- <div v-else class="text-component padding-md radius-lg bg-primary bg-opacity-5%">
@@ -79,6 +80,7 @@ import LayoutDefault from '@/app/layouts/LayoutDefault.vue'
 import RatesSkeletonLoader from '@/views/rates/loaders/RatesSkeletonLoader.vue'
 import RateTable from '@/views/rates/components/RateTable.vue'
 import PublishEditsModal from '@/views/rates/modals/PublishEditsModal.vue'
+import PublishNowModal from '@/views/rates/modals/PublishNowModal.vue'
 
 const rateStore = useRateStore()
 const errorStore = useErrorStore()

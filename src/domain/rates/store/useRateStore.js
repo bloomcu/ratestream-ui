@@ -20,6 +20,7 @@ export const useRateStore = defineStore('rateStore', {
         isImporting: false,
         isEditing: false,
         isPublishPromptModalOpen: false,
+        isPublishNowPromptModalOpen: false,
     }),
     
     getters: {
@@ -227,6 +228,28 @@ export const useRateStore = defineStore('rateStore', {
             }, 1000)
           })
       },
+      async publishNow() {
+        const auth = useAuthStore()
+        const activeGroup = this.getActiveGroup
+        if (!this.active_group_id || !activeGroup.id) {
+          console.warn('No active group set; publishNow skipped')
+          return
+        }
+
+        this.isImporting = true
+
+        await RateApi.publish(auth.organization, this.active_group_id)
+          .then(response => {
+            console.log('Published now', response.data)
+
+            setTimeout(() => {
+              this.index()
+              this.isImporting = false
+              this.toggleIsPublishNowPromptModal()
+              this.toggleIsEditing()
+            }, 1000)
+          })
+      },
 
       async import(columns, rows) {
         const auth = useAuthStore()
@@ -319,6 +342,9 @@ export const useRateStore = defineStore('rateStore', {
       
       toggleIsPublishPromptModal() {
         this.isPublishPromptModalOpen = !this.isPublishPromptModalOpen
+      },
+      toggleIsPublishNowPromptModal() {
+        this.isPublishNowPromptModalOpen = !this.isPublishNowPromptModalOpen
       },
     }
 })

@@ -103,6 +103,9 @@ const rateApi = {
     // },
     clone(organization, rategroup_id) {
       return HttpClient.post(`/${organization}/rate-groups/${rategroup_id}/clone`)
+    },
+    publish(organization, rategroup_id) {
+      return HttpClient.post(`/${organization}/rate-groups/${rategroup_id}/publish`)
     }
 }
 
