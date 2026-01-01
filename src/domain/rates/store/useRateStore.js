@@ -8,9 +8,12 @@ const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 6)
 
 export const useRateStore = defineStore('rateStore', {
     state: () => ({
-        rates: [],
+        groups: [],
+        active_group_id: null,
+        
+        rates: [], // TODO: Remove this later
         // rate: null,
-        columns: [],
+        columns: [], // TODO: remove this later
         // column: null,
         deletes: [],
         isLoading: true,
@@ -34,23 +37,48 @@ export const useRateStore = defineStore('rateStore', {
         return (group) => rates.filter((rate) => {
           return rate.group === group
         })
+      },
+      getActiveGroup(state) {
+        return state.groups.find(group => group.id === state.active_group_id) || { rates: [], columns: [], has_revisions: false }
       }
     },
     
     actions: {
+      setActiveGroupId(id) {
+        if(this.active_group_id !== id) {
+          this.deletes = []
+        }
+        this.active_group_id = id
+      },
+
       async index(params) {
         const auth = useAuthStore()
+        this.deletes = [];
         this.isLoading = true
         
         await RateApi.index(auth.organization, params)
           .then(response => {
-            // If rate data attribute is empty, set it to an empty object
-            this.rates = response.data.rates.map((rate) => {
-              if (!Object.keys(rate.data).length) { rate.data = {} }
-              return rate
-            })
+            this.groups = response.data.map((group) => {
+              return {
+                rates: group.rates.map((rate) => {
+                  if (!Object.keys(rate.data).length) { rate.data = {} }
+                    return rate
+                }),
+                id: group.group.id,
+                revision_of: group.group.revision_of,
+                has_revisions: group.group.has_revisions,
+                published_at: group.group.published_at,
+                columns: group.columns,
+              }
+            });
 
-            this.columns = response.data.columns
+            // If rate data attribute is empty, set it to an empty object
+            // this.rates = response.data.rates.map((rate) => {
+            //   if (!Object.keys(rate.data).length) { rate.data = {} }
+            //   return rate
+            // })
+
+            // this.columns = response.data.columns
 
             setTimeout(() => {
               this.isLoading = false
@@ -112,9 +140,15 @@ export const useRateStore = defineStore('rateStore', {
       // },
 
       addRow() {
+        const activeGroup = this.getActiveGroup
+        if (!this.active_group_id || !activeGroup.id) {
+          console.warn('No active group set; addRow skipped')
+          return
+        }
+        if (!activeGroup.rates) activeGroup.rates = []
         let uid = nanoid()
-
-        this.rates.push({
+        
+        activeGroup.rates.push({
           uid: uid,
           data: {},
           // new: true,
@@ -122,11 +156,18 @@ export const useRateStore = defineStore('rateStore', {
       },
 
       addColumn() {
+        const activeGroup = this.getActiveGroup
+        if (!this.active_group_id || !activeGroup.id) {
+          console.warn('No active group set; addColumn skipped')
+          return
+        }
+        if (!activeGroup.columns) activeGroup.columns = []
         let uid = nanoid()
-        let order = this.columns.length + 1
+        
+        let order = activeGroup.columns.length + 1
         let name = 'Column ' + order
 
-        this.columns.push({
+        activeGroup.columns.push({
           uid: uid,
           order: order,
           name: name,
@@ -134,28 +175,48 @@ export const useRateStore = defineStore('rateStore', {
       },
 
       deleteRate(uid) {
+        const activeGroup = this.getActiveGroup
+        if (!this.active_group_id || !activeGroup.id) {
+          console.warn('No active group set; deleteRate skipped')
+          return
+        }
+
         this.deletes.push({
           model: 'rate',
-          uid: uid
+          uid: uid,
+          group_id: this.active_group_id,
         })
-        
-        this.rates = this.rates.filter((rate) => rate.uid !== uid)
+
+        activeGroup.rates = activeGroup.rates.filter((rate) => rate.uid !== uid)
       },
 
       deleteColumn(uid) {
+        const activeGroup = this.getActiveGroup
+        if (!this.active_group_id || !activeGroup.id) {
+          console.warn('No active group set; deleteColumn skipped')
+          return
+        }
+
         this.deletes.push({
           model: 'column',
-          uid: uid
+          uid: uid,
+          group_id: this.active_group_id,
         })
         
-        this.columns = this.columns.filter((column) => column.uid !== uid)
+        activeGroup.columns = activeGroup.columns.filter((column) => column.uid !== uid)
       },
       
       async batch() {
         const auth = useAuthStore()
+        const activeGroup = this.getActiveGroup
+        if (!this.active_group_id || !activeGroup.id) {
+          console.warn('No active group set; batch skipped')
+          return
+        }
+
         this.isImporting = true
         
-        await RateApi.batch(auth.organization, this.rates, this.columns, this.deletes)
+        await RateApi.batch(auth.organization, activeGroup.rates, activeGroup.columns, this.deletes, this.active_group_id)
           .then(response => {
             console.log('Batch updated', response.data)
 
@@ -181,6 +242,27 @@ export const useRateStore = defineStore('rateStore', {
               this.router.push({ name: 'rates' })
             }, 1500)
           })
+      },
+      async cloneRateGroup(rategroup_id) {
+        const auth = useAuthStore()
+        RateApi.clone(auth.organization, rategroup_id)
+        .then(response=>{
+          
+          console.log(response.data);
+          const newGroup = {
+            rates: response.data.rates.map((rate) => {
+              if (!Object.keys(rate.data).length) { rate.data = {} }
+                return rate
+            }),
+            id: response.data.group.id,
+            revision_of: response.data.group.revision_of,
+            has_revisions: response.data.group.has_revisions,
+            published_at: response.data.group.published_at,
+            columns: response.data.columns,
+          }
+          this.groups.push(newGroup)
+          this.setActiveGroupId(newGroup.id)
+        });
       },
 
       // import(csv) {
@@ -224,6 +306,7 @@ export const useRateStore = defineStore('rateStore', {
       // },
 
       cancelEditing() {
+        this.deletes = []
         this.index()
           .then(
             this.toggleIsEditing()

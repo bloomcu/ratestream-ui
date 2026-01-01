@@ -8,7 +8,7 @@ const rateApi = {
      * @return promise
      */
     index(organization, params) {
-        return HttpClient.get(`/${organization}/rates`, { params: params })
+        return HttpClient.get(`/${organization}/rate-groups`, { params: params })
     },
     
     /**
@@ -59,11 +59,12 @@ const rateApi = {
      * @param Array columns [columns to be updated]
      * @return promise
      */
-    batch(organization, rates, columns, deletes) {
+    batch(organization, rates, columns, deletes, rateGroupId = null) {
       return HttpClient.post(`/${organization}/rates/batch`, {
         rates: rates, 
         columns: columns,
         deletes: deletes,
+        rate_group_id: rateGroupId,
       })
     },
     
@@ -100,6 +101,9 @@ const rateApi = {
     // storeColumn(organization, name, order = null) {
     //   return HttpClient.post(`/${organization}/columns`, name, order)
     // },
+    clone(organization, rategroup_id) {
+      return HttpClient.post(`/${organization}/rate-groups/${rategroup_id}/clone`)
+    }
 }
 
 export { rateApi }

@@ -1,12 +1,15 @@
 <template>
   <div class="radius-lg border shadow-sm width-100% height-100% margin-bottom-md">
+  
+  
     <div class="rate-table flex flex-row justify-between width-100% radius-lg">
-      <table class="table table--expanded bg-light">
+      
+      <table class="table table--expanded bg-light" >
         <thead class="table__header table__header--sticky">
           <!-- Unique ID -->
           <tr class="table__row">
             <th class="table__cell font-semibold padding-xs">Unique ID</th>
-            <th v-for="column in rateStore.columns" :key="column.id" class="table__cell padding-xxs color-contrast-low">{{ column.uid }}</th>
+            <th v-for="column in rateStore.getActiveGroup.columns" :key="column.id" class="table__cell padding-xxs color-contrast-low">{{ column.uid }}</th>
           </tr>
           
           <!-- Headers -->
@@ -14,7 +17,7 @@
             <th class="table__cell font-semibold padding-xs"></th>
 
             <!-- Columns -->
-            <th v-for="column in rateStore.columns" :key="column.id" class="table__cell font-medium">
+            <th v-for="column in rateStore.getActiveGroup.columns" :key="column.id" class="table__cell font-medium">
               <!-- {{ column.name }} -->
 
               <RateTableCell v-if="rateStore.isEditing" v-model="column.name">
@@ -32,7 +35,7 @@
 
         <tbody class="table__body">
           <!-- Rows -->
-          <tr v-for="(row, rowIndex) in rateStore.rates" :key="rowIndex" class="table__row">
+          <tr v-for="(row, rowIndex) in rateStore.getActiveGroup.rates" :key="rowIndex" class="table__row">
             <!-- Row uid -->
             <td class="table__cell padding-xxs color-contrast-low">
               <button v-if="rateStore.isEditing" @click="rateStore.deleteRate(row.uid)" class="reset position-absolute cursor-pointer" style="left: -33px;">
@@ -42,11 +45,12 @@
             </td>
 
             <!-- Row cells -->
-            <td v-for="(column, index) in rateStore.columns" :key="index" class="table__cell position-relative">
+            <td v-for="(column, index) in rateStore.getActiveGroup.columns" :key="index" class="table__cell position-relative">
               <RateTableCell v-if="rateStore.isEditing" v-model="row.data[column.uid]">
                 {{ row.data[column.uid] }}
               </RateTableCell>
-
+              <span class="width-100% padding-xxs" v-else-if="rateStore.getActiveGroup.revision_of !== null">{{ row.data[column.uid] }}</span>
+              
               <CopyableTableCell v-else-if="row.data[column.uid]" :row="row" :column="column.uid" />
             </td>
           </tr>
@@ -71,13 +75,47 @@
 
 <script setup>
 import { useRateStore } from '@/domain/rates/store/useRateStore'
+import { useOrganizationStore} from '@/domain/base/organizations/store/useOrganizationStore'
+import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 import RateTableCell from '@/views/rates/components/RateTableCell.vue'
 import AppInput from '@/app/components/base/forms/AppInput.vue'
 import IconPlus from '@/app/components/base/icons/IconPlus.vue'
 import IconTrash from '@/app/components/base/icons/IconTrash.vue'
 import CopyableTableCell from './CopyableTableCell.vue'
+import { computed, onMounted, watch } from 'vue'
 
 const rateStore = useRateStore()
+const organizationStore = useOrganizationStore();
+const authStore = useAuthStore()
+
+onMounted(() => {
+  if (!organizationStore.organization) {
+    organizationStore.show()
+  }
+})
+
+watch(
+  () => authStore.organization,
+  (org) => {
+    if (org) {
+      organizationStore.show()
+    }
+  },
+  { immediate: true }
+)
+
+watch(
+  () => organizationStore.organization?.default_rate_group_id,
+  (defaultGroupId) => {
+    if (defaultGroupId) {
+      rateStore.setActiveGroupId(defaultGroupId)
+    }
+  },
+  { immediate: true }
+)
+
+
+
 </script>
 
 <style lang="scss">
