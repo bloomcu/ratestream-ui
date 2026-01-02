@@ -21,6 +21,7 @@ export const useRateStore = defineStore('rateStore', {
         isEditing: false,
         isPublishPromptModalOpen: false,
         isPublishNowPromptModalOpen: false,
+        isSchedulePromptModalOpen: false,
     }),
     
     getters: {
@@ -345,6 +346,40 @@ export const useRateStore = defineStore('rateStore', {
       },
       toggleIsPublishNowPromptModal() {
         this.isPublishNowPromptModalOpen = !this.isPublishNowPromptModalOpen
+      },
+      toggleIsSchedulePromptModal() {
+        this.isSchedulePromptModalOpen = !this.isSchedulePromptModalOpen
+      },
+      async schedulePublication(localDateTime) {
+        const auth = useAuthStore()
+        const activeGroup = this.getActiveGroup
+        if (!this.active_group_id || !activeGroup.id) {
+          console.warn('No active group set; schedulePublication skipped')
+          return
+        }
+        if (!localDateTime) {
+          console.warn('No schedule datetime provided; schedulePublication skipped')
+          return
+        }
+
+        const publishedAt = new Date(localDateTime)
+        if (Number.isNaN(publishedAt.getTime())) {
+          console.warn('Invalid schedule datetime; schedulePublication skipped')
+          return
+        }
+
+        this.isImporting = true
+
+        await RateApi.schedule(auth.organization, this.active_group_id, publishedAt.toISOString())
+          .then(response => {
+            console.log('Publication scheduled', response.data)
+
+            setTimeout(() => {
+              this.index()
+              this.isImporting = false
+              this.toggleIsSchedulePromptModal()
+            }, 1000)
+          })
       },
     }
 })

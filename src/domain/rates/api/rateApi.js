@@ -106,6 +106,11 @@ const rateApi = {
     },
     publish(organization, rategroup_id) {
       return HttpClient.post(`/${organization}/rate-groups/${rategroup_id}/publish`)
+    },
+    schedule(organization, rategroup_id, published_at) {
+      return HttpClient.post(`/${organization}/rate-groups/${rategroup_id}/schedule`, {
+        published_at: published_at,
+      })
     }
 }
 

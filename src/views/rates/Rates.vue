@@ -44,6 +44,7 @@
             <button @click="rateStore.cancelEditing()" class="btn btn--subtle">Cancel</button>
 
             <!-- Publish -->
+            <button v-if="isRevision" @click="rateStore.toggleIsSchedulePromptModal()" class="btn btn--subtle">Schedule</button>
             <button @click="rateStore.toggleIsPublishPromptModal()" class="btn btn--primary">{{publishLabel}}</button>
             <button v-if="isRevision" @click="rateStore.toggleIsPublishNowPromptModal()" class="btn btn--primary">Publish Now</button>
 
@@ -61,6 +62,7 @@
 
       <PublishEditsModal/>
       <PublishNowModal/>
+      <SchedulePublicationModal/>
     </div>
 
     <!-- <div v-else class="text-component padding-md radius-lg bg-primary bg-opacity-5%">
@@ -81,6 +83,7 @@ import RatesSkeletonLoader from '@/views/rates/loaders/RatesSkeletonLoader.vue'
 import RateTable from '@/views/rates/components/RateTable.vue'
 import PublishEditsModal from '@/views/rates/modals/PublishEditsModal.vue'
 import PublishNowModal from '@/views/rates/modals/PublishNowModal.vue'
+import SchedulePublicationModal from '@/views/rates/modals/SchedulePublicationModal.vue'
 
 const rateStore = useRateStore()
 const errorStore = useErrorStore()
