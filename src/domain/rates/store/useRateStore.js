@@ -277,7 +277,13 @@ export const useRateStore = defineStore('rateStore', {
         const auth = useAuthStore()
         this.isImporting = true
         
-        await RateApi.batch(auth.organization, rows, columns, [])
+        const activeGroup = this.getActiveGroup
+        if (!this.active_group_id || !activeGroup.id) {
+          console.warn('No active group set; import skipped')
+          this.isImporting = false
+          return
+        }
+        await RateApi.batch(auth.organization, rows, columns, [], this.active_group_id)
           .then(response => {
             console.log('CSV imported', response.data)
             
@@ -328,7 +334,13 @@ export const useRateStore = defineStore('rateStore', {
       export() {
         const auth = useAuthStore()
         const baseURL = import.meta.env.VITE_API_BASE_URL
-        window.open(`${baseURL}/${auth.organization}/rates/export`, '_blank')
+        const activeGroup = this.getActiveGroup
+        if (!this.active_group_id || !activeGroup.id) {
+          console.warn('No active group set; export skipped')
+          return
+        }
+        const params = new URLSearchParams({ rate_group_id: String(this.active_group_id) })
+        window.open(`${baseURL}/${auth.organization}/rates/export?${params.toString()}`, '_blank')
       },
 
       // async updateUid(uid, newUid) {
