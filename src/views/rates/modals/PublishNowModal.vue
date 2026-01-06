@@ -12,7 +12,7 @@
     <div class="flex gap-md items-center justify-between">
       <button @click="rateStore.toggleIsPublishNowPromptModal()" class="btn btn--accent">Cancel</button>
       
-      <button @click="rateStore.publishNow()" class="btn btn--primary">
+      <button @click="onPublishNow" class="btn btn--primary">
         <span v-if="rateStore.isImporting" class="flex gap-xs items-center">
           <AppCircleLoader/>
           Publishing
@@ -24,9 +24,21 @@
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
 import AppModal from '@/app/components/base/modals/AppModal.vue'
 import AppCircleLoader from '@/app/components/base/loaders/AppCircleLoader.vue'
 
 const rateStore = useRateStore()
+
+const onPublishNow = async () => {
+  const published = await rateStore.publishNow()
+  if (published) {
+    toast.success('Published now', {
+      autoClose: 2500,
+      position: 'top-center'
+    })
+  }
+}
 </script>

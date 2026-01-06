@@ -13,7 +13,7 @@
     <div class="flex gap-md items-center justify-between">
       <button @click="rateStore.toggleIsPublishPromptModal()" class="btn btn--accent">Cancel</button>
       
-      <button @click="rateStore.batch()" class="btn btn--primary">
+      <button @click="onSave" class="btn btn--primary">
         <span v-if="rateStore.isImporting" class="flex gap-xs items-center">
           <AppCircleLoader/>
           Publishing
@@ -26,10 +26,22 @@
 
 <script setup>
 import { computed } from 'vue'
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
 import AppModal from '@/app/components/base/modals/AppModal.vue'
 import AppCircleLoader from '@/app/components/base/loaders/AppCircleLoader.vue'
 
 const rateStore = useRateStore()
 const isRevision = computed(() => rateStore.getActiveGroup.revision_of != null)
+
+const onSave = async () => {
+  const saved = await rateStore.batch()
+  if (!saved) return
+  const message = isRevision.value ? 'Draft saved' : 'Published'
+  toast.success(message, {
+    autoClose: 2500,
+    position: 'top-center'
+  })
+}
 </script>

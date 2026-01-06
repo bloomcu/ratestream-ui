@@ -38,6 +38,8 @@ import { ref, watch } from 'vue'
 import { useRateStore } from '@/domain/rates/store/useRateStore'
 import AppModal from '@/app/components/base/modals/AppModal.vue'
 import AppCircleLoader from '@/app/components/base/loaders/AppCircleLoader.vue'
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 const rateStore = useRateStore()
 const scheduleAtLocal = ref('')
@@ -68,6 +70,12 @@ watch(
 const onSchedule = async () => {
   const saved = await rateStore.saveActiveGroup()
   if (!saved) return
-  await rateStore.schedulePublication(scheduleAtLocal.value)
+  const scheduled = await rateStore.schedulePublication(scheduleAtLocal.value)
+  if (scheduled) {
+    toast.success('Publication scheduled', {
+      autoClose: 2500,
+      position: 'top-center'
+    })
+  }
 }
 </script>

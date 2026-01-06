@@ -210,9 +210,9 @@ export const useRateStore = defineStore('rateStore', {
       
       async batch() {
         const saved = await this.saveActiveGroup()
-        if (!saved) return
+        if (!saved) return false
         this.toggleIsPublishPromptModal()
-        
+        return true
       },
 
       async saveActiveGroup() {
@@ -250,22 +250,27 @@ export const useRateStore = defineStore('rateStore', {
         const activeGroup = this.getActiveGroup
         if (!this.active_group_id || !activeGroup.id) {
           console.warn('No active group set; publishNow skipped')
-          return
+          return false
         }
 
         this.isImporting = true
 
-        await RateApi.publish(auth.organization, this.active_group_id)
-          .then(response => {
-            console.log('Published now', response.data)
+        try {
+          const response = await RateApi.publish(auth.organization, this.active_group_id)
+          console.log('Published now', response.data)
 
-            setTimeout(() => {
-              this.index()
-              this.isImporting = false
-              this.toggleIsPublishNowPromptModal()
-              this.toggleIsEditing()
-            }, 1000)
-          })
+          setTimeout(() => {
+            this.index()
+            this.isImporting = false
+            this.toggleIsPublishNowPromptModal()
+            this.toggleIsEditing()
+          }, 1000)
+          return true
+        } catch (error) {
+          console.error('Publish now failed', error)
+          this.isImporting = false
+          return false
+        }
       },
 
       async import(columns, rows) {
@@ -371,17 +376,17 @@ export const useRateStore = defineStore('rateStore', {
         const activeGroup = this.getActiveGroup
         if (!this.active_group_id || !activeGroup.id) {
           console.warn('No active group set; schedulePublication skipped')
-          return
+          return false
         }
         if (!localDateTime) {
           console.warn('No schedule datetime provided; schedulePublication skipped')
-          return
+          return false
         }
 
         const publishedAt = new Date(localDateTime)
         if (Number.isNaN(publishedAt.getTime())) {
           console.warn('Invalid schedule datetime; schedulePublication skipped')
-          return
+          return false
         }
 
         this.isImporting = true
@@ -396,6 +401,7 @@ export const useRateStore = defineStore('rateStore', {
               this.toggleIsSchedulePromptModal()
             }, 1000)
           })
+        return true
       },
     }
 })
