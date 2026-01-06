@@ -65,9 +65,9 @@ watch(
   }
 )
 
-const onSchedule = () => {
-  rateStore.batch().then(() => {
-    rateStore.schedulePublication(scheduleAtLocal.value);
-  });
+const onSchedule = async () => {
+  const saved = await rateStore.saveActiveGroup()
+  if (!saved) return
+  await rateStore.schedulePublication(scheduleAtLocal.value)
 }
 </script>

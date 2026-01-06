@@ -209,25 +209,41 @@ export const useRateStore = defineStore('rateStore', {
       },
       
       async batch() {
+        const saved = await this.saveActiveGroup()
+        if (!saved) return
+        this.toggleIsPublishPromptModal()
+        
+      },
+
+      async saveActiveGroup() {
         const auth = useAuthStore()
         const activeGroup = this.getActiveGroup
         if (!this.active_group_id || !activeGroup.id) {
-          console.warn('No active group set; batch skipped')
-          return
+          console.warn('No active group set; saveActiveGroup skipped')
+          return false
         }
 
         this.isImporting = true
         
-        await RateApi.batch(auth.organization, activeGroup.rates, activeGroup.columns, this.deletes, this.active_group_id)
-          .then(response => {
-            console.log('Batch updated', response.data)
+        try {
+          const response = await RateApi.batch(
+            auth.organization,
+            activeGroup.rates,
+            activeGroup.columns,
+            this.deletes,
+            this.active_group_id
+          )
+          console.log('Batch updated', response.data)
 
-            setTimeout(() => {
-              this.isImporting = false
-              this.toggleIsPublishPromptModal()
-              this.toggleIsEditing()
-            }, 1000)
-          })
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+          this.isImporting = false
+          this.toggleIsEditing()
+          return true
+        } catch (error) {
+          console.error('Batch update failed', error)
+          this.isImporting = false
+          return false
+        }
       },
       async publishNow() {
         const auth = useAuthStore()
