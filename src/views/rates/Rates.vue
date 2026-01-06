@@ -7,7 +7,7 @@
       <div v-if="!rateStore.isEditing" class="flex items-center justify-between margin-y-sm">
         
         <div class="">
-          <h3 class="">Editing {{rateStore.getActiveGroup.revision_of ? `Revision` : 'Current rates'}}</h3>
+          <h3 class="">{{rateStore.getActiveGroup.revision_of ? `Revision` : 'Current Rates'}}</h3>
           <span class="text-sm" v-if="rateStore.getActiveGroup.revision_of && rateStore.getActiveGroup.published_at ">Publishes {{ moment(rateStore.getActiveGroup.published_at).fromNow() }}</span>
         </div>
         <div class="flex gap-sm">
