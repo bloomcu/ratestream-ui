@@ -66,6 +66,8 @@ watch(
 )
 
 const onSchedule = () => {
-  rateStore.schedulePublication(scheduleAtLocal.value)
+  rateStore.batch().then(() => {
+    rateStore.schedulePublication(scheduleAtLocal.value);
+  });
 }
 </script>

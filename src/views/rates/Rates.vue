@@ -5,7 +5,11 @@
     <div v-else>
 
       <div v-if="!rateStore.isEditing" class="flex items-center justify-between margin-y-sm">
-        <h3>Current rates</h3>
+        
+        <div class="">
+          <h3 class="">Editing {{rateStore.getActiveGroup.revision_of ? `Revision` : 'Current rates'}}</h3>
+          <span class="text-sm" v-if="rateStore.getActiveGroup.revision_of && rateStore.getActiveGroup.published_at ">Publishes {{ moment(rateStore.getActiveGroup.published_at).fromNow() }}</span>
+        </div>
         <div class="flex gap-sm">
           
           
@@ -14,17 +18,19 @@
             Create Revision
           </button>
           <div v-else class="flex flex-col gap-xxs items-center">
-            <label class="form-label" for="select-this">Select:</label>
+            <label class="form-label" for="active_version">Version:</label>
             <div class="select">
               <select
                 v-if="baseGroup"
                 class="select__input btn btn--subtle"
                 :value="rateStore.active_group_id"
+                id="active_version"
                 @change="onGroupSelect"
               >
                   <option :value="baseGroup.id">Live rates</option>
                   <option v-for="group in baseGroupRevisions" :key="group.id" :value="group.id">
-                    Revision {{ group.id }}
+                    
+                    Revision {{ group.id }} ({{ group.published_at ? moment(group.published_at).fromNow() : 'Unscheduled' }})
                   </option>
               </select>
               <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 16 16"><polyline points="1 5 8 12 15 5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
@@ -39,13 +45,14 @@
 
       <div v-else class="bg-primary-lighter bg-opacity-20% padding-y-xs padding-x-sm radius-lg margin-y-sm" role="alert">
         <div class="flex items-center justify-between">
-          <p>{{editLabel}}</p>
+          <p>{{ editLabel }}</p>
           <div class="flex gap-xs">
             <button @click="rateStore.cancelEditing()" class="btn btn--subtle">Cancel</button>
 
             <!-- Publish -->
-            <button v-if="isRevision" @click="rateStore.toggleIsSchedulePromptModal()" class="btn btn--subtle">Schedule</button>
-            <button @click="rateStore.toggleIsPublishPromptModal()" class="btn btn--primary">{{publishLabel}}</button>
+            
+            <button @click="rateStore.toggleIsPublishPromptModal()" class="btn" :class="publishClass">{{publishLabel}}</button>
+            <button v-if="isRevision" @click="rateStore.toggleIsSchedulePromptModal()" class="btn btn--accent">Schedule</button>
             <button v-if="isRevision" @click="rateStore.toggleIsPublishNowPromptModal()" class="btn btn--primary">Publish Now</button>
 
           </div>
@@ -101,13 +108,24 @@ const activeGroupRevisions = computed(()=>{
 const isRevision = computed(()=>{
   return rateStore.getActiveGroup.revision_of != null
 })
-
+const publishClass = computed(()=>{
+  return isRevision.value ? 'btn--subtle' : 'btn--primary';
+});
 const publishLabel = computed(()=>{
-  return isRevision.value ? 'Save Revision' : 'Publish';
+  return isRevision.value ? 'Save Draft' : 'Publish';
 });
 
 const editLabel = computed(()=>{
-  return 'You are currently ' + (isRevision.value ? 'editing a revision' : 'editing live Rates');
+  let $message = "You are currently ";
+  if(isRevision.value){
+    $message += "editing a revision.";
+  } else {
+    $message += "editing live Rates.";
+  }
+  if(isRevision.value && rateStore.getActiveGroup.published_at){
+    $message += ` It is scheduled to publish ${moment(rateStore.getActiveGroup.published_at).fromNow()}`;
+  }
+  return $message;
 });
 
 
