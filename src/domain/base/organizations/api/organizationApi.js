@@ -30,6 +30,17 @@ const organizationApi = {
     show(slug) {
       return HttpClient.get(`/organizations/${slug}`)
     },
+
+    /**
+     * Update an organization
+     *
+     * @param String slug [Organization slug]
+     * @param Object organization [Properties to update organization with]
+     * @return promise
+     */
+    update(slug, organization) {
+      return HttpClient.put(`/organizations/${slug}`, organization)
+    },
 }
 
 export { organizationApi }

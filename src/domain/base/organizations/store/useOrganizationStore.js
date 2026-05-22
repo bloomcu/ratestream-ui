@@ -45,7 +45,50 @@ export const useOrganizationStore = defineStore('organizationStore', {
             })
         },
         
-        update() {},
+        async update(slug = null) {
+          const auth = useAuthStore()
+          const currentSlug = slug || auth.organization
+          const organization = { ...this.organization }
+          delete organization.slug
+          this.isLoading = true
+
+          await OrganizationApi.update(currentSlug, organization)
+            .then(response => {
+              const organization = response.data.data
+
+              this.organization = organization
+              this.organizations = this.organizations.map(existingOrganization => {
+                if (
+                  existingOrganization.id === organization.id ||
+                  existingOrganization.slug === currentSlug
+                ) {
+                  return organization
+                }
+
+                return existingOrganization
+              })
+
+              if (organization.slug && auth.organization === currentSlug) {
+                auth.organization = organization.slug
+              }
+
+              if (
+                organization.slug &&
+                this.router.currentRoute.value.name === 'organizationsEdit' &&
+                this.router.currentRoute.value.params.organization !== organization.slug
+              ) {
+                this.router.replace({
+                  name: 'organizationsEdit',
+                  params: { organization: organization.slug },
+                })
+              }
+
+              this.isLoading = false
+            }).catch(error => {
+              this.isLoading = false
+              console.log('Error', error.response.data)
+            })
+        },
         
         destroy(id) {},
         
