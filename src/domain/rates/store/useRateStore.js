@@ -6,10 +6,17 @@ import { useAuthStore } from '@/domain/base/auth/store/useAuthStore'
 
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 6)
 
+const getGroupSnapshot = (group, deletes = []) => JSON.stringify({
+  rates: group?.rates || [],
+  columns: group?.columns || [],
+  deletes,
+})
+
 export const useRateStore = defineStore('rateStore', {
     state: () => ({
         groups: [],
         active_group_id: null,
+        activeGroupEditSnapshot: null,
         
         rates: [], // TODO: Remove this later
         // rate: null,
@@ -42,6 +49,14 @@ export const useRateStore = defineStore('rateStore', {
       },
       getActiveGroup(state) {
         return state.groups.find(group => group.id === state.active_group_id) || { rates: [], columns: [], has_revisions: false }
+      },
+      hasUnsavedActiveGroupChanges(state) {
+        if (!state.activeGroupEditSnapshot) return false
+        const activeGroup = state.groups.find(group => group.id === state.active_group_id)
+        return state.activeGroupEditSnapshot !== getGroupSnapshot(activeGroup, state.deletes)
+      },
+      canPublishActiveRevisionNow() {
+        return !this.hasUnsavedActiveGroupChanges
       }
     },
     
@@ -49,6 +64,7 @@ export const useRateStore = defineStore('rateStore', {
       setActiveGroupId(id) {
         if(this.active_group_id !== id) {
           this.deletes = []
+          this.activeGroupEditSnapshot = null
         }
         this.active_group_id = id
       },
@@ -252,6 +268,10 @@ export const useRateStore = defineStore('rateStore', {
           console.warn('No active group set; publishNow skipped')
           return false
         }
+        if (this.hasUnsavedActiveGroupChanges) {
+          console.warn('Active group has unsaved changes; publishNow skipped')
+          return false
+        }
 
         this.isImporting = true
 
@@ -372,6 +392,12 @@ export const useRateStore = defineStore('rateStore', {
 
       toggleIsEditing() {
         this.isEditing = !this.isEditing
+
+        if (this.isEditing) {
+          this.activeGroupEditSnapshot = getGroupSnapshot(this.getActiveGroup, this.deletes)
+        } else {
+          this.activeGroupEditSnapshot = null
+        }
       },
       
       toggleIsPublishPromptModal() {
