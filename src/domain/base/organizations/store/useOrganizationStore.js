@@ -50,6 +50,7 @@ export const useOrganizationStore = defineStore('organizationStore', {
           const currentSlug = slug || auth.organization
           const organization = { ...this.organization }
           delete organization.slug
+          delete organization.rates_sync_key
           this.isLoading = true
 
           await OrganizationApi.update(currentSlug, organization)

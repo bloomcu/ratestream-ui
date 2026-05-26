@@ -27,8 +27,8 @@ const organizationApi = {
      * @param String slug [Organization slug]
      * @return promise
      */
-    show(slug) {
-      return HttpClient.get(`/organizations/${slug}`)
+    show(slug, config = {}) {
+      return HttpClient.get(`/organizations/${slug}`, config)
     },
 
     /**
