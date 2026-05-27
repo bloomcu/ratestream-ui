@@ -61,16 +61,16 @@ export const useUserStore = defineStore('userStore', {
         //     })
         // },
         
-        // destroy(id) {
-        //   const auth = useAuthStore()
-        //   this.isLoading = true
-        // 
-        //   UserApi.destroy(auth.organization, id)
-        //     .then(response => {
-        //       this.users = this.users.filter((user) => user.id !== id)
-        //       this.isLoading = false
-        //     })
-        // }
+        async destroy(id) {
+          const auth = useAuthStore()
+          const response = await UserApi.destroy(auth.organization, id)
+
+          if (response.status >= 200 && response.status < 300) {
+            this.users = this.users.filter((user) => user.id !== id)
+          }
+
+          return response
+        }
     }
 })
 

@@ -53,7 +53,16 @@
             
             <button @click="rateStore.toggleIsPublishPromptModal()" class="btn" :class="publishClass">{{publishLabel}}</button>
             <button v-if="isRevision" @click="rateStore.toggleIsSchedulePromptModal()" class="btn btn--accent">Schedule</button>
-            <button v-if="isRevision" @click="rateStore.toggleIsPublishNowPromptModal()" class="btn btn--primary">Publish Now</button>
+            <button
+              v-if="isRevision"
+              @click="rateStore.toggleIsPublishNowPromptModal()"
+              :disabled="!rateStore.canPublishActiveRevisionNow"
+              :title="rateStore.hasUnsavedActiveGroupChanges ? 'Save draft before publishing now' : 'Publish now'"
+              class="btn btn--primary flex gap-xs items-center"
+            >
+              <IconCancel v-if="rateStore.hasUnsavedActiveGroupChanges" size="xs"/>
+              Publish Now
+            </button>
 
           </div>
         </div>
@@ -91,6 +100,7 @@ import RateTable from '@/views/rates/components/RateTable.vue'
 import PublishEditsModal from '@/views/rates/modals/PublishEditsModal.vue'
 import PublishNowModal from '@/views/rates/modals/PublishNowModal.vue'
 import SchedulePublicationModal from '@/views/rates/modals/SchedulePublicationModal.vue'
+import IconCancel from '@/app/components/base/icons/IconCancel.vue'
 
 const rateStore = useRateStore()
 const errorStore = useErrorStore()

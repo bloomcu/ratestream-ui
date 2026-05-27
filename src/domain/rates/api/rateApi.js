@@ -1,5 +1,7 @@
 import { httpClient as HttpClient } from '@/app/api/base/httpClient'
 
+const allowForbiddenResponse = (status) => (status >= 200 && status < 300) || status === 403
+
 const rateApi = {
     /**
      * List rates
@@ -110,6 +112,16 @@ const rateApi = {
     schedule(organization, rategroup_id, published_at) {
       return HttpClient.post(`/${organization}/rate-groups/${rategroup_id}/schedule`, {
         published_at: published_at,
+      })
+    },
+    getSyncKey(organization) {
+      return HttpClient.get(`/${organization}/rates/sync-key`, {
+        validateStatus: allowForbiddenResponse,
+      })
+    },
+    rotateSyncKey(organization) {
+      return HttpClient.post(`/${organization}/rates/sync-key/rotate`, null, {
+        validateStatus: allowForbiddenResponse,
       })
     }
 }

@@ -13,6 +13,9 @@ dist-ssr
 *.local
 .env
 **/base/
+!src/views/base/
+!src/views/base/organizations/
+!src/views/base/organizations/OrganizationsEdit.vue
 
 # Editor directories and files
 .vscode/*
