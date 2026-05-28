@@ -41,6 +41,19 @@ const userApi = {
     // update(organization, id, user) {
     //   return HttpClient.put(`/${organization}/users/${id}`, user)
     // },
+
+    /**
+     * Update a user's role
+     *
+     * @param Integer id [Id of the user you want to update]
+     * @param String role [Role to assign to the user]
+     * @return promise
+     */
+    updateRole(organization, id, role) {
+        return HttpClient.patch(`/${organization}/users/${id}/role`, { role }, {
+          validateStatus: (status) => (status >= 200 && status < 300) || [403, 404, 422].includes(status),
+        })
+    },
     
     /**
      * Destroy a user

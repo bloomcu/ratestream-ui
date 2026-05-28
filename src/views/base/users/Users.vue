@@ -82,7 +82,31 @@
                 </div>
               </td>
               <td class="table__cell padding-xxs" role="cell">
-                <AppChip color="outline">
+                <div v-if="canEditUserRole(user)" class="role-select">
+                  <div class="select">
+                    <select
+                      class="select__input btn btn--subtle"
+                      :class="roleErrors[user.id] ? 'form-control--error' : ''"
+                      :value="user.role"
+                      :disabled="isRoleSaving(user)"
+                      :aria-label="`Change role for ${user.name || user.email}`"
+                      @change="onRoleChange(user, $event)"
+                    >
+                      <option
+                        v-for="role in roleOptions"
+                        :key="role.value"
+                        :value="role.value"
+                      >
+                        {{ role.label }}
+                      </option>
+                    </select>
+                    <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 16 16"><polyline points="1 5 8 12 15 5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                  </div>
+                  <p v-if="roleErrors[user.id]" class="color-error text-xs margin-top-xxxxs">
+                    {{ roleErrors[user.id] }}
+                  </p>
+                </div>
+                <AppChip v-else color="outline" class="role-chip">
                   {{ user.role }}
                 </AppChip>
               </td>
@@ -174,9 +198,28 @@ const email = ref('')
 const sendingInvite = ref(false)
 const selectedUser = ref(null)
 const isDeletingUser = ref(false)
+const savingRoleUserIds = ref([])
+const roleErrors = ref({})
 
 const canDeleteUsers = computed(() => {
   return ['admin', 'super_admin'].includes(auth.user?.role)
+})
+
+const canEditRoles = computed(() => {
+  return ['admin', 'super_admin'].includes(auth.user?.role)
+})
+
+const roleOptions = computed(() => {
+  const roles = [
+    { value: 'editor', label: 'Editor' },
+    { value: 'admin', label: 'Admin' },
+  ]
+
+  if (auth.user?.role === 'super_admin') {
+    roles.push({ value: 'super_admin', label: 'Super admin' })
+  }
+
+  return roles
 })
 
 const adminUserCount = computed(() => {
@@ -193,7 +236,43 @@ const selectedUserLabel = computed(() => {
 })
 
 function canDeleteUser(user) {
-  return canDeleteUsers.value && !isCurrentUser(user) && !isLastOrganizationAdmin(user)
+  if (!canDeleteUsers.value || isCurrentUser(user) || isLastOrganizationAdmin(user)) return false
+  if (auth.user?.role !== 'super_admin' && user.role === 'super_admin') return false
+
+  return true
+}
+
+function canEditUserRole(user) {
+  if (!canEditRoles.value || isCurrentUser(user)) return false
+  if (auth.user?.role !== 'super_admin' && user.role === 'super_admin') return false
+
+  return true
+}
+
+function isRoleSaving(user) {
+  return savingRoleUserIds.value.includes(user.id)
+}
+
+function setRoleSaving(user, saving) {
+  if (saving) {
+    savingRoleUserIds.value = [...savingRoleUserIds.value, user.id]
+    return
+  }
+
+  savingRoleUserIds.value = savingRoleUserIds.value.filter((id) => id !== user.id)
+}
+
+function setRoleError(user, message) {
+  roleErrors.value = {
+    ...roleErrors.value,
+    [user.id]: message,
+  }
+}
+
+function clearRoleError(user) {
+  const errors = { ...roleErrors.value }
+  delete errors[user.id]
+  roleErrors.value = errors
 }
 
 function isCurrentUser(user) {
@@ -205,6 +284,69 @@ function isCurrentUser(user) {
 
 function isLastOrganizationAdmin(user) {
   return user.role === 'admin' && adminUserCount.value <= 1
+}
+
+function getRoleValidationMessage(response) {
+  return response.data?.errors?.role?.[0] || response.data?.message || 'Please choose a valid role.'
+}
+
+async function onRoleChange(user, event) {
+  const nextRole = event.target.value
+  const previousRole = user.role
+
+  if (nextRole === previousRole) return
+
+  clearRoleError(user)
+  setRoleSaving(user, true)
+
+  try {
+    const response = await userStore.updateRole(user.id, nextRole)
+
+    if (response.status >= 200 && response.status < 300) {
+      toast.success('User role updated.', {
+        autoClose: 2500,
+        position: 'top-center',
+      })
+      return
+    }
+
+    event.target.value = previousRole
+
+    if (response.status === 403) {
+      toast.error('You do not have permission to change this role.', {
+        autoClose: 2500,
+        position: 'top-center',
+      })
+      return
+    }
+
+    if (response.status === 404) {
+      toast.error('User not found or unavailable.', {
+        autoClose: 2500,
+        position: 'top-center',
+      })
+      userStore.index()
+      return
+    }
+
+    if (response.status === 422) {
+      setRoleError(user, getRoleValidationMessage(response))
+      return
+    }
+
+    toast.error('Unable to save role. Please try again.', {
+      autoClose: 2500,
+      position: 'top-center',
+    })
+  } catch (error) {
+    event.target.value = previousRole
+    toast.error('Unable to save role. Please try again.', {
+      autoClose: 2500,
+      position: 'top-center',
+    })
+  } finally {
+    setRoleSaving(user, false)
+  }
 }
 
 function submit() {
@@ -300,5 +442,42 @@ onMounted(() => {
   &:hover {
     background-color: alpha(var(--color-error), 0.85);
   }
+}
+
+.role-select {
+  width: 100%;
+}
+
+.role-chip {
+  width: 100%;
+  min-height: 2rem;
+  justify-content: flex-start;
+  background-color: var(--color-bg-dark);
+  border-radius: var(--radius-md);
+  padding: var(--space-xxxs) var(--space-sm);
+  font-size: 1em;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.select {
+  position: relative;
+}
+
+.select__input {
+  width: 100%;
+  height: 100%;
+  padding-right: calc(16px + var(--space-sm) + var(--space-xxxs)) !important;
+  user-select: none;
+}
+
+.select__icon {
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  position: absolute;
+  right: var(--space-sm);
+  top: 50%;
+  transform: translateY(-50%);
 }
 </style>

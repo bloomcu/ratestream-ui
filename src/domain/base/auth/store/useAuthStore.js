@@ -18,31 +18,59 @@ export const useAuthStore = defineStore('authStore', {
     }),
     
     getters: {
-      isAdmin: (state) => state.user.role === 'admin',
-      isEditor: (state) => state.user.role === 'editor',
+      isAdmin: (state) => state.user?.role === 'admin',
+      isEditor: (state) => state.user?.role === 'editor',
     },
     
     actions: {
+      setUser(user) {
+        this.user = user
+
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user))
+          return
+        }
+
+        localStorage.removeItem('user')
+      },
+
+      async refreshUser() {
+        if (!this.user?.access_token) return null
+
+        const currentAccessToken = this.user.access_token
+        const response = await AuthApi.me()
+        const refreshedUser = {
+          ...response.data.data,
+          access_token: response.data.data.access_token || currentAccessToken,
+        }
+
+        this.setUser(refreshedUser)
+
+        if (refreshedUser.organization?.slug) {
+          this.organization = refreshedUser.organization.slug
+        }
+
+        return refreshedUser
+      },
+
       async login(email, password) {
         const redirect = import.meta.env.VITE_REDIRECT_FROM_LOGIN_ROUTE
         
         await AuthApi.login(email, password)
           .then(response => {      
             // TODO: Do I need to do this if we set the organization in httpClient? No.
-            localStorage.setItem('user', JSON.stringify(response.data.data))
+            this.setUser(response.data.data)
             this.organization = response.data.data.organization.slug
-            this.user = response.data.data
             this.router.push({ name: redirect, params: { organization: response.data.data.organization.slug }})
           })
           .catch(error => {})
       },
       
       async logout() {
-        localStorage.removeItem('user');
+        this.setUser(null)
         
         await AuthApi.logout()
           .then(response => {
-            this.user = null
             this.router.push({ name: 'login' })
           })
           .catch(error => {})
@@ -53,8 +81,7 @@ export const useAuthStore = defineStore('authStore', {
         
         await AuthApi.register(name, email, organization_title, password, password_confirmation)
           .then(response => {
-            localStorage.setItem('user', JSON.stringify(response.data.data))
-            this.user = response.data.data
+            this.setUser(response.data.data)
             this.organization = response.data.data.organization.slug
             
             // TODO: The next step for user will be to setup their organization
@@ -69,8 +96,7 @@ export const useAuthStore = defineStore('authStore', {
         
         await AuthApi.registerWithInvitation(invitation_uuid, name, email, password, password_confirmation)
           .then(response => {
-            localStorage.setItem('user', JSON.stringify(response.data.data))
-            this.user = response.data.data
+            this.setUser(response.data.data)
             this.router.push({ name: redirect, params: { organization: response.data.data.organization.slug }})
           })
           .catch(error => {})

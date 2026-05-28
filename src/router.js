@@ -21,6 +21,16 @@ const router = createRouter({
   routes: routes,
 })
 
+const publicRouteNames = [
+  'invitation',
+  'login',
+  'register',
+  'forgotPassword',
+  'resetPassword',
+  'styleDesignBrief',
+  'sitesLaunch',
+]
+
 /**
 * Clear any form validation errors
 * When routing to another view, we don't want form validations errors following us
@@ -36,25 +46,19 @@ router.beforeEach(async (to) => {
 */
 router.beforeEach(async (to) => {
   // TODO: Can I just instantiate this store one in this file?
-  const { user } = useAuthStore()
-  
-  const publicRouteNames = [
-    'invitation',
-    'login',
-    'register',
-    'forgotPassword',
-    'resetPassword',
-    'styleDesignBrief',
-    'sitesLaunch',
-  ]
+  const authStore = useAuthStore()
 
   const authRequired = !publicRouteNames.includes(to.name)
   
-  if (!user && authRequired) {
+  if (!authStore.user && authRequired) {
     // TODO: Set the return URL so that when the user logs in, they can return here
     // authStore.returnUrl = to.fullPath
     
     return '/login'
+  }
+
+  if (authStore.user && authRequired) {
+    await authStore.refreshUser()
   }
 })
 
@@ -73,7 +77,7 @@ router.beforeEach(async (to) => {
     // }
     
     // Check if route is restricted by role
-    if (authorize.length && !authorize.includes(user.role)) {
+    if (authorize.length && !authorize.includes(user?.role)) {
       return '/not-authorized'
     }
   }

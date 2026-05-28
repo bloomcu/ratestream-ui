@@ -60,6 +60,20 @@ export const useUserStore = defineStore('userStore', {
         //       this.isLoading = false
         //     })
         // },
+
+        async updateRole(id, role) {
+          const auth = useAuthStore()
+          const response = await UserApi.updateRole(auth.organization, id, role)
+
+          if (response.status >= 200 && response.status < 300) {
+            const updatedUser = response.data.data
+            this.users = this.users.map((user) => {
+              return String(user.id) === String(updatedUser.id) ? updatedUser : user
+            })
+          }
+
+          return response
+        },
         
         async destroy(id) {
           const auth = useAuthStore()
