@@ -2,6 +2,15 @@ import { httpClient as HttpClient } from '@/app/api/base/httpClient'
 
 const authApi = {
   /**
+   * Get the authenticated user
+   *
+   * @return promise
+   */
+  me() {
+    return HttpClient.get(`/auth/me`)
+  },
+
+  /**
    * Log in
    *
    * @param string email
