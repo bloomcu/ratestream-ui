@@ -28,7 +28,7 @@
           <p class="text-sm color-contrast-low margin-bottom-xxs">Rates domain</p>
           <p v-if="isLoadingOrganization">Loading domain</p>
           <p v-else-if="ratesDomain" class="text-bold">{{ ratesDomain }}</p>
-          <p v-else class="color-warning">
+          <p v-else class="">
             No Rates domain is set. You can still manage the sync key, but sync jobs require a valid Rates domain.
           </p>
         </div>
